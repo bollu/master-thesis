@@ -48,13 +48,13 @@
 \usepackage{mathtools}
 
 %\newcommand{\card}[1]{\ensuremath{\left| #1 \right|}}
+\newcommand{\wtov}{\texttt{word2vec }}
 \newcommand{\citep}[1]{\texttt{cite: #1}}
 \newcommand{\citet}[1]{\texttt{cite: #1}}
 
 \begin{document}
 \tableofcontents
 \chapter{Introduction}
-\chapter{Are words vectors?}
 
 The popular opinion thanks to a confluence of distributional semantics
 and machine learning is that systems such as \texttt{word2vec} learn
@@ -75,13 +75,50 @@ the seminal work of montague, that a set-based representation ought to be
 the best representation possible.
 
 Following an empirical approach, we attempt to generalize the success
-of \w2v and the newly developed theory of contrastive losses, where we conjecture
+of \wtov and the newly developed theory of contrastive losses, where we conjecture
 that a Lie group representation ought to be the best representation possible.
 
 We report on experiments performed on both of these representations, always
 explained through the dual lenses of linguistics and abstract algebra. We hope
 that this blend of perspectives provides fresh insight into representation
 learning for NLP.
+
+\chapter{Are words vectors?}
+
+\section{\wtov}
+
+The core training loop of \wtov (trained using negative sampling, in skip-gram
+mode) involves attempting to learn \emph{two} representations for a given word,
+called as the positive representation and the negative representation.
+
+\begin{minted}{py}
+def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
+    out :float, target: float):
+    # gradient descent on loss (target - out)^2 where
+    # out = larr[lix] . rarr[rix ]
+def train(corpus):
+  poss = np.array((VOCABSIZE, DIMSIZE))
+  negs = np.array((VOCABSIZE, DIMSIZE))
+
+  for wix in range(len(corpus)):
+    w = poss[corpus[wix]]
+    l = max(wix-WINDOWSIZE, 0)
+    r = min(wix+WINDOWSIZE, len(corpus)-1)
+
+    for xix in range(l, r+1):
+        x = poss[xix]
+        out = np.dot(x, w)
+        learn(lix=wix, rix=xix, larr=poss, rarr=poss, out=out, target=1.0)
+
+    for _ in range(NNEGSAMPLES)
+        xix = random.randint(0, len(corpus)-1)
+        x = negs[xix]
+        out = np.dot(x, w)
+        learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
+    
+\end{minted}
+
+
 
 \chapter{Fuzzy set representations}
 
