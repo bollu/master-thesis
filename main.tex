@@ -55,6 +55,34 @@
 \tableofcontents
 \chapter{Introduction}
 \chapter{Are words vectors?}
+
+The popular opinion thanks to a confluence of distributional semantics
+and machine learning is that systems such as \texttt{word2vec} learn
+''vector representations''. This seemed to me to be confusing the encoding
+the object (as a tuple of real numbers) with the algebraic structure
+(that of a vector space). Hence, the modest goal of the thesis is an
+attempt to disambiguate the term ``vector representations''.
+
+Towards this end, we begin by surveying the algebraic structure of a vector
+space, and what it would really mean if words were vectors. We then provide
+a short explanation of the training mechanism of \texttt{word2vec}, and
+discuss why the embeddings that are learnt by systems it and its ilk do not
+deserve to be called vectors. 
+
+Thereafter, we take a step back and start from scratch; what ought the axioms
+be? Starting from a purely linguistic approach, we are led to conjecture, following
+the seminal work of montague, that a set-based representation ought to be
+the best representation possible.
+
+Following an empirical approach, we attempt to generalize the success
+of \w2v and the newly developed theory of contrastive losses, where we conjecture
+that a Lie group representation ought to be the best representation possible.
+
+We report on experiments performed on both of these representations, always
+explained through the dual lenses of linguistics and abstract algebra. We hope
+that this blend of perspectives provides fresh insight into representation
+learning for NLP.
+
 \chapter{Fuzzy set representations}
 
 In this paper, we provide an alternate perspective on word representations, by
@@ -892,7 +920,12 @@ answer has been extracting and using contextual information.
 
 \subsection{Lexical Semantics on a Symplectic Manifold}
 
+We train pairs of vectors on a symplectic manifold.
+
 \subsection{The Grassmanian Space: Generalizing to $n$-Dimensions}
+
+The grassmanian represents all $k$-dimensional subspaces of an $n$-dimensional
+vector space.
 
 \section{Training Mechanism}
 
@@ -906,7 +939,9 @@ answer has been extracting and using contextual information.
 
 \chapter{Glove as semidefinite programming}
 
-\chapter{Generalizing to arbitrary Lie groups}
+\chapter{the grassmanian: generalizing to arbitrary Lie groups}
+We follow the framework of contrastive losses, and phrase the \texttt{word2vec}
+training mechanism in terms of arbitrary lie groups.
 \chapter{The failed experiments}
 \bibliographystyle{acm}
 \bibliography{references}
