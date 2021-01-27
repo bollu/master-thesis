@@ -1067,6 +1067,18 @@ representations can be adapted for basic neural models, allowing the use of
 feature based representations at lower dimensions for downstream tasks.
 
 \chapter{Grassmanian representations}
+% http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
+% https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
+% https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
+% https://arxiv.org/pdf/1205.5935.pdf
+\begin{minted}{py}
+def analogy(a, b, c):
+  len_ab = length_of_shortest_geodesic(a, b)
+  va = velocity_of_shortest_geodesic(a, b)
+  va_at_c = parallel_transport(vec=va, from=a, to=c)
+  d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
+  return d
+\end{minted}
 
 Embedding words in vector spaces has become the norm for distributional
 lexical semantic representations. While esoteric literature has attempted
@@ -1113,7 +1125,23 @@ We train pairs of vectors on a symplectic manifold.
 \subsection{The Grassmanian Space: Generalizing to $n$-Dimensions}
 
 The grassmanian represents all $k$-dimensional subspaces of an $n$-dimensional
-vector space.
+vector space. More importantly, the grassmanian is a \emph{lie group}; This means
+that we can build analogues of the \wtov operations for the Grassmanian. Here,
+we lay out a general theory of similarity and analogy, and use the theory to
+develop our implementation of the Grassmanian.
+
+\subsection{Lie groups, Similarly, and Analogy}
+A Lie group is a mathematical object that abstracts the ideas of "analogy"
+and "similarity". These ideas are called as:
+\begin{itemize}
+\item Parallel transport: given a base word and an analogy, find a word with the analogy we are interested in
+\item Geodesic computation: given two words, represent the analogy between the words.
+\end{itemize}
+
+\section{generalizing to contrastive losses}
+% https://arxiv.org/abs/1902.09229
+
+% http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 
 \section{Training Mechanism}
 
@@ -1125,12 +1153,9 @@ vector space.
 
 \section{Conclusion}
 
-\chapter{Glove as semidefinite programming}
+\chapter{Unfinished work: Geometric algebras}
+\chapter{Unfinished work: Glove as semidefinite programming}
 
-\chapter{the grassmanian: generalizing to arbitrary Lie groups}
-We follow the framework of contrastive losses, and phrase the \texttt{word2vec}
-training mechanism in terms of arbitrary lie groups.
-\chapter{The failed experiments}
 \bibliographystyle{acm}
 \bibliography{references}
 \end{document}
