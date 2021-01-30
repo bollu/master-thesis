@@ -51,6 +51,7 @@
 \newcommand{\wtov}{\texttt{word2vec }}
 \newcommand{\citep}[1]{\texttt{cite: #1}}
 \newcommand{\citet}[1]{\texttt{cite: #1}}
+\newcommand{\R}{\ensuremath{\mathbb R}}
 
 \begin{document}
 \tableofcontents
@@ -1130,12 +1131,44 @@ that we can build analogues of the \wtov operations for the Grassmanian. Here,
 we lay out a general theory of similarity and analogy, and use the theory to
 develop our implementation of the Grassmanian.
 
+\subsection{Generalizing \wtov}
+
+Let us consider the fundamental operations performed with \wtov:
+
+\begin{itemize}
+\item Similarity: Given two words, find how similar they are in meaning. This is
+     expressed as a dot product between the two vectors.
+\item Analogy: Given two words, representing a sense of analogy \texttt{(king : man)},
+      then a third word, representing the base of another analogous
+      pair \texttt{(woman : ?)}, find the unknown word \texttt{?}
+\end{itemize}
+
+
+In our description of analogy, we deliberately describe the analogy operation
+in two steps: first to provide an analogy \texttt{(king : man)}, and second
+to provide the base of a new analogy \texttt{(woman : ? )}. As we shall see,
+the mathematical generalization to Lie groups naturally contains this distinction;
+Words such as \texttt{man, king, woman} become \emph{points} on the manifold,
+while analogies such as \texttt{(king : man)} become \emph{paths} on the manifold.
+This is not so strange, as this is exactly what happens in \wtov. We have
+words such as \texttt{king, man, woman} which are vectors (elements of $\R^n$). 
+On performing analogy \texttt{(a : b :: c : ?)}, we perform the vector
+space operation $b - a + c$, which can be rearranged as $c + (b - a)$, which
+is the base point $c$ to which we add the direction $(b - a)$.
+
+In $\R^n$, the difference between points such as $c$  and directions such as $(b - a)$
+is a distinction without a difference, since both of these continue to be vectors.
+This no longer holds in curved spaces. Directions or paths are curved,
+and words are points of the space.
+
+\texttt{TODO: add picture}
+
 \subsection{Lie groups, Similarly, and Analogy}
 A Lie group is a mathematical object that abstracts the ideas of "analogy"
 and "similarity". These ideas are called as:
 \begin{itemize}
-\item Parallel transport: given a base word and an analogy, find a word with the analogy we are interested in
-\item Geodesic computation: given two words, represent the analogy between the words.
+\item \emph{Parallel transport}: given a base word and an analogy, find a word with the analogy we are interested in
+\item \emph{Geodesic computation}: given two words, represent the analogy between the words.
 \end{itemize}
 
 \section{generalizing to contrastive losses}
@@ -1153,8 +1186,10 @@ and "similarity". These ideas are called as:
 
 \section{Conclusion}
 
-\chapter{Unfinished work: Geometric algebras}
 \chapter{Unfinished work: Glove as semidefinite programming}
+
+
+\chapter{Unfinished work: Geometric algebras}
 
 \bibliographystyle{acm}
 \bibliography{references}
