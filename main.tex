@@ -1156,6 +1156,15 @@ On performing analogy \texttt{(a : b :: c : ?)}, we perform the vector
 space operation $b - a + c$, which can be rearranged as $c + (b - a)$, which
 is the base point $c$ to which we add the direction $(b - a)$.
 
+\begin{figure}
+\includegraphics[width=0.8\textwidth]{./sphere-parallel-transport-geodesic.png}
+\caption{Computing analogy in curved spaces. Begin by choosing the analogous
+pair $(a : b)$. Compute the geodesic path between them, $(b - a)$. Transport
+the geodesic by using parallel transport to the basepoint $c$. This allows us
+to find the point $c +(b-a)$.}
+\end{figure}
+
+
 In $\R^n$, the difference between points such as $c$  and directions such as $(b - a)$
 is a distinction without a difference, since both of these continue to be vectors.
 This no longer holds in curved spaces. Directions or paths are curved,
@@ -1182,8 +1191,8 @@ and "similarity". These ideas are called as:
 
 \section{generalizing to contrastive losses}
 % https://arxiv.org/abs/1902.09229
-
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
+
 
 \section{Training Mechanism}
 
