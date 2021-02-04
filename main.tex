@@ -27,6 +27,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{booktabs}
+\usepackage{float} % use for H with figures, which forces figure locations. 
 
 %\renewcommand{\UrlFont}{\ttfamily\small}
 \newcommand{\card}[1]{\left| #1 \right|}
@@ -85,7 +86,6 @@ that this blend of perspectives provides fresh insight into representation
 learning for NLP.
 
 \chapter{Are words vectors?}
-
 
 \section{\wtov}
 
@@ -1067,7 +1067,7 @@ lengths and projections of word embeddings in the vector space. These feature
 representations can be adapted for basic neural models, allowing the use of
 feature based representations at lower dimensions for downstream tasks.
 
-\chapter{Grassmanian representations}
+\chapter{Distinction with a difference: Grassmanian representations}
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 % https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
@@ -1119,21 +1119,61 @@ answer has been extracting and using contextual information.
 % task, or the need for a specific natural language ontologies, which are time
 % and effort-intensive to create and use.
 
-\subsection{Lexical Semantics on a Symplectic Manifold}
 
-We train pairs of vectors on a symplectic manifold.
-
-\subsection{The Grassmanian Space: Generalizing to $n$-Dimensions}
-
-The grassmanian represents all $k$-dimensional subspaces of an $n$-dimensional
-vector space. More importantly, the grassmanian is a \emph{lie group}; This means
-that we can build analogues of the \wtov operations for the Grassmanian. Here,
-we lay out a general theory of similarity and analogy, and use the theory to
-develop our implementation of the Grassmanian.
-
-\subsection{Generalizing \wtov}
+\subsection{The blessing and curse of $\mathbb{R}^n$}
 
 Let us consider the fundamental operations performed with \wtov:
+
+\begin{itemize}
+\item Similarity: Given two words, find how similar they are in meaning. This is
+     expressed as a dot product between the two word vectors.
+\item Analogy: Given three words representing a sense of analogy \texttt{(king : man :: woman)},
+      find the unknown word \texttt{x} which represents the analogy
+      \texttt{king : man :: woman : x}. This is computed as $x \equiv \texttt{man} - \texttt{king} + \texttt{woman}$.
+\end{itemize}
+
+Let us see how we use the vector space structure for these operations.
+For similarity, we use the dot product for a notion of similarity. For 
+analogy, we use the vectorial addition and subtraction operations.
+
+However, linguistically speaking, there is a difference between \emph{words}
+such as \texttt{man}, \texttt{woman}, and \emph{analogies}, such as
+\texttt{king : man}, \texttt{woman : queen}. How ought we interpret this
+with respect to the mathematics?
+
+Towards capturing this difference between words and anaalogies mathematically,
+we rewrite the analogy as $(\texttt{man} - \texttt{king}) + \texttt{woman}$.
+This is suggestive: it suggests that an analogy is a subtraction of
+vectors of the form $(\texttt{man}-\texttt{king})$, while a word is just a vector
+such as \texttt{woman}.
+In $\mathbb{R}^n$, the subtraction of vectors continues to  be a vector.
+
+Hence, the distinction between points such as $c$  and directions such as $(b - a)$
+is a distinction without a (pun intended) difference, since both of these
+continue to be vectors.  This no longer holds in curved spaces. Directions or
+paths are curved, and words are points of the space.
+
+
+This distinction \emph{does} make a difference for more complicated spaces.
+In particular, we choose to examine the example of a sphere versus the plane 
+$\mathbb R^2$:
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./sphere-shortest-path.png}
+\caption{$(b - a)$ on a sphere versus the plane ($\R^2$). Red and
+  orange are the words $b$, $a$. The path in blue for the sphere and the
+  line in blue for the plane corresponds to the difference $(b - a)$. See
+  how in the case of the plane, both the points as well as the difference can
+  be represented by vectors. However, in the case of a sphere, this is
+  not possible since there is no clean correspondence between a "path" and
+  a point on the sphere.}
+\end{figure}
+
+
+\subsection{Generalizing \wtov: Distinction with differences}
+
+Let us reformulate the fundamental operations performed with \wtov, in light
+of our discussion above.
 
 \begin{itemize}
 \item Similarity: Given two words, find how similar they are in meaning. This is
@@ -1165,21 +1205,24 @@ to find the point $c +(b-a)$.}
 \end{figure}
 
 
-In $\R^n$, the difference between points such as $c$  and directions such as $(b - a)$
-is a distinction without a difference, since both of these continue to be vectors.
-This no longer holds in curved spaces. Directions or paths are curved,
-and words are points of the space.
+\subsection{Lexical Semantics on a Symplectic Manifold}
 
-\begin{figure}
-\includegraphics[width=\textwidth]{./sphere-shortest-path.png}
-\caption{$(b - a)$ on a sphere versus the plane ($\R^2$). Red and
-  orange are the words $b$, $a$. The path in blue for the sphere and the
-  line in blue for the plane corresponds to the difference $(b - a)$. See
-  how in the case of the plane, both the points as well as the difference can
-  be represented by vectors. However, in the case of a sphere, this is
-  not possible since there is no clean correspondence between a "path" and
-  a point on the sphere.}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{./symplectic.png}
+\caption{Angle between subspaces. Here, we see that when we consider angle
+ between words, it is only possible to consider a single sense direction. When
+ we consider angles between subspaces, the subspace can capture multiple senses
+ since it can extend into multiple directions.  The angle between the subspaces
+ provides us our notion of similarity.}
 \end{figure}
+
+\subsection{The Grassmanian: Generalizing \wtov to $n$-Dimensions}
+
+The grassmanian Represents all $k$-dimensional subspaces of an $n$-dimensional
+vector space. More importantly, the grassmanian is a \emph{lie group}; This means
+that we can build analogues of the \wtov operations for the Grassmanian. Here,
+we lay out a general theory of similarity and analogy, and use the theory to
+develop our implementation of the Grassmanian.
 
 \subsection{Lie groups, Similarly, and Analogy}
 A Lie group is a mathematical object that abstracts the ideas of "analogy"
