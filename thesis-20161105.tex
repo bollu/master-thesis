@@ -38,7 +38,7 @@
 \newcommand{\pushforward}[1]{\ensuremath{{#1}_{\star}}}
 \newcommand{\pullback}[1]{\ensuremath{{#1}^{\star}}}
 \newcommand{\vectorfield}{\ensuremath{\mathfrak{X}}}
-
+\newcommand{\Z}{\ensuremath{\mathbb Z}}
 \newcommand{\pushfwd}[1]{\pushforward{#1}}
 \newcommand{\pf}[1]{\pushfwd{#1}}
 
@@ -116,7 +116,7 @@
 \texttt{\#harmless}, \texttt{\#math}, ness, celina, mona, dad, mum, ciel, bob,
 arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh, 
 harmless, davean, topos, z-module, drazak, dalcde, antonfire, PlanckWalk, Millennial, sure,
-Vyn, GodotMisogi. uday, arnaud, tobias, animesh, mahathi, bharti, bharath, athreya, shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia.
+Vyn, GodotMisogi. uday, arnaud, tobias, animesh, mahathi, bharti, bharath, athreya, shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai. 
 
 
 %% ABSTRACT PAGE
@@ -366,14 +366,114 @@ This also explains GloVe's radical choice of having a separate vector
 for the negative context --- they were just doing what \wtov does, but
 they told people about it 
 
+\section{Bugs}
+
+- bug in the sigmoid indexing.
+- bug in the document indexing.
+- 
+
+\section{Conclusion}
+
+We learn that the \texttt{word2vec} training regime creates two sets of vectors, henceforth
+referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are the ones that are left at the end. The training regime \emph{does not use} gradient descent. Rather, a style of perceptron update is upsed. 
 
 \chapter{Montague Semantics: Interpretations}
 
+Montague grammar is an approach to natural language semantics, named after
+American logician Richard Montague. The Montague grammar is based on
+mathematical logic, especially higher-order predicate logic and lambda
+calculus, and makes use of the notions of intensional logic, via Kripke models.
+Montague pioneered this approach in the 1960s and early 1970s.
+
+Montague held the view that natural language was a formal language very much in the same sense as predicate logic was a formal language. As such, in Montague’s view, the study of natural language belonged to mathematics, and not to psychology (Thomason 1974, 2). Montague formulated his views: % TODO, cute SEP
+
+
+\begin{quote}
+	There is in my opinion no important theoretical difference between natural languages and the artificial languages of logicians; indeed I consider it possible to comprehend the syntax and semantics of both kinds of languages with a single natural and mathematically precise theory. (Montague 1970c, 373)
+\end{quote}
+
+Montague semantics is not interested in a particular situation (e.g. the real world) but in semantical properties of language. When formalizing such properties, reference to a class of models has to be made, and therefore the interpretation of a language will be defined with respect to a set of (suitable) models. For example, in the introduction we mentioned that the characterization of entailment was a basic goal of semantics. That notion is defined as follows. Sentence 
+
+
+An example: Suppose that the meaning of walk, or sing is (for each model in the class) defined as the set of individuals who share respectively the property of (being an individual that is) walking or the property of (being an individual that is) singing. By appealing to the principle of compositionality, if there is a rule that combines these two expressions to the verb phrase walk and sing, there must be a corresponding rule that determines the meaning of that verb phrase. In this case, the resulting meaning will be the intersection of the two sets. Consequently, in all models the meaning of walk and sing is a subset of the meaning of walk. Furthermore, we have a rule that combines the noun phrase John with a verb phrase. The resulting sentence John walks and sings means that John is an element of the set denoted by the verb phrase. Note that in any model in which John is element of the intersection of walkers and singers, he is an element of the set of walkers. So John walks and sings entails John walks.
+
+In Montague 1973, the scope ambiguity is dealt with by providing for the sentence two different derivations. (Non-determinism). On the reading that every has wide scope, the sentence is produced from every man and loves a woman. On the reading that only one woman is involved, the sentence is obtained from Every man loves him
+is an artifact, a placeholder, or, one might say, a syntactic variable. A special kind of rule, called a ‘quantifying-in rule’, will replace this him
+by a noun phrase or a pronoun (in case there are more occurrences of this placeholder). The placeholder corresponds with a logical variable that becomes bound by the semantic counterpart of the quantifying-in rule. For the sentence under discussion, the effect of the application of the quantifying-in rule to a woman and Every man loves him.
+
+For Montague the principle of compositionality did not seem to be a subject of deliberation or discussion, but the only way to proceed. In effect he made compositionality the core part of his ‘theory of meaning’ (Montague 1970c, 378), which was later summed up in the slogan: ‘Syntax is an algebra, semantics is an algebra, and meaning is a homomorphism between them’ (Janssen 1983, 25). Yet although Montague used the term ‘Frege’s functionality principle’ for the way in which extension and intension are compositionally intertwined, he did not have a special term for compositionality in general. Later authors, who identified the Principle of Compositionality as a cornerstone of Montague’s work, also used the term ‘Frege’s Principle’ (originating with Cresswell 1973, 75); Thomason 1980 is an early source for the term ‘compositional’.
+
+
+% \part{title}
+
 \chapter{Abstract Interpretation: Semantics}
+
+Abstract interpretation is a mathematical theory of approximation of meaning. It was created by Cousout and Cousout to unify many disparate program analysis techniques that had been developed until then. The broad idea is to consider two worlds: a concrete world, which contains "all the meaning", yet which is hopeless non-computable. In parallel, we consider an abstract world, one that is but a mere approximation to the concrete. This loss of information allows the abstract domain be \emph{computable}, thereby providing the ability to
+approximate concrete meaning. These two worlds are enriched with the structure of a \emph{lattice}, which allows the conjunction and disjunction of meaning; Disjunction to combine facts from disparate sources, such as the \texttt{then} and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )} and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}. 
+
+
+In the most general setting, an abstract interpretation is a manifestation of an \emph{adjunction}, a mathematical structure which captures a notion of "approximate inverses". It will be too much of a detour to explore the vast land of categories and adjunctions. Suffice to say that many of the deep ideas of mathematics arise out of adjunctions. The relationship between algebra and geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO: cite MathOverflow where nullstellensatz is adjunction)
+. 
+
+Here, we shall focus on the special case of an adjunction for lattices, known as a \emph{Galois connection}. We will show how the notion of a Galois connection provides a good notion of "approximation of meaning", and how this directly relates to Montague's ideas of representing semantics as subsets.
+
+\section{Abstracting away even-ness}
+
+Consider a notion of "odd" and even", and how we can generalize this notion to arbitrary subsets of the integers.
+Let us consider two lattices, $L \equiv 2^\Z$, the set of subsets of the integers, and $L^\sharp \equiv \{\bot, O, E, \top\}$,
+the odd-even lattice. We define two functions, the abstract function $\alpha: L \rightarrow L^\sharp$ which abstracts away information about subsets of the integers into \texttt{even} and \texttt{odd}, and the concretization function $\gamma: L^\sharp \rightarrow L$ which
+concretizes the idea of even-ness and odd-ness into subsets of the integers. The abstraction function maps the empty subset to $\bot$, since we know nothing about an empty set. It maps sets of integers that are all even to $E$, since such a set is "even". Similarly, it maps set of integers that are all odd to  $O$, since such a set is "odd". For sets that contain a mixture of both even and odd, it maps these top $\top$ to indicate "failure".
+
+\[
+	\alpha: 2^\Z\rightarrow L^\sharp; \quad
+	\alpha(S) \equiv
+	\begin{cases}
+		\bot & S = \emptyset \\
+		E & \text{$S$ contains only even numbers} \\
+		O & \text{$S$ contains only odd numbers} \\
+		\top & \text{otherwise}
+	\end{cases}
+\]
+
+The concretization function attempts to make the idea of \emph{even} and \emph{odd} concrete, by sending the concepts $\bot, E, O, \top$ to the sets that best represent them. This is given by:
+
+\begin{align*}
+&\gamma: L^\sharp \rightarrow 2^\Z \\
+&\gamma(\bot) \equiv \emptyset; \quad \gamma(\top) \equiv \Z; \\
+&\gamma(E) \equiv \{ 2 k : k \in \in \Z\}; \quad
+\gamma(O) \equiv \{ 2k + 1: k \in \Z \}
+\end{align*}
+
+That is, $\gamma$ maps $E$ to the even numbers, $O$ to the set of all odd numbers, $\bot$ to the empty set, and $\top$ to the set of all numbers, since we know nothing. Let's explore the relationship between $\alpha$ and $\gamma$. What happens  when we consider the compositions $\alpha \circ \gamma$ (read as "$\alpha$ after $\gamma$") and $\gamma \circ alpha$?
+
+This leads us to the following relations:
+
+\begin{align*}
+	&C \subseteq (\gamma\circ \alpha)(C) \\
+	&a = (\alpha \circ \gamma)(a) \\
+\end{align*}
+
+These first equation tell us that abstracting a concrete idea $C$ into $\alpha(C)$ and then
+concretizing the abstract idea using $\gamma(\alpha(C))$ creates a loss of information. This captures the intuition that the abstraction is lossy. The second equation tells us that if we start with an abstract object $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$. 
+\section{Interval domain}
+
+
+A second example is that of the interval domain, where we map subsets of the integers $\mathbb 2^Z$ to \emph{intervals}, The interval domain is a less trivial domain that showcases conjunction and disjunction. For this purpose, we pursue this example as well.
+
+
+
+\section{The formal viewpoint}
+
+A partial order $L$ is .. A monotone map is a ... A meet semi-lattice is.. A semi lattice morphism is ... A galois connection between two lattices is ... 
+
+\section{The bridge}
+
+Montague semantics wishes to abstract natural language with sets. We believe that what is really going on is that we have a sequence of abstract interpretations, first from the uncomputable semantics of natural language that of the uncomputable montagueian semantics. We conjecture that systems such as \texttt{word2vec} themselves compute another layer of abstract interpretation. We attempt to extract evidence for this, and come up non-empty-handed.
 
 
 \chapter{Confluence: Fuzzy set representations}
-In this paper, we provide an alternate perspective on word representations, by
+
+We provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
 collection of features. In this reinterpretation, every component of the word
 vector is normalized against all the word vectors in the vocabulary. This idea
@@ -735,20 +835,20 @@ function word list} provides the top 15 function words by entropy, and the
 correspodingly ranked words by frequency. We see that frequency is clearly not
 a good enough measure to identify function words. 
 
-% {\tiny
-% \begin{table*}[t]
-%     \centering
-%     {\small
-%     \begin{tabular}{l r | l r | l r | l r | l r}
-%     and		& the   &   in		&   one         &   which	    &   to          &   however	&   \emph{two}  &   for	    &   \emph{eight}  \\
-%     this    & of    &   of	    &   in          &   the		    &   \emph{zero} &   to		&   is          &   a	    &   for \\
-%     as	    & and   &   only	&   a           &   also	    &   \emph{nine} &   it		&   as          &   but	    &   \emph{s} 
-%     \end{tabular}
-%     }
-%     \caption{On the left: Top 15 words with highest entropy with frequency $\geq 100$ (note that all of them are function words). On the right: Top 15 words with the highest frequency. The non-function words have been emphasized for comparison.}
-%     \label{tab: function word list}
-% \end{table*}
-% }   
+{\tiny
+\begin{table*}[t]
+    \centering
+    {\small
+    \begin{tabular}{l r | l r | l r | l r | l r}
+    and		& the   &   in		&   one         &   which	    &   to          &   however	&   \emph{two}  &   for	    &   \emph{eight}  \\
+    this    & of    &   of	    &   in          &   the		    &   \emph{zero} &   to		&   is          &   a	    &   for \\
+    as	    & and   &   only	&   a           &   also	    &   \emph{nine} &   it		&   as          &   but	    &   \emph{s} 
+    \end{tabular}
+    }
+    \caption{On the left: Top 15 words with highest entropy with frequency $\geq 100$ (note that all of them are function words). On the right: Top 15 words with the highest frequency. The non-function words have been emphasized for comparison.}
+    \label{tab: function word list}
+\end{table*}
+}   
 
 \subsection{Similarity Measures} \label{ssec: similarity math} One of the most
 important notions in presenting a distributional word representation is its
@@ -787,25 +887,25 @@ that the data $d$ follows distribution $Q$ is the K-L divergence between the
 distributions $P$ and $Q$. In the fuzzy case, we can compute the KL divergence
 as:
 
-% {\footnotesize
-% \begin{equation*}
-%      \infdiv{S}{T} \equiv \infdiv[\bigg]{X^S_i}{X^T_i} =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right) 
-% \end{equation*}
-% }
-% 
-% \begin{table}[]
-%     \centering
-%     {\small
-%     \begin{tabular}{clr}
-%         \multirow{2}{*}{Example 1} & $\infdiv{ganges}{delta}$ & $6.3105$  \\
-%                                    & $\infdiv{delta}{ganges}$ & $6.3040$  \\
-%         \multirow{2}{*}{Example 2} & $\infdiv{north \cap korea}{china}$ & $1.02923$ \\
-%                                    & $\infdiv{china}{north \cap korea}$ & $10.60665$
-%     \end{tabular}
-%     }
-%     \caption{Examples of KL-divergence as an asymmetric measure of similarity. Lower is closer. We see here that the evaluation of North Korea as a concept being closer to China than vice versa can be observed by the use of K-L Divergence on column-wise normalization.1}
-%     \label{tab: k-l divergence}
-% \end{table}
+{\footnotesize
+\begin{equation*}
+     \infdiv{S}{T} \equiv \infdiv[\bigg]{X^S_i}{X^T_i} =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right) 
+\end{equation*}
+}
+
+\begin{table}[]
+    \centering
+    {\small
+    \begin{tabular}{clr}
+        \multirow{2}{*}{Example 1} & $\infdiv{ganges}{delta}$ & $6.3105$  \\
+                                   & $\infdiv{delta}{ganges}$ & $6.3040$  \\
+        \multirow{2}{*}{Example 2} & $\infdiv{north \cap korea}{china}$ & $1.02923$ \\
+                                   & $\infdiv{china}{north \cap korea}$ & $10.60665$
+    \end{tabular}
+    }
+    \caption{Examples of KL-divergence as an asymmetric measure of similarity. Lower is closer. We see here that the evaluation of North Korea as a concept being closer to China than vice versa can be observed by the use of K-L Divergence on column-wise normalization.1}
+    \label{tab: k-l divergence}
+\end{table}
 
 We see in table \ref{tab: k-l divergence} some qualitative examples of how K-L
 divergence shows the relation between two words (or phrases when composed using
@@ -850,29 +950,29 @@ combination of words from many senses, which provides some perspective into its
 distribution, . Indeed, it has an entropy value of $6.2765$\footnote{For
 reference, the word \texttt{the} has an entropy of $6.2934$.}.
 
-% {\tiny
-% \begin{table}[]
-%     \centering
-%     {\small
-%     \begin{tabular}{l l l l l}
-%         $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
-%         nobility    & metal     & bad       & fusible               & good                      \\
-%         isotope     & fusible   & manners   & unreactive            & dharma                    \\
-%         fujwara     & ductility & happiness & metalloids            & morals                    \\
-%         feudal      & with      & evil      & ductility             & virtue                    \\
-%         clan        & alnico    & excellent & heavy                 & righteous             \\ \midrule
-%         $\vec N$    & $\vec M$  & $\vec G$  & $\vec N + \vec M$     & $\vec N + \vec G$         \\
-%         noblest     & trivalent & bad       & fusible               & gracious                  \\
-%         auctoritas  & carbides  & natured   & metals                & virtuous                  \\
-%         abies       & metallic  & humoured  & sulfides              & believeth                 \\
-%         eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
-%         vojt        & alloying  & gracious  & rhodium               & hedonist                  
-%     \end{tabular}                                                   
-%     }
-%     \caption{Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}. \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$. We also provide the word2vec analogues of the same.}
-%     \label{tab: polysemy}
-% \end{table}
-% }
+ {\tiny
+ \begin{table}[]
+     \centering
+     {\small
+     \begin{tabular}{l l l l l}
+         $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
+         nobility    & metal     & bad       & fusible               & good                      \\
+         isotope     & fusible   & manners   & unreactive            & dharma                    \\
+         fujwara     & ductility & happiness & metalloids            & morals                    \\
+         feudal      & with      & evil      & ductility             & virtue                    \\
+         clan        & alnico    & excellent & heavy                 & righteous             \\ \midrule
+         $\vec N$    & $\vec M$  & $\vec G$  & $\vec N + \vec M$     & $\vec N + \vec G$         \\
+         noblest     & trivalent & bad       & fusible               & gracious                  \\
+         auctoritas  & carbides  & natured   & metals                & virtuous                  \\
+         abies       & metallic  & humoured  & sulfides              & believeth                 \\
+         eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
+         vojt        & alloying  & gracious  & rhodium               & hedonist                  
+     \end{tabular}                                                   
+     }
+     \caption{Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}. \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$. We also provide the word2vec analogues of the same.}
+     \label{tab: polysemy}
+ \end{table}
+ }
 
 \subsection{Constructing Analogy}
 \label{ssec: analogy math}
@@ -914,24 +1014,24 @@ reasoning to account for the type of relation from a lexical semantic
 perspective.
 
 Some examples of word analogy based are presented in table \ref{tab: analogy}. 
-% 
-% \begin{table}[]
-%     \centering
-%     {\tiny
-%     \begin{tabular}{ccc|c|c}
-%         \bf Word 1  & \bf Word 2    & \bf Word 3    & \bf word2vec  & \bf Our representation    \\ \hline
-%         bacteria    & tuberculosis  & virus         & polio         & hiv                       \\
-%         cold        & freezing      & hot           & evaporates    & boiling                   \\
-%         ds          & nintendo      & dreamcast     & playstation   & sega                      \\
-%         pool        & billiards     & karate        & taekwondo     & judo                      \\
-%     \end{tabular}
-%     }
-%     \caption{Examples of analogy compared to the analogy in word2vec. We see here that the comparisons constructed by feature representations are similar to those given by the standard word vectors.}
-%     \label{tab: analogy}
-% \end{table}
-% 
-% \section{Interesting Qualitative Observations}
-% \label{sec: observations}
+
+\begin{table}[]
+    \centering
+    {\tiny
+    \begin{tabular}{ccc|c|c}
+        \bf Word 1  & \bf Word 2    & \bf Word 3    & \bf word2vec  & \bf Our representation    \\ \hline
+        bacteria    & tuberculosis  & virus         & polio         & hiv                       \\
+        cold        & freezing      & hot           & evaporates    & boiling                   \\
+        ds          & nintendo      & dreamcast     & playstation   & sega                      \\
+        pool        & billiards     & karate        & taekwondo     & judo                      \\
+    \end{tabular}
+    }
+    \caption{Examples of analogy compared to the analogy in word2vec. We see here that the comparisons constructed by feature representations are similar to those given by the standard word vectors.}
+    \label{tab: analogy}
+\end{table}
+
+\section{Interesting Qualitative Observations}
+\label{sec: observations}
 
 \section{Experiments and Results}
 \label{sec: results}
@@ -958,22 +1058,22 @@ Our scores our compared to the word2vec scores of similarity using the Spearman
 rank correlation coefficient \citep{spearman1987proof}, which is a ratio of the
 covariances and standard deviations of the inputs being compared. 
 
-% \begin{table}[]
-%     \centering
-%     {\small
-%     \begin{tabular}{c|c|cc}
-%         \multirow{2}{*}{\bf Dims.}   & \multirow{2}{*}{\bf word2vec} & \multicolumn{2}{c}{\bf Our Representation} \\ \cline{3-4}
-%                             &                               & K-L Divergence & Cross-Entropy \\\hline
-%         20  &   0.2478   & 0.2690 & \bf 0.2744    \\
-%         50  &   0.2916   & 0.2966 & \bf 0.2981    \\
-%         100 &   0.2960   & 0.3124 & \bf 0.3206    \\
-%         200 &   0.3259   & 0.3253 & \bf 0.3298    
-%     \end{tabular}
-%     }
-%     \caption{Similarity scores on the SimLex-999 dataset \citep{hill2015simlex}, for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.}
-%     \label{tab: similarity scores}
-% \end{table}
-% 
+\begin{table}[]
+    \centering
+    {\small
+    \begin{tabular}{c|c|cc}
+        \multirow{2}{*}{\bf Dims.}   & \multirow{2}{*}{\bf word2vec} & \multicolumn{2}{c}{\bf Our Representation} \\ \cline{3-4}
+                            &                               & K-L Divergence & Cross-Entropy \\\hline
+        20  &   0.2478   & 0.2690 & \bf 0.2744    \\
+        50  &   0.2916   & 0.2966 & \bf 0.2981    \\
+        100 &   0.2960   & 0.3124 & \bf 0.3206    \\
+        200 &   0.3259   & 0.3253 & \bf 0.3298    
+    \end{tabular}
+    }
+    \caption{Similarity scores on the SimLex-999 dataset \citep{hill2015simlex}, for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.}
+    \label{tab: similarity scores}
+\end{table}
+
 As shown in table \ref{tab: similarity scores}, using our representation,
 similarity is \textit{slightly} better represented according to the SimLex
 corpus. We show similarity on both the asymmetric measures of similarity for
@@ -983,50 +1083,50 @@ are generally higher, we see a reduction in the degree of similarity beyond 100
 dimension vectors (features).
 
 \subsubsection{Analogy} 
-% 
-% \begin{table}[]
-%     {\tiny
-%     \centering
-%     \begin{tabular}{ll|rr|rr}
-%         \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
-%         \multicolumn{2}{l|}{}                           & 50        & 100       & 50        & 100               \\\hline
-%         \multicolumn{2}{l|}{Capital Common Countries}   & 21.94     & 37.55     & \bf 39.13 & \bf 47.23         \\
-%         \multicolumn{2}{l|}{Capital World}              & 13.02     & 20.10     & \bf 27.30 & \bf 26.54         \\
-%         \multicolumn{2}{l|}{Currency}                   & 12.24     & 18.60     & \bf 25.27 & \bf 24.90         \\
-%         \multicolumn{2}{l|}{City-State}                 & 10.38     & 16.70     & \bf 23.24 & \bf 23.51         \\
-%         \multicolumn{2}{l|}{Family}                     & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\ \hline
-%         \multirow{3}{*}{Adjective-Adverb}   & Syntactic & 4.74      & 3.23      & \bf 7.26  & \bf 3.83          \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 9.92      & 15.68     & \bf 21.73 & \bf 21.52         \\ \hline
-%         \multirow{3}{*}{Opposite}           & Syntactic & 4.06      & 3.66      & \bf 7.61  & \bf 4.92          \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 9.36      & 14.73     & \bf 20.60 & \bf 20.26         \\ \hline
-%         \multirow{3}{*}{Comparative}        & Syntactic & 8.86      & 12.63     & \bf 16.88 & \bf 15.39         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 10.10     & 15.96     & \bf 21.67 & \bf 21.39         \\ \hline
-%         \multirow{3}{*}{Superlative}        & Syntactic & 7.59      & 11.30     & \bf 14.32 & \bf 13.36         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 9.54      & 15.20     & \bf 20.35 & \bf 20.15         \\ \hline
-%         \multirow{3}{*}{Present-Participle} & Syntactic & 7.51      & 10.96     & \bf 14.31 & \bf 13.14         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 9.34      & 14.73     & \bf 19.84 & \bf 19.49         \\ \hline
-%         \multirow{3}{*}{Nationality}        & Syntactic & 12.51     & 19.07     & \bf 21.64 & \bf 21.96          \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 11.51     & 18.16     & \bf 22.71 & \bf 22.97         \\ \hline
-%         \multirow{3}{*}{Past Tense}         & Syntactic & 11.65     & 17.09     & \bf 20.43 & \bf 19.76         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 11.16     & 17.21     & \bf 21.96 & \bf 27.72         \\ \hline
-%         \multirow{3}{*}{Plural}             & Syntactic & 11.76     & 17.23     & \bf 20.53 & \bf 19.89         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 11.26     & 17.28     & \bf 21.90 & \bf 21.64         \\ \hline
-%         \multirow{3}{*}{Plural Verbs}       & Syntactic & 11.36     & 16.60     & \bf 19.88 & \bf 19.46         \\
-%                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
-%                                             & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
-%     \end{tabular}
-%     }
-%     \caption{Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.). For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure). For all the others, we present, syntactic, semantic and overall accuracy as well. We see here that we outperform word2vec on every single metric.}
-%     \label{tab: analogy scores}
-% \end{table}
+
+\begin{table}[]
+    {\tiny
+    \centering
+    \begin{tabular}{ll|rr|rr}
+        \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
+        \multicolumn{2}{l|}{}                           & 50        & 100       & 50        & 100               \\\hline
+        \multicolumn{2}{l|}{Capital Common Countries}   & 21.94     & 37.55     & \bf 39.13 & \bf 47.23         \\
+        \multicolumn{2}{l|}{Capital World}              & 13.02     & 20.10     & \bf 27.30 & \bf 26.54         \\
+        \multicolumn{2}{l|}{Currency}                   & 12.24     & 18.60     & \bf 25.27 & \bf 24.90         \\
+        \multicolumn{2}{l|}{City-State}                 & 10.38     & 16.70     & \bf 23.24 & \bf 23.51         \\
+        \multicolumn{2}{l|}{Family}                     & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\ \hline
+        \multirow{3}{*}{Adjective-Adverb}   & Syntactic & 4.74      & 3.23      & \bf 7.26  & \bf 3.83          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.92      & 15.68     & \bf 21.73 & \bf 21.52         \\ \hline
+        \multirow{3}{*}{Opposite}           & Syntactic & 4.06      & 3.66      & \bf 7.61  & \bf 4.92          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.36      & 14.73     & \bf 20.60 & \bf 20.26         \\ \hline
+        \multirow{3}{*}{Comparative}        & Syntactic & 8.86      & 12.63     & \bf 16.88 & \bf 15.39         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 10.10     & 15.96     & \bf 21.67 & \bf 21.39         \\ \hline
+        \multirow{3}{*}{Superlative}        & Syntactic & 7.59      & 11.30     & \bf 14.32 & \bf 13.36         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.54      & 15.20     & \bf 20.35 & \bf 20.15         \\ \hline
+        \multirow{3}{*}{Present-Participle} & Syntactic & 7.51      & 10.96     & \bf 14.31 & \bf 13.14         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.34      & 14.73     & \bf 19.84 & \bf 19.49         \\ \hline
+        \multirow{3}{*}{Nationality}        & Syntactic & 12.51     & 19.07     & \bf 21.64 & \bf 21.96          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.51     & 18.16     & \bf 22.71 & \bf 22.97         \\ \hline
+        \multirow{3}{*}{Past Tense}         & Syntactic & 11.65     & 17.09     & \bf 20.43 & \bf 19.76         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.16     & 17.21     & \bf 21.96 & \bf 27.72         \\ \hline
+        \multirow{3}{*}{Plural}             & Syntactic & 11.76     & 17.23     & \bf 20.53 & \bf 19.89         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.26     & 17.28     & \bf 21.90 & \bf 21.64         \\ \hline
+        \multirow{3}{*}{Plural Verbs}       & Syntactic & 11.36     & 16.60     & \bf 19.88 & \bf 19.46         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
+    \end{tabular}
+    }
+    \caption{Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.). For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure). For all the others, we present, syntactic, semantic and overall accuracy as well. We see here that we outperform word2vec on every single metric.}
+    \label{tab: analogy scores}
+\end{table}
 
 For analogy, we see that our model outperforms word2vec at both 50 and 100
 dimensions. We see that at lower dimension sizes, our normalized feature
@@ -1055,20 +1155,20 @@ compare it to the top $n$ words ordered by frequency from word2vec; $n$ being
 \ref{tab: function word eval}. The list of function words is derived from
 \citet{nation2016making}.
 
-% \begin{table}[]
-%     \centering
-%     {\small
-%     \begin{tabular}{c|cc}
-%         top $n$ words & \bf word2vec & \bf Our Representation  \\ \hline
-%         15  & 10 & \bf 15 \\
-%         30  & 21 & \bf 30 \\
-%         50  & 39 & \bf 47  \\
-%     \end{tabular}
-%     }
-%     \caption{Function word detection using entropy (in our representation) and by frequency in word2vec. We see that we consistently detect more function words than word2vec, based on the 176 function word list released by \citet{nation2016making}. The metric is \emph{number of words}, i.e. the number of words chosen by frequency for word2vec and entropy for our representation}
-%     \label{tab: function word eval}
-% \end{table}
-% 
+\begin{table}[]
+    \centering
+    {\small
+    \begin{tabular}{c|cc}
+        top $n$ words & \bf word2vec & \bf Our Representation  \\ \hline
+        15  & 10 & \bf 15 \\
+        30  & 21 & \bf 30 \\
+        50  & 39 & \bf 47  \\
+    \end{tabular}
+    }
+    \caption{Function word detection using entropy (in our representation) and by frequency in word2vec. We see that we consistently detect more function words than word2vec, based on the 176 function word list released by \citet{nation2016making}. The metric is \emph{number of words}, i.e. the number of words chosen by frequency for word2vec and entropy for our representation}
+    \label{tab: function word eval}
+\end{table}
+
 \subsection{Compositionality}
 \label{ssec: entailment}
 
@@ -1089,24 +1189,24 @@ nominal compounds, we adjust our similarity metric to account for asymmetry in
 the similarity between the head-word and the modifier, and vice versa. We
 report performance on two metrics, the Spearman correlation
 \citep{spearman1987proof} and Pearson correlation \citep{pearson1920notes}. 
-% 
-% \begin{table}[]
-%     \centering
-%     {\small
-%     \begin{tabular}{c|c|cc}
-%         \bf Dims.               & \bf Metric& \bf word2vec  & \bf Our Representation    \\ \hline
-%         \multirow{2}{*}{50}     & Spearman  & 0.3946    & \bf 0.4117            \\
-%                                 & Pearson   & 0.4058    & \bf 0.4081            \\ \hline
-%         \multirow{2}{*}{100}    & Spearman  & 0.4646    & \bf 0.4912            \\
-%                                 & Pearson   & 0.4457    & \bf 0.4803            \\ \hline
-%         \multirow{2}{*}{200}    & Spearman  & 0.4479    & \bf 0.4549            \\
-%                                 & Pearson   & \bf 0.4163& 0.4091                \\
-%     \end{tabular}
-%     }
-%     \caption{Results for compositionality of word embeddings for nominal compounds for various dimensions (Dims.). We see that almost across the board, we perform better, however, for the Pearson correlation metric, at 200 dimensions, we find that word2vec has a better representation of rank by frequency for nominal compounds.}
-%     \label{tab: compositionality}
-% \end{table}
-% 
+
+\begin{table}[]
+    \centering
+    {\small
+    \begin{tabular}{c|c|cc}
+        \bf Dims.               & \bf Metric& \bf word2vec  & \bf Our Representation    \\ \hline
+        \multirow{2}{*}{50}     & Spearman  & 0.3946    & \bf 0.4117            \\
+                                & Pearson   & 0.4058    & \bf 0.4081            \\ \hline
+        \multirow{2}{*}{100}    & Spearman  & 0.4646    & \bf 0.4912            \\
+                                & Pearson   & 0.4457    & \bf 0.4803            \\ \hline
+        \multirow{2}{*}{200}    & Spearman  & 0.4479    & \bf 0.4549            \\
+                                & Pearson   & \bf 0.4163& 0.4091                \\
+    \end{tabular}
+    }
+    \caption{Results for compositionality of word embeddings for nominal compounds for various dimensions (Dims.). We see that almost across the board, we perform better, however, for the Pearson correlation metric, at 200 dimensions, we find that word2vec has a better representation of rank by frequency for nominal compounds.}
+    \label{tab: compositionality}
+\end{table}
+
 The results are shown in table \ref{tab: compositionality}. The difference in
 scores for the Pearson and Spearman rank correlation show that word2vec at
 higher dimensions better represents the rank of words (by frequency), but at
@@ -1164,71 +1264,22 @@ lengths and projections of word embeddings in the vector space. These feature
 representations can be adapted for basic neural models, allowing the use of
 feature based representations at lower dimensions for downstream tasks.
 
-\chapter{Optimisation on manifolds}
-We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
-equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
-The metric at a point $g(p)$ provides an inner product structure on the point $T_pM$
-for a $p \in M$.
-
-where we are optimising a cost function $c: M \rightarrow \mathbb R$.
-We presume that we have a diffeomorphism $E: M \rightarrow \mathbb R^n$ (Embedding) which
-preserves the metric structure. We will elucidate this notion of preserving
-the metric structure once we formally define the mapping between tangent spaces.
-This allows us to treat $M$ as a subspace of $\mathbb R^n$.
-
-For any object $X$
-defined with respect to the manifold, we define a new object $\overline X$, which
-is the embedded version of $X$ in $\mathbb R^n$.
-
-We define $\overline M \subset \mathbb R^n; \overline M \equiv image(E)$.
-We define $\overline c: \overline M \subseteq \mathbb R^n \rightarrow \mathbb R; \overline c \equiv c \circ E^{-1}$
-
-We then needh two operators, that allows us to project onto the tangent space
-and the normal space. The tangent space at a point $x_0 \in M$, $\overline{T_{x_0} M} \equiv span(\partial_i E |_{E(x_0)})$. 
-We get an induced mapping of tangent spaces $dE: T_{x_0} M$ and $T_{x_0} \overline M$.
-
-we consider the gradient
-$\overline \grad c : (p: \overline M) \rightarrow \overline{T_p M}; \overline \grad c \equiv dE \overline dc$
-
-The normal space,
-$\overline{N_{x_0} M}$ is the orthogonal complement of the tangent space, defined
-as $\overline{N_{x_0} M} \equiv \left\{ v \in \mathbb R^n \mid \langle v | \overline{T_{x_0} M} \rangle = 0 \right\}$.
-It is often very easy to derive the projection onto the normal space, from
-whose orthogonal complement we derive the projection of the tangent space.
-
-The final piece that we require is a retraction $R: \mathbb R^n \rightarrow \overline M \subseteq \mathbb R^n$. This allows
-us to project elements of the ambient space that are not on the manifold. The
-retraction must obey the property $R(p \in \overline M) = p$.
-(TODO: is this correct? Do we need $R(\overline M) = \overline M$ or is this pointwise?)
-(what are the other conditions on the retraction? smoothness?)
-
-Given all of this machinery, the algorithm is indeed quite simple. 
-
-\begin{itemize}
-    \item $x \in \overline M \subseteq \mathbb R^n$ is the current point on the manifold as an element of $\mathbb R^n$
-    \item Compute $g = \grad c(x) \in T_x \mathbb R^n$ is the gradient with respect to $\mathbb R^n$.
-    \item $\overline g = P_{T_x} g \in T_x M$ is the projection of the gradient with respect to $\mathbb R^n$ onto the 
-            tangent space of the manifold.
-    \item $x_{mid}\in \mathbb R^n \equiv x + \eta \overline g$, a motion along the tangent vector, giving a point in
-            $\mathbb R^n$.
-    \item $\overline x_{next}: \overline M \equiv R(x_{mid})$, the retraction of the motion along the tangent vector,
-        giving a point on the manifold $\overline M$.
-\end{itemize}
 
 
-\chapter{Distinction with a difference: Grassmanian representations}
+
+\chapter{The geometry of word represenatations}
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 % https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
 % https://arxiv.org/pdf/1205.5935.pdf
-% \begin{minted}{py}
-% def analogy(a, b, c):
-%   len_ab = length_of_shortest_geodesic(a, b)
-%   va = velocity_of_shortest_geodesic(a, b)
-%   va_at_c = parallel_transport(vec=va, from=a, to=c)
-%   d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
-%   return d
-% \end{minted}
+\begin{minted}{py}
+def analogy(a, b, c):
+  len_ab = length_of_shortest_geodesic(a, b)
+  va = velocity_of_shortest_geodesic(a, b)
+  va_at_c = parallel_transport(vec=va, from=a, to=c)
+  d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
+  return d
+\end{minted}
 
 Embedding words in vector spaces has become the norm for distributional
 lexical semantic representations. While esoteric literature has attempted
@@ -1345,17 +1396,6 @@ On performing analogy \texttt{(a : b :: c : ?)}, we perform the vector
 space operation $b - a + c$, which can be rearranged as $c + (b - a)$, which
 is the base point $c$ to which we add the direction $(b - a)$.
 
-% \begin{figure}
-% \includegraphics[width=0.8\textwidth]{./sphere-parallel-transport-geodesic.png}
-% \caption{Computing analogy in curved spaces. Begin by choosing the analogous
-% pair $(a : b)$. Compute the geodesic path between them, $(b - a)$. Transport
-% the geodesic by using parallel transport to the basepoint $c$. This allows us
-% to find the point $c +(b-a)$.}
-% \end{figure}
-
-
-\subsection{Lexical Semantics on a Symplectic Manifold}
-
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{./symplectic.png}
 \caption{Angle between subspaces. Here, we see that when we consider angle
@@ -1372,32 +1412,84 @@ angle between their subspaces as the similarity measure.
 
 \subsection{The Grassmanian: Generalizing \wtov to $n$-Dimensions}
 
-The grassmanian Represents all $k$-dimensional subspaces of an $n$-dimensional
+The grassmanian represents all $k$-dimensional subspaces of an $n$-dimensional
 vector space. More importantly, the grassmanian is a \emph{lie group}; This means
 that we can build analogues of the \wtov operations for the Grassmanian. Here,
 we lay out a general theory of similarity and analogy, and use the theory to
 develop our implementation of the Grassmanian.
 
 
+\section{Lie groups, Similarly, and Analogy}
+A Lie group is a generalization of the situation of the Grassmanian. We have the Lie group itself,
+which consists of "locations". Then, there is a Lie algebra, which consists of "directions at a location".
+This allows us to decompose  our notion of analogy as explained before, into two steps: one is to analogize,
+()and the other is to transport the analogy to a new word ().
 
 
-\section{Training Mechanism}
+\chapter{Optimisation on Lie groups}
+We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
+equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
+The metric at a point $g(p)$ provides an inner product structure on the point $T_pM$
+for a $p \in M$.
 
-\chapter{A Vast Generalization: Contrastive Losses}
+where we are optimising a cost function $c: M \rightarrow \mathbb R$.
+We presume that we have a diffeomorphism $E: M \rightarrow \mathbb R^n$ (Embedding) which
+preserves the metric structure. We will elucidate this notion of preserving
+the metric structure once we formally define the mapping between tangent spaces.
+This allows us to treat $M$ as a subspace of $\mathbb R^n$.
 
-\subsection{The setting: Lie groups, Similarly, and Analogy}
-A Lie group is a mathematical object that abstracts the ideas of "analogy"
-and "similarity". These ideas are called as:
+For any object $X$
+defined with respect to the manifold, we define a new object $\overline X$, which
+is the embedded version of $X$ in $\mathbb R^n$.
+
+We define $\overline M \subset \mathbb R^n; \overline M \equiv image(E)$.
+We define $\overline c: \overline M \subseteq \mathbb R^n \rightarrow \mathbb R; \overline c \equiv c \circ E^{-1}$
+
+We then needh two operators, that allows us to project onto the tangent space
+and the normal space. The tangent space at a point $x_0 \in M$, $\overline{T_{x_0} M} \equiv span(\partial_i E |_{E(x_0)})$. 
+We get an induced mapping of tangent spaces $dE: T_{x_0} M$ and $T_{x_0} \overline M$.
+
+we consider the gradient
+$\overline \grad c : (p: \overline M) \rightarrow \overline{T_p M}; \overline \grad c \equiv dE \overline dc$
+
+The normal space,
+$\overline{N_{x_0} M}$ is the orthogonal complement of the tangent space, defined
+as $\overline{N_{x_0} M} \equiv \left\{ v \in \mathbb R^n \mid \langle v | \overline{T_{x_0} M} \rangle = 0 \right\}$.
+It is often very easy to derive the projection onto the normal space, from
+whose orthogonal complement we derive the projection of the tangent space.
+
+The final piece that we require is a retraction $R: \mathbb R^n \rightarrow \overline M \subseteq \mathbb R^n$. This allows
+us to project elements of the ambient space that are not on the manifold. The
+retraction must obey the property $R(p \in \overline M) = p$.
+(TODO: is this correct? Do we need $R(\overline M) = \overline M$ or is this pointwise?)
+(what are the other conditions on the retraction? smoothness?)
+
+Given all of this machinery, the algorithm is indeed quite simple. 
+
 \begin{itemize}
-\item \emph{Parallel transport}: given a base word and an analogy, find a word with the analogy we are interested in
-\item \emph{Geodesic computation}: given two words, represent the analogy between the words.
+	\item $x \in \overline M \subseteq \mathbb R^n$ is the current point on the manifold as an element of $\mathbb R^n$
+	\item Compute $g = \grad c(x) \in T_x \mathbb R^n$ is the gradient with respect to $\mathbb R^n$.
+	\item $\overline g = P_{T_x} g \in T_x M$ is the projection of the gradient with respect to $\mathbb R^n$ onto the 
+	tangent space of the manifold.
+	\item $x_{mid}\in \mathbb R^n \equiv x + \eta \overline g$, a motion along the tangent vector, giving a point in
+	$\mathbb R^n$.
+	\item $\overline x_{next}: \overline M \equiv R(x_{mid})$, the retraction of the motion along the tangent vector,
+	giving a point on the manifold $\overline M$.
 \end{itemize}
+
+\section{Pseudocode}
+
+
 % https://arxiv.org/abs/1902.09229
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 
-\section{Related Work}
+\section{Speculation}
 
-\section{Conclusion}
+\emph{Topos theory} is a branch of mathematics, used to represent "local truths" versus "global truths". Provides a mathematical framework to tailor logic to a given situation.
+\emph{Contrastive losses} is a PAC based Theory on how \texttt{word2vec}-like systems perform. Extend this theory to Lie groups.
+
+\emph{Geometric algebras} are Mathematical structures that represent all subspaces of a vector space. Do not have a lie group structure.
+provide operations for manipulating subspaces. How can one learn meaning representations that capture notions of subspaces?
 
 
 %--------------------------------------------------------
