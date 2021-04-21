@@ -5,14 +5,14 @@
 
 \documentclass[11pt]{book}
 \usepackage{iiit_thesis}
-\usepackage{times}
+% \usepackage{times}
 \usepackage{epsfig}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{latexsym}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{latexsym}
 \usepackage{graphicx}
-\usepackage{multirow}
-\usepackage{algorithm2e}
+% \usepackage{multirow}
+% \usepackage{algorithm2e}
 
 \usepackage{times}
 \usepackage{latexsym}
@@ -20,14 +20,14 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
-\usepackage{tikz}
+% \usepackage{tikz}
 \usepackage{multirow}
 \usepackage{multicol}
 \usepackage{array}
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{booktabs}
-\usepackage{float} % use for H with figures, which forces figure locations. 
+% \usepackage{float} % use for H with figures, which forces figure locations. 
 
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 \newcommand{\N}{\ensuremath{\mathbb{N}}}
@@ -52,17 +52,13 @@
 
 \newcommand{\infdiv}{D\infdivx}
 
-% \usepackage{tabular}
-\usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{minted}
+% \usepackage{minted}
 \usepackage{hyperref}
-\usepackage{tikz}
-\usepackage{tikz-cd}
 \usepackage{cancel}
-\usepackage{mathtools}
+% \usepackage{mathtools}
 
 %\newcommand{\card}[1]{\ensuremath{\left| #1 \right|}}
 \newcommand{\wtov}{\texttt{word2vec }}
@@ -129,6 +125,8 @@
 %--------------------------------------------------------
 
 \chapter{Introduction}
+ 
+ 
 
 The popular opinion thanks to a confluence of distributional semantics
 and machine learning is that systems such as \texttt{word2vec} learn
@@ -165,32 +163,32 @@ The core training loop of \wtov (trained using negative sampling, in skip-gram
 mode) involves attempting to learn \emph{two} representations for a given word,
 called as the positive representation and the negative representation.
 
-\begin{minted}{py}
-def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
-    out :float, target: float):
-    # gradient descent on loss (target - out)^2 where
-    # out = larr[lix] . rarr[rix ]
-def train(corpus):
-  poss = np.array((VOCABSIZE, DIMSIZE))
-  negs = np.array((VOCABSIZE, DIMSIZE))
-
-  for wix in range(len(corpus)):
-    w = poss[corpus[wix]]
-    l = max(wix-WINDOWSIZE, 0)
-    r = min(wix+WINDOWSIZE, len(corpus)-1)
-
-    for xix in range(l, r+1):
-        x = poss[xix]
-        out = np.dot(x, w)
-        learn(lix=wix, rix=xix, larr=poss, rarr=poss, out=out, target=1.0)
-
-    for _ in range(NNEGSAMPLES)
-        xix = random.randint(0, len(corpus)-1)
-        x = negs[xix]
-        out = np.dot(x, w)
-        learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
-    
-\end{minted}
+% \begin{minted}{py}
+% def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
+%     out :float, target: float):
+%     # gradient descent on loss (target - out)^2 where
+%     # out = larr[lix] . rarr[rix ]
+% def train(corpus):
+%   poss = np.array((VOCABSIZE, DIMSIZE))
+%   negs = np.array((VOCABSIZE, DIMSIZE))
+% 
+%   for wix in range(len(corpus)):
+%     w = poss[corpus[wix]]
+%     l = max(wix-WINDOWSIZE, 0)
+%     r = min(wix+WINDOWSIZE, len(corpus)-1)
+% 
+%     for xix in range(l, r+1):
+%         x = poss[xix]
+%         out = np.dot(x, w)
+%         learn(lix=wix, rix=xix, larr=poss, rarr=poss, out=out, target=1.0)
+% 
+%     for _ in range(NNEGSAMPLES)
+%         xix = random.randint(0, len(corpus)-1)
+%         x = negs[xix]
+%         out = np.dot(x, w)
+%         learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
+%     
+% \end{minted}
 
 
 \section{Testing regime}
@@ -213,16 +211,16 @@ The classic explanation of `word2vec`, in skip-gram, with negative sampling,
 in the paper and countless blog posts on the internet is as follows:
 
 \section{Popular misconceptions}
-\begin{minted}{cpp}
-while(1) {
-   1. vf = vector of focus word
-   2. vc = vector of context word
-   3. train such that (vc . vf = 1)
-   4. for(0 <= i < negative samples):
-           vneg = vector of word *not* in context
-           train such that (vf . vneg = 0)
-}
-\end{minted}
+% \begin{minted}{cpp}
+% while(1) {
+%    1. vf = vector of focus word
+%    2. vc = vector of context word
+%    3. train such that (vc . vf = 1)
+%    4. for(0 <= i < negative samples):
+%            vneg = vector of word *not* in context
+%            train such that (vf . vneg = 0)
+% }
+% \end{minted}
 
 % TODO: fix the wikipedia implementation
 % Indeed, if I google "word2vec skipgram", the results I get are:
@@ -255,23 +253,23 @@ The setup is incredibly well done in the C code:
 - An array called `syn0` holds the vector embedding of a word when it occurs
   as a \emph{focus word}. This is random initialized.
 
-\begin{minted}{cpp}
-https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L369
-  for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
-    next_random = next_random * (unsigned long long)25214903917 + 11;
-    syn0[a * layer1_size + b] =
-       (((next_random & 0xFFFF) / (real)65536) - 0.5) / layer1_size;
-  }
-\end{minted}
+% \begin{minted}{cpp}
+% https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L369
+%   for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
+%     next_random = next_random * (unsigned long long)25214903917 + 11;
+%     syn0[a * layer1_size + b] =
+%        (((next_random & 0xFFFF) / (real)65536) - 0.5) / layer1_size;
+%   }
+% \end{minted}
 
 Another array called \texttt{syn1neg} holds the vector of a word when it occurs
 as a \emph{context word}. This is zero initialized.
 
-\begin{minted}{cpp}
-https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L365
-for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
-  syn1neg[a * layer1_size + b] = 0;
-\end{minted}
+% \begin{minted}{cpp}
+% https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L365
+% for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
+%   syn1neg[a * layer1_size + b] = 0;
+% \end{minted}
 
 - During training (skip-gram, negative sampling, though other cases are
   also similar), we first pick a focus word. This is held constant throughout
@@ -279,45 +277,45 @@ for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
   are accumulated in a buffer, and are applied to the focus word
   \emph{after} it has been affected by both positive and negative samples.
 
-\begin{minted}{cpp}
-if (negative > 0) for (d = 0; d < negative + 1; d++) {
-  // if we are performing negative sampling, in the 1st iteration,
-  // pick a word from the context and set the dot product target to 1
-  if (d == 0) {
-    target = word;
-    label = 1;
-  } else {
-    // for all other iterations, pick a word randomly and set the dot
-    //product target to 0
-    next_random = next_random * (unsigned long long)25214903917 + 11;
-    target = table[(next_random >> 16) % table_size];
-    if (target == 0) target = next_random % (vocab_size - 1) + 1;
-    if (target == word) continue;
-    label = 0;
-  }
-  l2 = target * layer1_size;
-  f = 0;
-
-  // find dot product of original vector with negative sample vector
-  // store in f
-  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
-
-  // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
-  if (f > MAX_EXP) g = (label - 1) * alpha;
-  else if (f < -MAX_EXP) g = (label - 0) * alpha;
-  else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
-
-  // 1. update the vector syn1neg,
-  // 2. DO NOT UPDATE syn0
-  // 3. STORE THE syn0 gradient in a temporary buffer neu1e
-  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
-  for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
-}
-// Finally, after all samples, update syn1 from neu1e
-https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
-// Learn weights input -> hidden
-for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
-\end{minted}
+% \begin{minted}{cpp}
+% if (negative > 0) for (d = 0; d < negative + 1; d++) {
+%   // if we are performing negative sampling, in the 1st iteration,
+%   // pick a word from the context and set the dot product target to 1
+%   if (d == 0) {
+%     target = word;
+%     label = 1;
+%   } else {
+%     // for all other iterations, pick a word randomly and set the dot
+%     //product target to 0
+%     next_random = next_random * (unsigned long long)25214903917 + 11;
+%     target = table[(next_random >> 16) % table_size];
+%     if (target == 0) target = next_random % (vocab_size - 1) + 1;
+%     if (target == word) continue;
+%     label = 0;
+%   }
+%   l2 = target * layer1_size;
+%   f = 0;
+% 
+%   // find dot product of original vector with negative sample vector
+%   // store in f
+%   for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
+% 
+%   // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
+%   if (f > MAX_EXP) g = (label - 1) * alpha;
+%   else if (f < -MAX_EXP) g = (label - 0) * alpha;
+%   else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
+% 
+%   // 1. update the vector syn1neg,
+%   // 2. DO NOT UPDATE syn0
+%   // 3. STORE THE syn0 gradient in a temporary buffer neu1e
+%   for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
+%   for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
+% }
+% // Finally, after all samples, update syn1 from neu1e
+% https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
+% // Learn weights input -> hidden
+% for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
+% \end{minted}
 
 \section{Why random and zero initialization?}
 
@@ -587,90 +585,91 @@ While feature union does not seem to have a word2vec analogue, we consider that
 feature intersection is analogous to vector addition, and feature difference as
 analogous to vector difference.
 
-% \begin{table}[t]
-%     \centering
-%     {\scriptsize
-%     \begin{tabular}{l l l l l}
-%         $\hat R$    & $\vec R$ & $\hat V$       & $\vec V$  & $\hat R \cup \hat V$  \\
-%         risen       & cashew   & wavelengths    & yellowish & flower                \\
-%         capita      & risen    & ultraviolet    & whitish   & red                   \\ 
-%         peaked      & soared   & purple         & aquamarine& stripes               \\
-%         declined    & acuff    & infrared       & roans     & flowers               \\
-%         increased   & rafters  & yellowish      & bluish    & green                 \\    
-%         rises       & equalled & pigment        & greenish  & garlands              \\
-%     \end{tabular}
-%     }
-%     \caption{An example of feature union. \texttt{Rose} is represented by $R$
-%     and \texttt{Violet} by $V$. We see here that while the word rose and violet
-%     have different meanings and senses, the union $R \cup V$ captures the sense
-%     of the flower as well as of colours, which are the senses common to these
-%     two words. We list words closest to the given word in the table. Closeness
-%     measured by cosine similarity for word2vec and cross-entropy-similarity for
-%     our vectors.}
-%     \label{tab: union}
-% \end{table}
-% 
-% \begin{table}[t]
-%     \centering
-%     {\small
-%     \begin{tabular}{l l l}
-%         $\hat C$        & $\hat P$          & $\hat C \cap \hat P$      \\
-%         hardware        & vested            & cpu                       \\
-%         graphics        & purchasing        & hardware                  \\ 
-%         multitasking    & capita            & powerpc                   \\
-%         console         & exercise          & machine                   \\
-%         firewire        & parity            & multitasking              \\    
-%         mainframe       & veto              & microcode                 \\ \midrule
-%         $\vec C$        & $\vec P$          & $\vec C + \vec P$         \\
-%         bioses          & centralize        & expandability             \\
-%         scummvm         & veto              & writable                  \\
-%         hardware        & decembrist        & cpcs                      \\
-%         imovie          & exercised         & reconfigure               \\
-%         writable        & redistribution    & backplane                 \\
-%         console         & devolving         & oem                        
-%     \end{tabular}
-%     }
-%     \caption{An example of feature intersection with the possible word2vec
-%     analogue (vector addition). The word \texttt{computer} is represented by
-%     $C$ and \texttt{power} by $P$. Note that power is also a decent example of
-%     polysemy, and we see that in the context of computers, the connotations of
-%     hardware and the CPU are the most accessible. We list words closest to the
-%     given word in the table. Closeness measured by cosine similarity for
-%     word2vec and cross-entropy-similarity for our vectors.}
-%     \label{tab: intersection}
-% \end{table}
-% 
-% {\tiny
-% \begin{table}[t]
-%     \centering
-%     {\small
-%     \begin{tabular}{l l l}
-%         $\hat F$    & $\hat B $     & $\hat F \setminus \hat B$    \\ 
-%         french      & isles         & communaut                    \\
-%         english     & colonial      & aise                         \\ 
-%         france      & subcontinent  & langue                       \\
-%         german      & cinema        & monet                        \\ 
-%         spanish     & boer          & dictionnaire                 \\
-%         british     & canadians     & gascon                       \\ \midrule
-%         $\vec F$    & $\vec B$      & $\vec F - \vec B$             \\
-%         french      & scottish      & ranjit                        \\
-%         english     & american      & privatised                    \\
-%         france      & thatcherism   & tardis                        \\    
-%         german      & netherlands   & molloy                        \\
-%         spanish     & hillier       & isaacs                        \\
-%         british     & cukcs         & raj                   
-%     \end{tabular}
-%     }
-%     \caption{An example of feature difference, along with a possible word2vec
-%     analogue (vector difference). \texttt{French} is represented by $F$ and
-%     \texttt{British} by $B$. We see here that set difference capture french
-%     words from the dataset, while there does not seem to be any such
-%     correlation in the vector difference. We list words closest to the given
-%     word in the table. Closeness measured by cosine similarity for word2vec and
-%     cross-entropy-similarity for our vectors.}
-%     \label{tab: difference}
-% \end{table}
-% }
+
+\begin{table}
+  \centering
+  {\scriptsize
+  \begin{tabular}{l l l l l}
+      $\hat R$    & $\vec R$ & $\hat V$       & $\vec V$  & $\hat R \cup \hat V$  \\
+      risen       & cashew   & wavelengths    & yellowish & flower                \\
+      capita      & risen    & ultraviolet    & whitish   & red                   \\ 
+      peaked      & soared   & purple         & aquamarine& stripes               \\
+      declined    & acuff    & infrared       & roans     & flowers               \\
+      increased   & rafters  & yellowish      & bluish    & green                 \\    
+      rises       & equalled & pigment        & greenish  & garlands              \\
+  \end{tabular}
+  }
+  \caption{An example of feature union. \texttt{Rose} is represented by $R$
+  and \texttt{Violet} by $V$. We see here that while the word rose and violet
+  have different meanings and senses, the union $R \cup V$ captures the sense
+  of the flower as well as of colours, which are the senses common to these
+  two words. We list words closest to the given word in the table. Closeness
+  measured by cosine similarity for word2vec and cross-entropy-similarity for
+  our vectors.}
+  \label{tab: union}
+\end{table}
+
+\begin{table}[t]
+    \centering
+    {\small
+    \begin{tabular}{l l l}
+        $\hat C$        & $\hat P$          & $\hat C \cap \hat P$      \\
+        hardware        & vested            & cpu                       \\
+        graphics        & purchasing        & hardware                  \\ 
+        multitasking    & capita            & powerpc                   \\
+        console         & exercise          & machine                   \\
+        firewire        & parity            & multitasking              \\    
+        mainframe       & veto              & microcode                 \\ \midrule
+        $\vec C$        & $\vec P$          & $\vec C + \vec P$         \\
+        bioses          & centralize        & expandability             \\
+        scummvm         & veto              & writable                  \\
+        hardware        & decembrist        & cpcs                      \\
+        imovie          & exercised         & reconfigure               \\
+        writable        & redistribution    & backplane                 \\
+        console         & devolving         & oem                        
+    \end{tabular}
+    }
+    \caption{An example of feature intersection with the possible word2vec
+    analogue (vector addition). The word \texttt{computer} is represented by
+    $C$ and \texttt{power} by $P$. Note that power is also a decent example of
+    polysemy, and we see that in the context of computers, the connotations of
+    hardware and the CPU are the most accessible. We list words closest to the
+    given word in the table. Closeness measured by cosine similarity for
+    word2vec and cross-entropy-similarity for our vectors.}
+    \label{tab: intersection}
+\end{table}
+
+{\tiny
+\begin{table}[t]
+    \centering
+    {\small
+    \begin{tabular}{l l l}
+        $\hat F$    & $\hat B $     & $\hat F \setminus \hat B$    \\ 
+        french      & isles         & communaut                    \\
+        english     & colonial      & aise                         \\ 
+        france      & subcontinent  & langue                       \\
+        german      & cinema        & monet                        \\ 
+        spanish     & boer          & dictionnaire                 \\
+        british     & canadians     & gascon                       \\ \midrule
+        $\vec F$    & $\vec B$      & $\vec F - \vec B$             \\
+        french      & scottish      & ranjit                        \\
+        english     & american      & privatised                    \\
+        france      & thatcherism   & tardis                        \\    
+        german      & netherlands   & molloy                        \\
+        spanish     & hillier       & isaacs                        \\
+        british     & cukcs         & raj                   
+    \end{tabular}
+    }
+    \caption{An example of feature difference, along with a possible word2vec
+    analogue (vector difference). \texttt{French} is represented by $F$ and
+    \texttt{British} by $B$. We see here that set difference capture french
+    words from the dataset, while there does not seem to be any such
+    correlation in the vector difference. We list words closest to the given
+    word in the table. Closeness measured by cosine similarity for word2vec and
+    cross-entropy-similarity for our vectors.}
+    \label{tab: difference}
+\end{table}
+}
 
 \paragraph{Feature Inclusion} Feature inclusion is based on the subset relation
 of fuzzy sets. We aim to capture feature inclusion by determining if there
@@ -1193,14 +1192,14 @@ Given all of this machinery, the algorithm is indeed quite simple.
 % https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
 % https://arxiv.org/pdf/1205.5935.pdf
-\begin{minted}{py}
-def analogy(a, b, c):
-  len_ab = length_of_shortest_geodesic(a, b)
-  va = velocity_of_shortest_geodesic(a, b)
-  va_at_c = parallel_transport(vec=va, from=a, to=c)
-  d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
-  return d
-\end{minted}
+% \begin{minted}{py}
+% def analogy(a, b, c):
+%   len_ab = length_of_shortest_geodesic(a, b)
+%   va = velocity_of_shortest_geodesic(a, b)
+%   va_at_c = parallel_transport(vec=va, from=a, to=c)
+%   d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
+%   return d
+% \end{minted}
 
 Embedding words in vector spaces has become the norm for distributional
 lexical semantic representations. While esoteric literature has attempted

@@ -19,211 +19,211 @@
 %% Modified, 1991 by George Reilly. Changed name from tgrind to lgrind.
 %% Modified, 1995 by Michael Piefel. Made it work with \LaTeXe.
 %%          -1999    Hundreds of bells and whistles. No changelog here.
-\NeedsTeXFormat{LaTeX2e}[1996/06/01]
-\ProvidesPackage{lgrind}
-          [1999/05/28 v3.6 LGrind environment and supporting stuff]
-%%stopzone   % VIM syncing
-\newcount\lc@unt
-\newcount\ln@xt
-\newcount\LGnuminterval
-\LGnuminterval=10
-\DeclareOption{nolineno}{\LGnuminterval=50000}
-\DeclareOption{lineno5}{\LGnuminterval=5}
-\newif\ifLGleftnum
-\DeclareOption{leftno}{\LGleftnumtrue}
-\newskip\LGindent
-\LGindent=1.6667\parindent
-\DeclareOption{noindent}{\LGindent=0pt}
-\newif\ifLGnorules
-\DeclareOption{norules}{\LGnorulestrue}
-\newlength{\LGsloppy}
-\setlength{\LGsloppy}{7.2pt}
-\DeclareOption{fussy}{\LGsloppy=0pt}
-\newcommand{\DefaultProc}{\@gobble}
-\newcommand{\DefaultProcCont}{\@gobble}
-\DeclareOption{procnames}{
-\renewcommand{\DefaultProc}[1]{\renewcommand{\Procname}{#1}%
-\global\setbox\procbox=\hbox{\PNsize #1}}
-\renewcommand{\DefaultProcCont}[1]{\renewcommand\Procname{#1}
-\global\setbox\procbox=\hbox{\PNsize\dots #1}}}
-\newbox\procbox
-\newcommand{\Procname}{}
-\newif\ifLGnoprocindex
-\DeclareOption{noprocindex}{\LGnoprocindextrue}
-\ProcessOptions
-\def\BGfont{\sffamily}
-\def\CMfont{\rmfamily\itshape}
-\def\NOfont{\sffamily}
-\def\KWfont{\rmfamily\bfseries}
-\def\STfont{\ttfamily}
-\def\TTfont{\ttfamily\upshape}
-\def\VRfont{\rmfamily}
-\def\PNsize{\BGfont\small}
-\def\LGsize{\small}
-\def\LGfsize{\footnotesize}
-\newif\ifLGinline
-\newif\ifLGd@fault
-\def\LGbegin{\ifLGinline$\hbox\else$$\vbox\fi\bgroup\LGd@faulttrue}
-\def\LGend{\ifLGd@fault\egroup\ifLGinline$\else$$\fi\LGd@faultfalse\fi}
-%%stopzone   % VIM syncing
-\newif\ifc@mment
-\newif\ifstr@ng
-\newif\ifright@
-\newbox\ls@far
-\newbox\tb@x
-\newdimen\TBw@d
-\newdimen\@ts
-{\catcode`\_=\active \gdef\@setunder{\let_=\sp@ce}}
-\newcommand{\lgrindhead}{}
-\newcommand{\lgrindfilename}{}\newcommand{\lgrindfilesize}{}
-\newcommand{\lgrindmodyear}{}\newcommand{\lgrindmodmonth}{}
-\newcommand{\lgrindmodday}{}\newcommand{\lgrindmodtime}{}
-\newenvironment{lgrind}[1][1]{%
-\def\Line##1{\L{\LB{##1}}}%
-\newcommand{\Head}[1]{\gdef\lgrindhead{##1}}%
-\newcommand{\File}[6]{\gdef\lgrindfilename{##1}\message{(LGround: ##1)}%
-    \gdef\lgrindmodyear{##2}\gdef\lgrindmodmonth{##3}%
-    \gdef\lgrindmodday{##4}\gdef\lgrindmodtime{##5}%
-    \gdef\lgrindfilesize{##6}}%
-\let\Proc=\DefaultProc%
-\let\ProcCont=\DefaultProcCont%
-\ifLGnoprocindex%
-  \let\index\@gobble%
-\fi%
-\hfuzz=\LGsloppy%
-\def\NewPage{\filbreak\bigskip}%
-\ifLGinline%
- \def\L##1{\setbox\ls@far\null{\CF\strut##1}\ignorespaces}%
-\else%
- \let\r@ghtlno\relax\let\l@ftlno\relax%
- \ifnum\LGnuminterval>\z@%
-  \ifLGleftnum%
-   \def\l@ftlno{\ifnum\lc@unt>\ln@xt%
-     \global\advance\ln@xt by\LGnuminterval%
-     \llap{{\normalfont\scriptsize\the\lc@unt\quad}}\fi}%
-   \def\r@ghtlno{\rlap{\enspace\box\procbox}}%
-  \else%
-   \def\r@ghtlno{\ifnum\lc@unt>\ln@xt%
-     \global\advance\ln@xt by\LGnuminterval%
-     \rlap{{\normalfont\scriptsize\enspace\the\lc@unt%
-                \enspace\box\procbox}}%
-     \else\rlap{\enspace\box\procbox}\fi}%
-  \fi%
- \fi%
- \def\L##1{\@@par\setbox\ls@far=\null\strut%
-  \global\advance\lc@unt by1%
-  \hbox to \linewidth{\hskip\LGindent\l@ftlno ##1\egroup%
-  \hfil\r@ghtlno}%
-  \ignorespaces}%
-\fi%
-\lc@unt=#1\advance\lc@unt by-1%
-\ln@xt=\LGnuminterval\advance\ln@xt by-1%
-\loop\ifnum\lc@unt>\ln@xt\advance\ln@xt by\LGnuminterval\repeat%
-\def\LB{\hbox\bgroup\bgroup\box\ls@far\CF\let\next=}%
-\def\Tab##1{\egroup\setbox\tb@x=\lastbox\TBw@d=\wd\tb@x%
- \advance\TBw@d by 1\@ts\ifdim\TBw@d>##1\@ts%
-  \setbox\ls@far=\hbox{\box\ls@far \box\tb@x \sp@ce}\else%
-  \setbox\ls@far=\hbox to ##1\@ts{\box\ls@far \box\tb@x \hfil}\fi\LB}%
-\ifLGinline\def\sp@ce{{\hskip .3333em}}%
-\else \setbox\tb@x=\hbox{\texttt{0}}%
-      \@ts=0.8\wd\tb@x \def\sp@ce{{\hskip 1\@ts}}\fi%
-\catcode`\_=\active \@setunder%
-\def\CF{\ifc@mment\CMfont\else\ifstr@ng\STfont\fi\fi}%
-\def\N##1{{\NOfont ##1}\global\futurelet\next\ic@r}%
-\def\K##1{{\KWfont ##1}\global\futurelet\next\ic@r}%
-\def\V##1{{\VRfont ##1}\global\futurelet\next\ic@r}%
-\def\ic@r{\let\@tempa\/\ifx.\next\let\@tempa\relax%
- \else\ifx,\next\let\@tempa\relax\fi\fi\@tempa}%
-\def\C{\egroup\bgroup\CMfont \global\c@mmenttrue \global\right@false}%
-\def\CE{\egroup\bgroup \global\c@mmentfalse}%
-\def\S{\egroup\bgroup\STfont \global\str@ngtrue}%
-\def\SE{\egroup\bgroup \global\str@ngfalse}%
-\def\,{\relax \ifmmode\mskip\thinmuskip \else\thinspace \fi}%
-\def\!{\relax \ifmmode\mskip-\thinmuskip \else\negthinspace \fi}%
-%%stopzone   % VIM syncing
-\def\CH##1##2##3{\relax\ifmmode ##1\relax%
-\else\ifstr@ng ##2\relax\else$##3$\fi\fi }%
-\def\|{\CH|||}%  not necessary for T1
-\def\<{\CH<<<}%  dto.
-\def\>{\CH>>>}%  dto.
-\def\-{\CH---}%  minus sign nicer than hyphen
-\def\_{\ifstr@ng {\char'137}\else%
-  \leavevmode \kern.06em \vbox{\hrule width.35em}%
-  \ifdim\fontdimen\@ne\font=\z@ \kern.06em \fi\fi }%
-\def\#{{\STfont\char'043}}%
-\def\2{\CH\backslash {\char'134}\backslash }%          % \
-\def\3{\ifc@mment\ifright@ ''\global\right@false%
-                      \else``\global\right@true \fi%
-   \else{\texttt{\char'042}}\fi}%                      % "
-\def\5{{\texttt{\char'136}}}%                          % ^
-\parindent\z@\parskip\z@ plus 1pt%
-\bgroup\BGfont%
-}
-{\egroup\@@par}           % end of environment lgrind
-\def\lgrinde{\ifLGinline\else\LGsize\fi\begin{lgrind}}
-\def\endlgrinde{\end{lgrind}}
-\def\lagrind{\@ifstar{\@slagrind}{\@lagrind}}
-
-\def\@lagrind{\@ifnextchar[{\@@lagrind}{\@@lagrind[t]}}
-\def\@slagrind{\@ifnextchar[{\@@slagrind}{\@@slagrind[t]}}
-\def\@@lagrind[#1]#2#3#4{%
-    \begin{figure}[#1]
-\ifLGnorules\else\hrule\fi
-\vskip .5\baselineskip
-\begin{minipage}\columnwidth\LGsize\LGindent\z@
-    \begin{lgrind}
-\input #2\relax
-    \end{lgrind}
-\end{minipage}
-\vskip .5\baselineskip plus .5\baselineskip
-\ifLGnorules\else\hrule\fi\vskip .5\baselineskip
-\begingroup
-    \setbox\z@=\hbox{#4}%
-    \ifdim\wd\z@>\z@
-\caption{#3}%
-\label{#4}%
-    \else
-\captcont{#3}%
-    \fi
-\endgroup
-\vskip 2pt
-    \end{figure}
-}
-\def\@@slagrind[#1]#2#3#4{%
-    \begin{figure*}[#1]
-\ifLGnorules\else\hrule\fi
-\vskip .5\baselineskip
-\begin{minipage}\linewidth\LGsize\LGindent\z@
-    \begin{lgrind}
-\input #2\relax
-    \end{lgrind}
-\end{minipage}
-\vskip .5\baselineskip plus .5\baselineskip
-\ifLGnorules\else\hrule\fi\vskip .5\baselineskip
-\begingroup
-    \setbox\z@=\hbox{#4}%
-    \ifdim\wd\z@>\z@
-\caption{#3}%
-\label{#4}%
-    \else
-\captcont{#3}%
-    \fi
-\endgroup
-\vskip 2pt
-    \end{figure*}
-}
-\def\lgrindfile#1{%
-    \par\addvspace{0.1in}
-    \ifLGnorules\else\hrule\fi
-    \vskip .5\baselineskip
-    \begingroup\LGfsize\LGindent\z@
-\begin{lgrind}
-    \input #1\relax
-\end{lgrind}
-    \endgroup
-    \vskip .5\baselineskip
-    \ifLGnorules\else\hrule\vspace{0.1in}\fi
-}
-\endinput
-%%
-%% End of file `lgrind.sty'.
+%%% | commented by bollu | \NeedsTeXFormat{LaTeX2e}[1996/06/01]
+%%% | commented by bollu | \ProvidesPackage{lgrind}
+%%% | commented by bollu |           [1999/05/28 v3.6 LGrind environment and supporting stuff]
+%%% | commented by bollu | %%stopzone   % VIM syncing
+%%% | commented by bollu | \newcount\lc@unt
+%%% | commented by bollu | \newcount\ln@xt
+%%% | commented by bollu | \newcount\LGnuminterval
+%%% | commented by bollu | \LGnuminterval=10
+%%% | commented by bollu | \DeclareOption{nolineno}{\LGnuminterval=50000}
+%%% | commented by bollu | \DeclareOption{lineno5}{\LGnuminterval=5}
+%%% | commented by bollu | \newif\ifLGleftnum
+%%% | commented by bollu | \DeclareOption{leftno}{\LGleftnumtrue}
+%%% | commented by bollu | \newskip\LGindent
+%%% | commented by bollu | \LGindent=1.6667\parindent
+%%% | commented by bollu | \DeclareOption{noindent}{\LGindent=0pt}
+%%% | commented by bollu | \newif\ifLGnorules
+%%% | commented by bollu | \DeclareOption{norules}{\LGnorulestrue}
+%%% | commented by bollu | \newlength{\LGsloppy}
+%%% | commented by bollu | \setlength{\LGsloppy}{7.2pt}
+%%% | commented by bollu | \DeclareOption{fussy}{\LGsloppy=0pt}
+%%% | commented by bollu | \newcommand{\DefaultProc}{\@gobble}
+%%% | commented by bollu | \newcommand{\DefaultProcCont}{\@gobble}
+%%% | commented by bollu | \DeclareOption{procnames}{
+%%% | commented by bollu | \renewcommand{\DefaultProc}[1]{\renewcommand{\Procname}{#1}%
+%%% | commented by bollu | \global\setbox\procbox=\hbox{\PNsize #1}}
+%%% | commented by bollu | \renewcommand{\DefaultProcCont}[1]{\renewcommand\Procname{#1}
+%%% | commented by bollu | \global\setbox\procbox=\hbox{\PNsize\dots #1}}}
+%%% | commented by bollu | \newbox\procbox
+%%% | commented by bollu | \newcommand{\Procname}{}
+%%% | commented by bollu | \newif\ifLGnoprocindex
+%%% | commented by bollu | \DeclareOption{noprocindex}{\LGnoprocindextrue}
+%%% | commented by bollu | \ProcessOptions
+%%% | commented by bollu | \def\BGfont{\sffamily}
+%%% | commented by bollu | \def\CMfont{\rmfamily\itshape}
+%%% | commented by bollu | \def\NOfont{\sffamily}
+%%% | commented by bollu | \def\KWfont{\rmfamily\bfseries}
+%%% | commented by bollu | \def\STfont{\ttfamily}
+%%% | commented by bollu | \def\TTfont{\ttfamily\upshape}
+%%% | commented by bollu | \def\VRfont{\rmfamily}
+%%% | commented by bollu | \def\PNsize{\BGfont\small}
+%%% | commented by bollu | \def\LGsize{\small}
+%%% | commented by bollu | \def\LGfsize{\footnotesize}
+%%% | commented by bollu | \newif\ifLGinline
+%%% | commented by bollu | \newif\ifLGd@fault
+%%% | commented by bollu | \def\LGbegin{\ifLGinline$\hbox\else$$\vbox\fi\bgroup\LGd@faulttrue}
+%%% | commented by bollu | \def\LGend{\ifLGd@fault\egroup\ifLGinline$\else$$\fi\LGd@faultfalse\fi}
+%%% | commented by bollu | %%stopzone   % VIM syncing
+%%% | commented by bollu | \newif\ifc@mment
+%%% | commented by bollu | \newif\ifstr@ng
+%%% | commented by bollu | \newif\ifright@
+%%% | commented by bollu | \newbox\ls@far
+%%% | commented by bollu | \newbox\tb@x
+%%% | commented by bollu | \newdimen\TBw@d
+%%% | commented by bollu | \newdimen\@ts
+%%% | commented by bollu | {\catcode`\_=\active \gdef\@setunder{\let_=\sp@ce}}
+%%% | commented by bollu | \newcommand{\lgrindhead}{}
+%%% | commented by bollu | \newcommand{\lgrindfilename}{}\newcommand{\lgrindfilesize}{}
+%%% | commented by bollu | \newcommand{\lgrindmodyear}{}\newcommand{\lgrindmodmonth}{}
+%%% | commented by bollu | \newcommand{\lgrindmodday}{}\newcommand{\lgrindmodtime}{}
+%%% | commented by bollu | \newenvironment{lgrind}[1][1]{%
+%%% | commented by bollu | \def\Line##1{\L{\LB{##1}}}%
+%%% | commented by bollu | \newcommand{\Head}[1]{\gdef\lgrindhead{##1}}%
+%%% | commented by bollu | \newcommand{\File}[6]{\gdef\lgrindfilename{##1}\message{(LGround: ##1)}%
+%%% | commented by bollu |     \gdef\lgrindmodyear{##2}\gdef\lgrindmodmonth{##3}%
+%%% | commented by bollu |     \gdef\lgrindmodday{##4}\gdef\lgrindmodtime{##5}%
+%%% | commented by bollu |     \gdef\lgrindfilesize{##6}}%
+%%% | commented by bollu | \let\Proc=\DefaultProc%
+%%% | commented by bollu | \let\ProcCont=\DefaultProcCont%
+%%% | commented by bollu | \ifLGnoprocindex%
+%%% | commented by bollu |   \let\index\@gobble%
+%%% | commented by bollu | \fi%
+%%% | commented by bollu | \hfuzz=\LGsloppy%
+%%% | commented by bollu | \def\NewPage{\filbreak\bigskip}%
+%%% | commented by bollu | \ifLGinline%
+%%% | commented by bollu |  \def\L##1{\setbox\ls@far\null{\CF\strut##1}\ignorespaces}%
+%%% | commented by bollu | \else%
+%%% | commented by bollu |  \let\r@ghtlno\relax\let\l@ftlno\relax%
+%%% | commented by bollu |  \ifnum\LGnuminterval>\z@%
+%%% | commented by bollu |   \ifLGleftnum%
+%%% | commented by bollu |    \def\l@ftlno{\ifnum\lc@unt>\ln@xt%
+%%% | commented by bollu |      \global\advance\ln@xt by\LGnuminterval%
+%%% | commented by bollu |      \llap{{\normalfont\scriptsize\the\lc@unt\quad}}\fi}%
+%%% | commented by bollu |    \def\r@ghtlno{\rlap{\enspace\box\procbox}}%
+%%% | commented by bollu |   \else%
+%%% | commented by bollu |    \def\r@ghtlno{\ifnum\lc@unt>\ln@xt%
+%%% | commented by bollu |      \global\advance\ln@xt by\LGnuminterval%
+%%% | commented by bollu |      \rlap{{\normalfont\scriptsize\enspace\the\lc@unt%
+%%% | commented by bollu |                 \enspace\box\procbox}}%
+%%% | commented by bollu |      \else\rlap{\enspace\box\procbox}\fi}%
+%%% | commented by bollu |   \fi%
+%%% | commented by bollu |  \fi%
+%%% | commented by bollu |  \def\L##1{\@@par\setbox\ls@far=\null\strut%
+%%% | commented by bollu |   \global\advance\lc@unt by1%
+%%% | commented by bollu |   \hbox to \linewidth{\hskip\LGindent\l@ftlno ##1\egroup%
+%%% | commented by bollu |   \hfil\r@ghtlno}%
+%%% | commented by bollu |   \ignorespaces}%
+%%% | commented by bollu | \fi%
+%%% | commented by bollu | \lc@unt=#1\advance\lc@unt by-1%
+%%% | commented by bollu | \ln@xt=\LGnuminterval\advance\ln@xt by-1%
+%%% | commented by bollu | \loop\ifnum\lc@unt>\ln@xt\advance\ln@xt by\LGnuminterval\repeat%
+%%% | commented by bollu | \def\LB{\hbox\bgroup\bgroup\box\ls@far\CF\let\next=}%
+%%% | commented by bollu | \def\Tab##1{\egroup\setbox\tb@x=\lastbox\TBw@d=\wd\tb@x%
+%%% | commented by bollu |  \advance\TBw@d by 1\@ts\ifdim\TBw@d>##1\@ts%
+%%% | commented by bollu |   \setbox\ls@far=\hbox{\box\ls@far \box\tb@x \sp@ce}\else%
+%%% | commented by bollu |   \setbox\ls@far=\hbox to ##1\@ts{\box\ls@far \box\tb@x \hfil}\fi\LB}%
+%%% | commented by bollu | \ifLGinline\def\sp@ce{{\hskip .3333em}}%
+%%% | commented by bollu | \else \setbox\tb@x=\hbox{\texttt{0}}%
+%%% | commented by bollu |       \@ts=0.8\wd\tb@x \def\sp@ce{{\hskip 1\@ts}}\fi%
+%%% | commented by bollu | \catcode`\_=\active \@setunder%
+%%% | commented by bollu | \def\CF{\ifc@mment\CMfont\else\ifstr@ng\STfont\fi\fi}%
+%%% | commented by bollu | \def\N##1{{\NOfont ##1}\global\futurelet\next\ic@r}%
+%%% | commented by bollu | \def\K##1{{\KWfont ##1}\global\futurelet\next\ic@r}%
+%%% | commented by bollu | \def\V##1{{\VRfont ##1}\global\futurelet\next\ic@r}%
+%%% | commented by bollu | \def\ic@r{\let\@tempa\/\ifx.\next\let\@tempa\relax%
+%%% | commented by bollu |  \else\ifx,\next\let\@tempa\relax\fi\fi\@tempa}%
+%%% | commented by bollu | \def\C{\egroup\bgroup\CMfont \global\c@mmenttrue \global\right@false}%
+%%% | commented by bollu | \def\CE{\egroup\bgroup \global\c@mmentfalse}%
+%%% | commented by bollu | \def\S{\egroup\bgroup\STfont \global\str@ngtrue}%
+%%% | commented by bollu | \def\SE{\egroup\bgroup \global\str@ngfalse}%
+%%% | commented by bollu | \def\,{\relax \ifmmode\mskip\thinmuskip \else\thinspace \fi}%
+%%% | commented by bollu | \def\!{\relax \ifmmode\mskip-\thinmuskip \else\negthinspace \fi}%
+%%% | commented by bollu | %%stopzone   % VIM syncing
+%%% | commented by bollu | \def\CH##1##2##3{\relax\ifmmode ##1\relax%
+%%% | commented by bollu | \else\ifstr@ng ##2\relax\else$##3$\fi\fi }%
+%%% | commented by bollu | \def\|{\CH|||}%  not necessary for T1
+%%% | commented by bollu | \def\<{\CH<<<}%  dto.
+%%% | commented by bollu | \def\>{\CH>>>}%  dto.
+%%% | commented by bollu | \def\-{\CH---}%  minus sign nicer than hyphen
+%%% | commented by bollu | \def\_{\ifstr@ng {\char'137}\else%
+%%% | commented by bollu |   \leavevmode \kern.06em \vbox{\hrule width.35em}%
+%%% | commented by bollu |   \ifdim\fontdimen\@ne\font=\z@ \kern.06em \fi\fi }%
+%%% | commented by bollu | \def\#{{\STfont\char'043}}%
+%%% | commented by bollu | \def\2{\CH\backslash {\char'134}\backslash }%          % \
+%%% | commented by bollu | \def\3{\ifc@mment\ifright@ ''\global\right@false%
+%%% | commented by bollu |                       \else``\global\right@true \fi%
+%%% | commented by bollu |    \else{\texttt{\char'042}}\fi}%                      % "
+%%% | commented by bollu | \def\5{{\texttt{\char'136}}}%                          % ^
+%%% | commented by bollu | \parindent\z@\parskip\z@ plus 1pt%
+%%% | commented by bollu | \bgroup\BGfont%
+%%% | commented by bollu | }
+%%% | commented by bollu | {\egroup\@@par}           % end of environment lgrind
+%%% | commented by bollu | \def\lgrinde{\ifLGinline\else\LGsize\fi\begin{lgrind}}
+%%% | commented by bollu | \def\endlgrinde{\end{lgrind}}
+%%% | commented by bollu | \def\lagrind{\@ifstar{\@slagrind}{\@lagrind}}
+%%% | commented by bollu | 
+%%% | commented by bollu | \def\@lagrind{\@ifnextchar[{\@@lagrind}{\@@lagrind[t]}}
+%%% | commented by bollu | \def\@slagrind{\@ifnextchar[{\@@slagrind}{\@@slagrind[t]}}
+%%% | commented by bollu | \def\@@lagrind[#1]#2#3#4{%
+%%% | commented by bollu |     \begin{figure}[#1]
+%%% | commented by bollu | \ifLGnorules\else\hrule\fi
+%%% | commented by bollu | \vskip .5\baselineskip
+%%% | commented by bollu | \begin{minipage}\columnwidth\LGsize\LGindent\z@
+%%% | commented by bollu |     \begin{lgrind}
+%%% | commented by bollu | \input #2\relax
+%%% | commented by bollu |     \end{lgrind}
+%%% | commented by bollu | \end{minipage}
+%%% | commented by bollu | \vskip .5\baselineskip plus .5\baselineskip
+%%% | commented by bollu | \ifLGnorules\else\hrule\fi\vskip .5\baselineskip
+%%% | commented by bollu | \begingroup
+%%% | commented by bollu |     \setbox\z@=\hbox{#4}%
+%%% | commented by bollu |     \ifdim\wd\z@>\z@
+%%% | commented by bollu | \caption{#3}%
+%%% | commented by bollu | \label{#4}%
+%%% | commented by bollu |     \else
+%%% | commented by bollu | \captcont{#3}%
+%%% | commented by bollu |     \fi
+%%% | commented by bollu | \endgroup
+%%% | commented by bollu | \vskip 2pt
+%%% | commented by bollu |     \end{figure}
+%%% | commented by bollu | }
+%%% | commented by bollu | \def\@@slagrind[#1]#2#3#4{%
+%%% | commented by bollu |     \begin{figure*}[#1]
+%%% | commented by bollu | \ifLGnorules\else\hrule\fi
+%%% | commented by bollu | \vskip .5\baselineskip
+%%% | commented by bollu | \begin{minipage}\linewidth\LGsize\LGindent\z@
+%%% | commented by bollu |     \begin{lgrind}
+%%% | commented by bollu | \input #2\relax
+%%% | commented by bollu |     \end{lgrind}
+%%% | commented by bollu | \end{minipage}
+%%% | commented by bollu | \vskip .5\baselineskip plus .5\baselineskip
+%%% | commented by bollu | \ifLGnorules\else\hrule\fi\vskip .5\baselineskip
+%%% | commented by bollu | \begingroup
+%%% | commented by bollu |     \setbox\z@=\hbox{#4}%
+%%% | commented by bollu |     \ifdim\wd\z@>\z@
+%%% | commented by bollu | \caption{#3}%
+%%% | commented by bollu | \label{#4}%
+%%% | commented by bollu |     \else
+%%% | commented by bollu | \captcont{#3}%
+%%% | commented by bollu |     \fi
+%%% | commented by bollu | \endgroup
+%%% | commented by bollu | \vskip 2pt
+%%% | commented by bollu |     \end{figure*}
+%%% | commented by bollu | }
+%%% | commented by bollu | \def\lgrindfile#1{%
+%%% | commented by bollu |     \par\addvspace{0.1in}
+%%% | commented by bollu |     \ifLGnorules\else\hrule\fi
+%%% | commented by bollu |     \vskip .5\baselineskip
+%%% | commented by bollu |     \begingroup\LGfsize\LGindent\z@
+%%% | commented by bollu | \begin{lgrind}
+%%% | commented by bollu |     \input #1\relax
+%%% | commented by bollu | \end{lgrind}
+%%% | commented by bollu |     \endgroup
+%%% | commented by bollu |     \vskip .5\baselineskip
+%%% | commented by bollu |     \ifLGnorules\else\hrule\vspace{0.1in}\fi
+%%% | commented by bollu | }
+%%% | commented by bollu | \endinput
+%%% | commented by bollu | %%
+%%% | commented by bollu | %% End of file `lgrind.sty'.
