@@ -1,0 +1,354 @@
+%%
+%% This is file `supertabular.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% supertabular.dtx  (with options: `package')
+%% 
+%% Copyright (C) 1988-97 by Theo Jurriens, Johanes Braams (90-96).
+%% All rights reserved.
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% You are not allowed to change this file.  You may however copy this file
+%% to a file with a different name and then change the copy.
+%% 
+%% You are NOT ALLOWED to distribute this file alone.  You are NOT ALLOWED
+%% to take money for the distribution or use of this file (or a changed
+%% version) except for a nominal charge for copying etc.
+%% 
+%% You are allowed to distribute this file under the condition that it is
+%% distributed together with all files mentioned below.
+%% 
+%% If you receive only some of these files from someone, complain!
+%% 
+%% Error Reports in case of UNCHANGED versions to either of
+%% 
+%%     J.L. Braams
+%%     TeXniek
+%%     Kooienswater 62
+%%     2715 AJ Zoetermeer
+%%     The Netherlands
+%%     Internet:  <JLBraams@cistron.nl>
+%% 
+%%     Theo Jurriens
+%%     Rijks Universiteit Groningen
+%%     P.O Box 800,
+%%     9700 AV Groningen
+%%     The Netherlands
+%%     Internet: <jurriens@fwn.rug.nl>
+%% 
+%% File `supertabular.dtx'.
+%% Copyright (C) 1988 by Theo Jurriens <jurriens@fwn.rug.nl>
+%%                       P.O Box 800, 9700 AV Groningen
+%% Copyright (C) 1990-1997 by Johannes Braams <JLBraams@cistron.nl>
+%%                            Kooienswater 62
+%%                            2715 AJ Zoetermeer NL
+%%                       all rights reserved.
+%%
+%%%% | Commented out by bollu | \NeedsTeXFormat{LaTeX2e}
+%%%% | Commented out by bollu | \ProvidesPackage{supertabular}
+%%%% | Commented out by bollu |               [1997/02/20 v4.0c the supertabular environment]
+%%%% | Commented out by bollu | \newcount\c@tracingst
+%%%% | Commented out by bollu | \DeclareOption{errorshow}{\c@tracingst\z@}
+%%%% | Commented out by bollu | \DeclareOption{pageshow}{\c@tracingst\tw@}
+%%%% | Commented out by bollu | \DeclareOption{debugshow}{\c@tracingst5\relax}
+%%%% | Commented out by bollu | \ProcessOptions
+%%%% | Commented out by bollu | \newif\if@topcaption \@topcaptiontrue
+%%%% | Commented out by bollu | \def\topcaption{\@topcaptiontrue\tablecaption}
+%%%% | Commented out by bollu | \def\bottomcaption{\@topcaptionfalse\tablecaption}
+%%%% | Commented out by bollu | \long\def\tablecaption{%
+%%%% | Commented out by bollu |   \refstepcounter{table}\@dblarg{\@xtablecaption}}
+%%%% | Commented out by bollu | \long\def\@xtablecaption[#1]#2{%
+%%%% | Commented out by bollu |   \long\gdef\@process@tablecaption{\ST@caption{table}[#1]{#2}}}
+%%%% | Commented out by bollu | \global\let\@process@tablecaption\relax
+%%%% | Commented out by bollu | \newif\ifST@star
+%%%% | Commented out by bollu | \newdimen\ST@wd
+%%%% | Commented out by bollu | \long\def\ST@caption#1[#2]#3{\par%
+%%%% | Commented out by bollu |   \addcontentsline{\csname ext@#1\endcsname}{#1}%
+%%%% | Commented out by bollu |                   {\protect\numberline{%
+%%%% | Commented out by bollu |                       \csname the#1\endcsname}{\ignorespaces #2}}
+%%%% | Commented out by bollu |   \begingroup
+%%%% | Commented out by bollu |     \@parboxrestore
+%%%% | Commented out by bollu |     \normalsize
+%%%% | Commented out by bollu |     \if@topcaption \vskip -10\p@ \fi
+%%%% | Commented out by bollu |     \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+%%%% | Commented out by bollu |     \if@topcaption \vskip 10\p@ \fi
+%%%% | Commented out by bollu |   \endgroup}
+%%%% | Commented out by bollu | \newcommand\tablehead[1]{%
+%%%% | Commented out by bollu |   \gdef\@tablehead{%
+%%%% | Commented out by bollu |   \noalign{%
+%%%% | Commented out by bollu |       \global\let\@savcr=\\
+%%%% | Commented out by bollu |       \global\let\\=\cr}%
+%%%% | Commented out by bollu |     #1%
+%%%% | Commented out by bollu |     \noalign{\global\let\\=\@savcr}}}
+%%%% | Commented out by bollu | \tablehead{}
+%%%% | Commented out by bollu | \newcommand\tablefirsthead[1]{\gdef\@table@first@head{#1}}
+%%%% | Commented out by bollu | \newcommand\tabletail[1]{%
+%%%% | Commented out by bollu |   \gdef\@tabletail{%
+%%%% | Commented out by bollu |     \noalign{%
+%%%% | Commented out by bollu |       \global\let\@savcr=\\
+%%%% | Commented out by bollu |       \global\let\\=\cr}%
+%%%% | Commented out by bollu |     #1%
+%%%% | Commented out by bollu |     \noalign{\global\let\\=\@savcr}}}
+%%%% | Commented out by bollu | \tabletail{}
+%%%% | Commented out by bollu | \newcommand\tablelasttail[1]{\gdef\@table@last@tail{#1}}
+%%%% | Commented out by bollu | \newcommand\sttraceon{\c@tracingst5\relax}
+%%%% | Commented out by bollu | \newcommand\sttraceoff{\c@tracingst\z@}
+%%%% | Commented out by bollu | \newcommand\ST@trace[2]{%
+%%%% | Commented out by bollu |   \ifnum\c@tracingst>#1\relax
+%%%% | Commented out by bollu |     \GenericWarning
+%%%% | Commented out by bollu |       {(supertabular)\@spaces\@spaces}
+%%%% | Commented out by bollu |       {Package supertabular: #2}%
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \newdimen\ST@pageleft
+%%%% | Commented out by bollu | \newcommand*\shrinkheight[1]{%
+%%%% | Commented out by bollu |   \noalign{\global\ST@pageleft=#1\relax}}
+%%%% | Commented out by bollu | \newdimen\ST@headht
+%%%% | Commented out by bollu | \newdimen\ST@tailht
+%%%% | Commented out by bollu | \newdimen\ST@pagesofar
+%%%% | Commented out by bollu | \newdimen\ST@pboxht
+%%%% | Commented out by bollu | \newdimen\ST@lineht
+%%%% | Commented out by bollu | \newdimen\ST@toadd
+%%%% | Commented out by bollu | \newdimen\ST@dimen
+%%%% | Commented out by bollu | \newbox\ST@pbox
+%%%% | Commented out by bollu | \def\ST@tabularcr{%
+%%%% | Commented out by bollu |   {\ifnum0=`}\fi
+%%%% | Commented out by bollu |   \@ifstar{\ST@xtabularcr}{\ST@xtabularcr}}
+%%%% | Commented out by bollu | \def\ST@xtabularcr{%
+%%%% | Commented out by bollu |   \@ifnextchar[{\ST@argtabularcr}{\ifnum0=`{\fi}\cr\ST@cr}}
+%%%% | Commented out by bollu | \def\ST@argtabularcr[#1]{%
+%%%% | Commented out by bollu |   \ifnum0=`{\fi}%
+%%%% | Commented out by bollu |   \ifdim #1>\z@
+%%%% | Commented out by bollu |     \unskip\ST@xargarraycr{#1}
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \ST@yargarraycr{#1}%
+%%%% | Commented out by bollu |   \fi}
+%%%% | Commented out by bollu | \def\ST@xargarraycr#1{%
+%%%% | Commented out by bollu |   \@tempdima #1\advance\@tempdima \dp \@arstrutbox
+%%%% | Commented out by bollu |   \vrule \@height\z@ \@depth\@tempdima \@width\z@ \cr
+%%%% | Commented out by bollu |   \noalign{\global\ST@toadd=#1}\ST@cr}
+%%%% | Commented out by bollu | \def\ST@yargarraycr#1{%
+%%%% | Commented out by bollu |   \cr\noalign{\vskip #1\global\ST@toadd=#1}\ST@cr}
+%%%% | Commented out by bollu | \def\ST@startpbox#1{%
+%%%% | Commented out by bollu |   \setbox\ST@pbox\vtop\bgroup\hsize#1\@arrayparboxrestore}
+%%%% | Commented out by bollu | \def\ST@astartpbox#1{%
+%%%% | Commented out by bollu |   \bgroup\hsize#1%
+%%%% | Commented out by bollu |   \setbox\ST@pbox\vtop\bgroup\hsize#1\@arrayparboxrestore}
+%%%% | Commented out by bollu | \def\ST@endpbox{%
+%%%% | Commented out by bollu |   \@finalstrut\@arstrutbox\par\egroup
+%%%% | Commented out by bollu |   \ST@dimen=\ht\ST@pbox
+%%%% | Commented out by bollu |   \advance\ST@dimen by \dp\ST@pbox
+%%%% | Commented out by bollu |   \ifnum\ST@pboxht<\ST@dimen
+%%%% | Commented out by bollu |     \global\ST@pboxht=\ST@dimen
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \ST@dimen=\z@
+%%%% | Commented out by bollu |   \box\ST@pbox\hfil}
+%%%% | Commented out by bollu | \def\ST@aendpbox{%
+%%%% | Commented out by bollu |   \@finalstrut\@arstrutbox\par\egroup
+%%%% | Commented out by bollu |   \ST@dimen=\ht\ST@pbox
+%%%% | Commented out by bollu |   \advance\ST@dimen by \dp\ST@pbox
+%%%% | Commented out by bollu |   \ifnum\ST@pboxht<\ST@dimen
+%%%% | Commented out by bollu |     \global\ST@pboxht=\ST@dimen
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \ST@dimen=\z@
+%%%% | Commented out by bollu |   \unvbox\ST@pbox\egroup\hfil}
+%%%% | Commented out by bollu | \def\estimate@lineht{%
+%%%% | Commented out by bollu |   \ST@lineht=\arraystretch \baslineskp
+%%%% | Commented out by bollu |   \global\advance\ST@lineht by 1\p@
+%%%% | Commented out by bollu |   \ST@trace\tw@{Average line height:\the\ST@lineht}%
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \def\@calfirstpageht{%
+%%%% | Commented out by bollu |   \ST@trace\tw@{Calculating height of tabular on first page}%
+%%%% | Commented out by bollu |   \global\ST@pagesofar\pagetotal
+%%%% | Commented out by bollu |   \global\ST@pageleft\@colroom
+%%%% | Commented out by bollu |   \ST@trace\tw@{Height of text = \the\pagetotal; \MessageBreak
+%%%% | Commented out by bollu |                 Heigth of page = \the\ST@pageleft}%
+%%%% | Commented out by bollu |   \if@twocolumn
+%%%% | Commented out by bollu |     \ST@trace\tw@{two column mode}%
+%%%% | Commented out by bollu |     \if@firstcolumn
+%%%% | Commented out by bollu |      \ST@trace\tw@{First column}%
+%%%% | Commented out by bollu |       \ifnum\ST@pagesofar > \ST@pageleft
+%%%% | Commented out by bollu |         \global\ST@pageleft=2\ST@pageleft
+%%%% | Commented out by bollu |         \ifnum\ST@pagesofar > \ST@pageleft
+%%%% | Commented out by bollu |           \newpage\@calnextpageht
+%%%% | Commented out by bollu |           \ST@trace\tw@{starting new page}%
+%%%% | Commented out by bollu |         \else
+%%%% | Commented out by bollu |           \ST@trace\tw@{Second column}%
+%%%% | Commented out by bollu |           \global\advance\ST@pageleft -\ST@pagesofar
+%%%% | Commented out by bollu |           \global\advance\ST@pageleft -\@colroom
+%%%% | Commented out by bollu |         \fi
+%%%% | Commented out by bollu |       \fi
+%%%% | Commented out by bollu |     \fi
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \ST@trace\tw@{one column mode}%
+%%%% | Commented out by bollu |     \ifnum\ST@pagesofar > \ST@pageleft
+%%%% | Commented out by bollu |       \ST@trace\tw@{starting new page}%
+%%%% | Commented out by bollu |       \newpage\@calnextpageht
+%%%% | Commented out by bollu |     \else
+%%%% | Commented out by bollu |       \global\advance\ST@pageleft by -\ST@pagesofar
+%%%% | Commented out by bollu |       \global\ST@pagesofar\z@
+%%%% | Commented out by bollu |     \fi
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \ST@trace\tw@{Available height: \the\ST@pageleft}%
+%%%% | Commented out by bollu |   \ifx\@@tablehead\@empty
+%%%% | Commented out by bollu |     \ST@headht=\z@
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \setbox\@tempboxa=\vbox{\@arrayparboxrestore
+%%%% | Commented out by bollu |       \ST@restore
+%%%% | Commented out by bollu |       \expandafter\tabular\expandafter{\ST@tableformat}%
+%%%% | Commented out by bollu |       \@@tablehead\endtabular}%
+%%%% | Commented out by bollu |     \ST@headht=\ht\@tempboxa\advance\ST@headht\dp\@tempboxa
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \ST@trace\tw@{Height of head: \the\ST@headht}%
+%%%% | Commented out by bollu |   \ifx\@tabletail\@empty
+%%%% | Commented out by bollu |     \ST@tailht=\z@
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \setbox\@tempboxa=\vbox{\@arrayparboxrestore
+%%%% | Commented out by bollu |       \ST@restore
+%%%% | Commented out by bollu |       \expandafter\tabular\expandafter{\ST@tableformat}
+%%%% | Commented out by bollu |         \@tabletail\endtabular}
+%%%% | Commented out by bollu |     \ST@tailht=\ht\@tempboxa\advance\ST@tailht\dp\@tempboxa
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \advance\ST@tailht by \ST@lineht
+%%%% | Commented out by bollu |   \ST@trace\tw@{Height of tail: \the\ST@tailht}%
+%%%% | Commented out by bollu |   \ST@trace\tw@{Maximum height of tabular: \the\ST@pageleft}%
+%%%% | Commented out by bollu |   \@tempdima\ST@headht
+%%%% | Commented out by bollu |   \advance\@tempdima\ST@lineht
+%%%% | Commented out by bollu |   \advance\@tempdima\ST@tailht
+%%%% | Commented out by bollu |   \ST@trace\tw@{Minimum height of tabular: \the\@tempdima}%
+%%%% | Commented out by bollu |   \ifnum\@tempdima>\ST@pageleft
+%%%% | Commented out by bollu |     \ST@trace\tw@{starting new page}%
+%%%% | Commented out by bollu |     \newpage\@calnextpageht
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu | }
+%%%% | Commented out by bollu | \def\@calnextpageht{%
+%%%% | Commented out by bollu |   \ST@trace\tw@{Calculating height of tabular on next page}%
+%%%% | Commented out by bollu |   \global\ST@pageleft\@colroom
+%%%% | Commented out by bollu |   \global\ST@pagesofar=\z@
+%%%% | Commented out by bollu |   \ST@trace\tw@{Maximum height of tabular: \the\ST@pageleft}%
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \def\x@supertabular{%
+%%%% | Commented out by bollu |   \if@topcaption \@process@tablecaption \fi
+%%%% | Commented out by bollu |   \global\let\@oldcr=\\
+%%%% | Commented out by bollu |   \def\baslineskp{\baselineskip}%
+%%%% | Commented out by bollu |   \ifx\undefined\@classix
+%%%% | Commented out by bollu |     \let\@@tabularcr\@tabularcr
+%%%% | Commented out by bollu |     \let\@tabularcr\ST@tabularcr
+%%%% | Commented out by bollu |     \let\org@startpbox=\@startpbox
+%%%% | Commented out by bollu |     \let\org@endpbox=\@endpbox
+%%%% | Commented out by bollu |     \let\@@startpbox=\ST@startpbox
+%%%% | Commented out by bollu |     \let\@@endpbox=\ST@endpbox
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \let\@@tabularcr\@arraycr
+%%%% | Commented out by bollu |     \let\@arraycr\ST@tabularcr
+%%%% | Commented out by bollu |     \let\org@startpbox=\@startpbox
+%%%% | Commented out by bollu |     \let\org@endpbox=\@endpbox
+%%%% | Commented out by bollu |     \let\@startpbox=\ST@astartpbox
+%%%% | Commented out by bollu |     \let\@endpbox=\ST@aendpbox
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \ifx\@table@first@head\undefined
+%%%% | Commented out by bollu |     \let\@@tablehead=\@tablehead
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \let\@@tablehead=\@table@first@head
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \estimate@lineht
+%%%% | Commented out by bollu |   \@calfirstpageht
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \def\supertabular{%
+%%%% | Commented out by bollu |   \@ifnextchar[{\@supertabular}%]
+%%%% | Commented out by bollu |                {\@supertabular[]}}
+%%%% | Commented out by bollu | \def\@supertabular[#1]#2{%
+%%%% | Commented out by bollu |   \def\ST@tableformat{#2}%
+%%%% | Commented out by bollu |   \ST@trace\tw@{Starting a new supertabular}%
+%%%% | Commented out by bollu |   \global\ST@starfalse
+%%%% | Commented out by bollu |   \x@supertabular
+%%%% | Commented out by bollu |   \expandafter\tabular\expandafter{\ST@tableformat}%
+%%%% | Commented out by bollu |   \@@tablehead}
+%%%% | Commented out by bollu | \@namedef{supertabular*}#1{%
+%%%% | Commented out by bollu |   \@ifnextchar[{\@nameuse{@supertabular*}{#1}}%
+%%%% | Commented out by bollu |                {\@nameuse{@supertabular*}{#1}[]}%]
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \@namedef{@supertabular*}#1[#2]#3{%
+%%%% | Commented out by bollu |   \ST@trace\tw@{Starting a new supertabular*}%
+%%%% | Commented out by bollu |   \def\ST@tableformat{#3}%
+%%%% | Commented out by bollu |   \ST@wd=#1\relax
+%%%% | Commented out by bollu |   \global\ST@startrue
+%%%% | Commented out by bollu |   \x@supertabular
+%%%% | Commented out by bollu |   \expandafter\csname tabular*\expandafter\endcsname
+%%%% | Commented out by bollu |   \expandafter{\expandafter\ST@wd\expandafter}%
+%%%% | Commented out by bollu |   \expandafter{\ST@tableformat}%
+%%%% | Commented out by bollu |   \@@tablehead}%
+%%%% | Commented out by bollu | \def\endsupertabular{%
+%%%% | Commented out by bollu |   \ifx\@table@last@tail\undefined
+%%%% | Commented out by bollu |     \@tabletail
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \@table@last@tail
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \csname endtabular\ifST@star*\fi\endcsname
+%%%% | Commented out by bollu |   \ST@restore
+%%%% | Commented out by bollu |   \if@topcaption
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \@process@tablecaption
+%%%% | Commented out by bollu |     \@topcaptiontrue
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \global\let\\\@oldcr
+%%%% | Commented out by bollu |   \let\@table@first@head\undefined
+%%%% | Commented out by bollu |   \let\@table@last@tail\undefined
+%%%% | Commented out by bollu |   \global\let\@process@tablecaption\relax
+%%%% | Commented out by bollu |   \ST@trace\tw@{Ended a supertabular\ifST@star*\fi}%
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \expandafter\let\csname endsupertabular*\endcsname\endsupertabular
+%%%% | Commented out by bollu | \def\ST@restore{%
+%%%% | Commented out by bollu |   \ifx\undefined\@classix
+%%%% | Commented out by bollu |     \let\@tabularcr\@@tabularcr
+%%%% | Commented out by bollu |     \let\@@startpbox\org@startpbox
+%%%% | Commented out by bollu |     \let\@@endpbox\org@endpbox
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \let\@arraycr\@@tabularcr
+%%%% | Commented out by bollu |     \let\@startpbox\org@startpbox
+%%%% | Commented out by bollu |     \let\@endpbox\org@endpbox
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu | \def\ST@cr{%
+%%%% | Commented out by bollu |   \noalign{%
+%%%% | Commented out by bollu |     \ifnum\ST@pboxht<\ST@lineht
+%%%% | Commented out by bollu |       \global\advance\ST@pageleft -\ST@lineht
+%%%% | Commented out by bollu |     \else
+%%%% | Commented out by bollu |      \ST@trace\thr@@{Added par box with height \the\ST@pboxht}%
+%%%% | Commented out by bollu |       \global\advance\ST@pageleft -\ST@pboxht
+%%%% | Commented out by bollu |       \global\advance\ST@pageleft -0.1\ST@pboxht
+%%%% | Commented out by bollu |       \global\ST@pboxht\z@
+%%%% | Commented out by bollu |     \fi
+%%%% | Commented out by bollu |     \global\advance\ST@pageleft -\ST@toadd
+%%%% | Commented out by bollu |     \global\ST@toadd=\z@
+%%%% | Commented out by bollu |     \ST@trace\thr@@{Space left for tabular: \the\ST@pageleft}%
+%%%% | Commented out by bollu |   }
+%%%% | Commented out by bollu |   \ifnum\ST@pageleft<\ST@tailht
+%%%% | Commented out by bollu |     \ST@newpage
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \noalign{\global\let\ST@next\@empty}%
+%%%% | Commented out by bollu |   \fi\ST@next}
+%%%% | Commented out by bollu | \def\ST@newpage{%
+%%%% | Commented out by bollu |   \noalign{\ST@trace\tw@{Starting new page, writing tail}}%
+%%%% | Commented out by bollu |   \@tabletail
+%%%% | Commented out by bollu |   \ifST@star
+%%%% | Commented out by bollu |     \csname endtabular*\endcsname
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \endtabular
+%%%% | Commented out by bollu |   \fi
+%%%% | Commented out by bollu |   \newpage\@calnextpageht
+%%%% | Commented out by bollu |   \let\ST@next\@tablehead
+%%%% | Commented out by bollu |   \ST@trace\tw@{writing head}%
+%%%% | Commented out by bollu |   \ifST@star
+%%%% | Commented out by bollu |     \expandafter\csname tabular*\expandafter\endcsname
+%%%% | Commented out by bollu |     \expandafter{\expandafter\ST@wd\expandafter}%
+%%%% | Commented out by bollu |     \expandafter{\ST@tableformat}%
+%%%% | Commented out by bollu |   \else
+%%%% | Commented out by bollu |     \expandafter\tabular\expandafter{\ST@tableformat}%
+%%%% | Commented out by bollu |   \fi}
+%%%% | Commented out by bollu | \endinput
+%%%% | Commented out by bollu | %%
+%%%% | Commented out by bollu | %% End of file `supertabular.sty'.
