@@ -13,7 +13,7 @@
 \usepackage{graphicx}
 % \usepackage{multirow}
 % \usepackage{algorithm2e}
-
+\usepackage{listing}
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{physics}
@@ -112,7 +112,11 @@
 % ACKNOWLEDGEMENTS PAGE
 \chapter*{Acknowledgments}
 \label{ch:ack}
-ACK
+\texttt{\#harmless}, \texttt{\#math}, ness, celina, mona, dad, mum, ciel, bob,
+arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh, 
+harmless, davean, topos, z-module, drazak, dalcde, antonfire, PlanckWalk, Millennial, sure,
+Vyn, GodotMisogi. uday, arnaud, tobias, animesh, mahathi, bharti, bharath, athreya, shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia.
+
 
 %% ABSTRACT PAGE
 \chapter*{Abstract}
@@ -126,13 +130,37 @@ ABS
 
 \chapter{Introduction}
 
+This thesis was born out of a single question, when I learnt of \texttt{word2vec}, an unsupervised learning algorithm to extract word embeddings from large datasets.
+
+\begin{quote}
+Why are words vectors?
+\end{quote}
+
+The question, asked with the haziest understanding of syntax and semantics,
+began a line of inquiry which led to a great deal of discussion, 
+conjecture, and eventually, insight. This thesis attempts to 
+disambiguate the term ``vector representations'', and carve out a taxonomy
+for meaning representation. Concretely, this thesis answers
+the following questions:
+
+\begin{itemize}
+	\item How does \texttt{word2vec} \emph{really} work, including an investigation of all the tricks that are used in its reference C implementation and the bearings they have on the quality of the generated word vectors.
+	\item What mathematical meaning does \texttt{word2vec} capture? In particular, how much of the mathematical structure of a vector is exploited by \texttt{word2vec} embeddings?
+	\item What is a general theory of meaning that can be adapted to statistical machine learning? Why is abstract interpretation a potential candidate?
+	\item How can Abstract Interpretation be retrofitted into the  \texttt{word2vec} unsupervised training regime?
+	\item What is the largest setting where \texttt{word2vec} can be implemented?
+\end{itemize}
+
+
+
+\chapter{Are words vectors? A deep dive into \wtov }
+
 The popular opinion thanks to a confluence of distributional semantics
 and machine learning is that systems such as \texttt{word2vec} learn
-''vector representations''. This seemed to me to be confusing the encoding
-the object (as a tuple of real numbers) with the algebraic structure
-(that of a vector space). Hence, the modest goal of the thesis is an
-attempt to disambiguate the term ``vector representations''.
-
+''vector representations''. It is hard to quantify what a vector representation \emph{is}.
+In particular, it conflates the encoding of the learnt representation
+(as a tuple of real numbers) with mathematical structure
+(a vector space). 
 Towards this end, we begin by surveying the algebraic structure of a vector
 space, and what it would really mean if words were vectors. We then provide
 a short explanation of the training mechanism of \texttt{word2vec}, and
@@ -153,7 +181,6 @@ explained through the dual lenses of linguistics and abstract algebra. We hope
 that this blend of perspectives provides fresh insight into representation
 learning for NLP.
 
-\chapter{Are words vectors? A deep dive into \wtov }
 
 \section{\wtov}
 
@@ -161,7 +188,7 @@ The core training loop of \wtov (trained using negative sampling, in skip-gram
 mode) involves attempting to learn \emph{two} representations for a given word,
 called as the positive representation and the negative representation.
 
-% \begin{minted}{py}
+% \begin{lstlisting}[language=Python]
 % def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
 %     out :float, target: float):
 %     # gradient descent on loss (target - out)^2 where
@@ -186,7 +213,7 @@ called as the positive representation and the negative representation.
 %         out = np.dot(x, w)
 %         learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
 %     
-% \end{minted}
+% \end{lstlisting}
 
 
 \section{Testing regime}
