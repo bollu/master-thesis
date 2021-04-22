@@ -264,7 +264,7 @@ Another array called \texttt{syn1neg} holds the vector of a word when it occurs
 as a \emph{context word}. This is zero initialized.
 
 \begin{minted}{cpp}
-https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L365
+// tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L365
 for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
 syn1neg[a * layer1_size + b] = 0;
 \end{minted}
@@ -310,7 +310,7 @@ for (d = 0; d < negative + 1; d++) {
 	for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
 }
 // Finally, after all samples, update syn1 from neu1e
-https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
+// tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
 // Learn weights input -> hidden
 for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 \end{minted}
@@ -326,12 +326,6 @@ focus word randomly. The solution is to set all negative samples to zero, so tha
 of another vector. This also explains GloVe's radical choice of having a separate vector
 for the negative context --- they re-used \wtov's  scheme, re-interpreting
 the negative vector and positive vector as accounting for different aspects of co-occurence.
-
-\subsection{Bugs}
-
-- bug in the sigmoid indexing.
-- bug in the document indexing.
-
 
 
 \section{The real \wtov algorithm}
@@ -389,40 +383,12 @@ in the paper and countless blog posts on the internet is as follows:
 
 
 
-
 \section{Conclusion}
 
 We learn that the \texttt{word2vec} training regime creates two sets of vectors, henceforth
 referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are the ones that are left at the end. The training regime \emph{does not use} gradient descent. Rather, a style of perceptron based update is used. 
 
-\chapter{Montague Semantics: Interpretations}
 
-Montague grammar is an approach to natural language semantics, named after
-American logician Richard Montague. The Montague grammar is based on
-mathematical logic, especially higher-order predicate logic and lambda
-calculus, and makes use of the notions of intensional logic, via Kripke models.
-Montague pioneered this approach in the 1960s and early 1970s.
-
-Montague held the view that natural language was a formal language very much in the same sense as predicate logic was a formal language. As such, in Montague’s view, the study of natural language belonged to mathematics, and not to psychology (Thomason 1974, 2). Montague formulated his views: % TODO, cute SEP
-
-
-\begin{quote}
-	There is in my opinion no important theoretical difference between natural languages and the artificial languages of logicians; indeed I consider it possible to comprehend the syntax and semantics of both kinds of languages with a single natural and mathematically precise theory. (Montague 1970c, 373)
-\end{quote}
-
-Montague semantics is not interested in a particular situation (e.g. the real world) but in semantical properties of language. When formalizing such properties, reference to a class of models has to be made, and therefore the interpretation of a language will be defined with respect to a set of (suitable) models. For example, in the introduction we mentioned that the characterization of entailment was a basic goal of semantics. That notion is defined as follows. Sentence 
-
-
-An example: Suppose that the meaning of walk, or sing is (for each model in the class) defined as the set of individuals who share respectively the property of (being an individual that is) walking or the property of (being an individual that is) singing. By appealing to the principle of compositionality, if there is a rule that combines these two expressions to the verb phrase walk and sing, there must be a corresponding rule that determines the meaning of that verb phrase. In this case, the resulting meaning will be the intersection of the two sets. Consequently, in all models the meaning of walk and sing is a subset of the meaning of walk. Furthermore, we have a rule that combines the noun phrase John with a verb phrase. The resulting sentence John walks and sings means that John is an element of the set denoted by the verb phrase. Note that in any model in which John is element of the intersection of walkers and singers, he is an element of the set of walkers. So John walks and sings entails John walks.
-
-In Montague 1973, the scope ambiguity is dealt with by providing for the sentence two different derivations. (Non-determinism). On the reading that every has wide scope, the sentence is produced from every man and loves a woman. On the reading that only one woman is involved, the sentence is obtained from Every man loves him
-is an artifact, a placeholder, or, one might say, a syntactic variable. A special kind of rule, called a ‘quantifying-in rule’, will replace this him
-by a noun phrase or a pronoun (in case there are more occurrences of this placeholder). The placeholder corresponds with a logical variable that becomes bound by the semantic counterpart of the quantifying-in rule. For the sentence under discussion, the effect of the application of the quantifying-in rule to a woman and Every man loves him.
-
-For Montague the principle of compositionality did not seem to be a subject of deliberation or discussion, but the only way to proceed. In effect he made compositionality the core part of his ‘theory of meaning’ (Montague 1970c, 378), which was later summed up in the slogan: ‘Syntax is an algebra, semantics is an algebra, and meaning is a homomorphism between them’ (Janssen 1983, 25). Yet although Montague used the term ‘Frege’s functionality principle’ for the way in which extension and intension are compositionally intertwined, he did not have a special term for compositionality in general. Later authors, who identified the Principle of Compositionality as a cornerstone of Montague’s work, also used the term ‘Frege’s Principle’ (originating with Cresswell 1973, 75); Thomason 1980 is an early source for the term ‘compositional’.
-
-
-% \part{title}
 
 \chapter{Abstract Interpretation: Semantics}
 
@@ -489,7 +455,36 @@ A partial order $L$ is .. A monotone map is a ... A meet semi-lattice is.. A sem
 Montague semantics wishes to abstract natural language with sets. We believe that what is really going on is that we have a sequence of abstract interpretations, first from the uncomputable semantics of natural language that of the uncomputable montagueian semantics. We conjecture that systems such as \texttt{word2vec} themselves compute another layer of abstract interpretation. We attempt to extract evidence for this, and come up non-empty-handed.
 
 
-\chapter{Confluence: Fuzzy set representations}
+\subsection{Montague semantics}
+\chapter{Montague Semantics: Interpretations}
+
+Montague grammar is an approach to natural language semantics, named after
+American logician Richard Montague. The Montague grammar is based on
+mathematical logic, especially higher-order predicate logic and lambda
+calculus, and makes use of the notions of intensional logic, via Kripke models.
+Montague pioneered this approach in the 1960s and early 1970s.
+
+Montague held the view that natural language was a formal language very much in the same sense as predicate logic was a formal language. As such, in Montague’s view, the study of natural language belonged to mathematics, and not to psychology (Thomason 1974, 2). Montague formulated his views: % TODO, cute SEP
+
+
+\begin{quote}
+	There is in my opinion no important theoretical difference between natural languages and the artificial languages of logicians; indeed I consider it possible to comprehend the syntax and semantics of both kinds of languages with a single natural and mathematically precise theory. (Montague 1970c, 373)
+\end{quote}
+
+Montague semantics is not interested in a particular situation (e.g. the real world) but in semantical properties of language. When formalizing such properties, reference to a class of models has to be made, and therefore the interpretation of a language will be defined with respect to a set of (suitable) models. For example, in the introduction we mentioned that the characterization of entailment was a basic goal of semantics. That notion is defined as follows. Sentence 
+
+
+An example: Suppose that the meaning of walk, or sing is (for each model in the class) defined as the set of individuals who share respectively the property of (being an individual that is) walking or the property of (being an individual that is) singing. By appealing to the principle of compositionality, if there is a rule that combines these two expressions to the verb phrase walk and sing, there must be a corresponding rule that determines the meaning of that verb phrase. In this case, the resulting meaning will be the intersection of the two sets. Consequently, in all models the meaning of walk and sing is a subset of the meaning of walk. Furthermore, we have a rule that combines the noun phrase John with a verb phrase. The resulting sentence John walks and sings means that John is an element of the set denoted by the verb phrase. Note that in any model in which John is element of the intersection of walkers and singers, he is an element of the set of walkers. So John walks and sings entails John walks.
+
+In Montague 1973, the scope ambiguity is dealt with by providing for the sentence two different derivations. (Non-determinism). On the reading that every has wide scope, the sentence is produced from every man and loves a woman. On the reading that only one woman is involved, the sentence is obtained from Every man loves him
+is an artifact, a placeholder, or, one might say, a syntactic variable. A special kind of rule, called a ‘quantifying-in rule’, will replace this him
+by a noun phrase or a pronoun (in case there are more occurrences of this placeholder). The placeholder corresponds with a logical variable that becomes bound by the semantic counterpart of the quantifying-in rule. For the sentence under discussion, the effect of the application of the quantifying-in rule to a woman and Every man loves him.
+
+For Montague the principle of compositionality did not seem to be a subject of deliberation or discussion, but the only way to proceed. In effect he made compositionality the core part of his ‘theory of meaning’ (Montague 1970c, 378), which was later summed up in the slogan: ‘Syntax is an algebra, semantics is an algebra, and meaning is a homomorphism between them’ (Janssen 1983, 25). Yet although Montague used the term ‘Frege’s functionality principle’ for the way in which extension and intension are compositionally intertwined, he did not have a special term for compositionality in general. Later authors, who identified the Principle of Compositionality as a cornerstone of Montague’s work, also used the term ‘Frege’s Principle’ (originating with Cresswell 1973, 75); Thomason 1980 is an early source for the term ‘compositional’.
+
+
+
+\chapter{Fuzzy set representations}
 
 We provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
