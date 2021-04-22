@@ -30,6 +30,7 @@
 \usepackage{booktabs}
 % \usepackage{float} % use for H with figures, which forces figure locations. 
 
+
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 \newcommand{\N}{\ensuremath{\mathbb{N}}}
 \newcommand{\coT}{\ensuremath{T^*}}
@@ -95,7 +96,7 @@
 %% COPYRIGHT PAGE
 \newpage
 \thispagestyle{empty}
-\renewcommand{\thesisdedication}{{\large Copyright \copyright~~NAME, YEAR\\}{\large All Rights Reserved\\}}
+\renewcommand{\thesisdedication}{{\large Copyright \copyright~~Siddharth Bhat, 2021\\}{\large All Rights Reserved\\}}
 \thesisdedicationpage
 
 %% CERTIFICATE PAGE
@@ -122,12 +123,15 @@ Vyn, GodotMisogi. uday, arnaud, tobias, animesh, mahathi, bharti, bharath, athre
 %% ABSTRACT PAGE
 \chapter*{Abstract}
 \label{ch:abstract}
-ABS
+With the growing use of natural language processing tools (NLP) in wide-ranging applications, it becomes imperative to understand why NLP models are as successful as they are. In particular, it is essential to understand what mathematical structures precisely underpin these models. To investigate the mathematical models of NLP knowledge representations, we focus on the setting of unsupervised word embeddings, due to the presence of robust models, and a seemingly simple mathematical structure. We find that even in this restricted setting, there are subtle, cross-cutting concerns as to how the model learns --- beginning from the high level description of learning a ``vector'', to the low level details of implementations of these algorithms, including initialization and gradient calculation. We build a theory of knowledge representations for word embeddings, inspired by two seemingly unrelated ideas (a) Montague semantics, a linguistic theory of meaning which ascribes set-theoretic meaning to language, and (b) abstract interpretation, a  mathematical theory of creating computable approximations to uncomputable semantics of programs. We find that syntheszing these ideas provide a way to extract fuzzy-set embeddings from existing word-embeddings, which provides the full range of set-theoretic operations (union, intersection, and others), along with probabilistic operations (KL divergence, entropy) which are used to perform polysemy detection and word sense disambiguation, while retaining performance on regular word embeddings tasks such as similarity. Next, we turn our attention to generalizing the word embedding training regime by extracting the geometry which is currently held implicit. This leads us to formulate a general theory of learning word representations on Lie groups. In summary, we provide insight into the mathematical structure of word representations. 
+
+
 
 \tableofcontents
 \listoffigures
 \listoftables
 %--------------------------------------------------------
+\pagenumbering{arabic}
 
 \chapter{Introduction}
 
@@ -1215,8 +1219,8 @@ of both rank by frequency, and its correlation with similarity of words with a
 nominal compound. Despite this, we show a higher Spearman correlation
 coefficient at 200 dimensions as well, as we capture non-linear relations.
 
-\subsection{Dimensionality Analysis and Feature Representations} \label{ssec:
-analysis}
+\subsection{Dimensionality Analysis and Feature Representations}
+\label{ssec: analysis}
 
 In this subsection, we provide some interpretation of the results above, and
 examine the effect of scaling dimensions to the feature representation. As seen
@@ -1502,7 +1506,11 @@ provide operations for manipulating subspaces. How can one learn meaning represe
 % Recommended 'Related Publication'
 \chapter*{Related Publications}
 \label{ch:relatedPubs}
-\input{relatedPapers.tex}
+% \input{relatedPapers.tex}
+
+
+Word Embeddings as Tuples of Feature Probabilities: Siddharth Bhat, Alok Debnath, Souvik Banerjee, Manish Shrivastava - Proceedings of the 5th Workshop on Representation Learning for NLP, 2020
+
 
 %--------------------------------------------------------
 
