@@ -30,6 +30,12 @@
 \usepackage{booktabs}
 % \usepackage{float} % use for H with figures, which forces figure locations. 
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,fill=pairedOneLightBlue,inner sep=1pt] (char) {#1};}}
+
 \usepackage[sc,osf]{mathpazo}   % With old-style figures and real smallcaps.
 \linespread{1.025}              % Palatino leads a little more leading
 % Euler for math and numbers
@@ -37,8 +43,8 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{inconsolata}
-
-
+\usepackage{lettrine}
+\usepackage{yfonts}
 
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 \newcommand{\N}{\ensuremath{\mathbb{N}}}
@@ -67,14 +73,26 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{minted}
+
 \usepackage{hyperref}
 \usepackage{cancel}
 % \usepackage{mathtools}
 
+% hyperlink colors
+% https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={red!50!black},
+    urlcolor={red!50!black}
+}
+
+
 %\newcommand{\card}[1]{\ensuremath{\left| #1 \right|}}
 \newcommand{\wtov}{\texttt{word2vec }}
-\newcommand{\citep}[1]{\texttt{cite: #1}}
-\newcommand{\citet}[1]{\texttt{cite: #1}}
+\newcommand{\citep}[1]{\cite{#1}}
+\newcommand{\citet}[1]{\cite{#1}}
 \newcommand{\R}{\ensuremath{\mathbb R}}
 
 \def\qed{$\Box$}
@@ -89,6 +107,10 @@
 
 
 \graphicspath{{figures/}{./}} % To include images in other directories
+
+% https://tex.stackexchange.com/questions/132849/how-can-i-change-the-font-size-of-the-number-in-minted-environment
+\renewcommand{\theFancyVerbLine}{\sffamily \textcolor[rgb]{0.2,0.2,0.2}{\small \oldstylenums{\arabic{FancyVerbLine}}}}
+
 
 \long\def\symbolfootnote[#1]#2{\begingroup%
 \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
@@ -131,7 +153,31 @@ harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWal
 %% ABSTRACT PAGE
 \chapter*{Abstract}
 \label{ch:abstract}
-With the growing use of natural language processing tools (NLP) in wide-ranging applications, it becomes imperative to understand why NLP models are as successful as they are. In particular, it is essential to understand what mathematical structures precisely underpin these models. To investigate the mathematical models of NLP knowledge representations, we focus on the setting of unsupervised word embeddings, due to the presence of robust models, and a seemingly simple mathematical structure. We find that even in this restricted setting, there are subtle, cross-cutting concerns as to how the model learns --- beginning from the high level description of learning a ``vector'', to the low level details of implementations of these algorithms, including initialization and gradient calculation. We build a theory of knowledge representations for word embeddings, inspired by two seemingly unrelated ideas (a) Montague semantics, a linguistic theory of meaning which ascribes set-theoretic meaning to language, and (b) abstract interpretation, a  mathematical theory of creating computable approximations to uncomputable semantics of programs. We find that syntheszing these ideas provide a way to extract fuzzy-set embeddings from existing word-embeddings, which provides the full range of set-theoretic operations (union, intersection, and others), along with probabilistic operations (KL divergence, entropy) which are used to perform polysemy detection and word sense disambiguation, while retaining performance on regular word embeddings tasks such as similarity. Next, we turn our attention to generalizing the word embedding training regime by extracting the geometry which is currently held implicit. This leads us to formulate a general theory of learning word representations on Lie groups. In summary, we provide insight into the mathematical structure of word representations. 
+With the growing use of natural language processing tools (NLP) in
+wide-ranging applications, it becomes imperative to understand why NLP models
+are as successful as they are. In particular, it is essential to understand
+what mathematical structures precisely underpin these models. To investigate
+the mathematical models of NLP knowledge representations, we focus on the
+setting of unsupervised word embeddings, due to the presence of robust models,
+and a seemingly simple mathematical structure. We find that even in this
+restricted setting, there are subtle, cross-cutting concerns as to how the
+model learns --- beginning from the high level description of learning a
+``vector'', to the low level details of implementations of these algorithms,
+including initialization and gradient calculation. We build a theory of
+knowledge representations for word embeddings, inspired by two seemingly
+unrelated ideas (a) Montague semantics, a linguistic theory of meaning which
+ascribes set-theoretic meaning to language, and (b) abstract interpretation, a
+mathematical theory of creating computable approximations to uncomputable
+semantics of programs. We find that syntheszing these ideas provide a way to
+extract fuzzy-set embeddings from existing word-embeddings, which provides the
+full range of set-theoretic operations (union, intersection, and others), along
+with probabilistic operations (KL divergence, entropy) which are used to
+perform polysemy detection and word sense disambiguation, while retaining
+performance on regular word embeddings tasks such as similarity. Next, we turn
+our attention to generalizing the word embedding training regime by extracting
+the geometry which is currently held implicit. This leads us to formulate a
+general theory of learning word representations on Lie groups. In summary, we
+provide insight into the mathematical structure of word representations. 
 
 
 
@@ -144,73 +190,115 @@ With the growing use of natural language processing tools (NLP) in wide-ranging 
 \chapter{Introduction}
 
 
-NLP has, since its inception, required techniques to extract semantic information from raw corpora with little to no supervision. Some early techniques to perform this were systems which used linear-algebraic ideas such as SVD. This reliance on linear algebra made these algorithms amenable to mathematical analysis. For example, 
-Latent semantic analysis (LSA) is a technique in natural language processing, in particular distributional semantics, of analyzing relationships between a set of documents and the terms they contain by producing a set of concepts related to the documents and terms. LSA assumes that words that are close in meaning will occur in similar pieces of text (the distributional hypothesis). A matrix containing word counts per document (rows represent unique words and columns represent each document) is constructed from a large piece of text and a mathematical technique called singular value decomposition (SVD) is used to reduce the number of rows while preserving the similarity structure among columns. Documents are then compared by taking the cosine of the angle between the two vectors (or the dot product between the normalizations of the two vectors) formed by any two columns. Values close to 1 represent very similar documents while values close to 0 represent very dissimilar documents.1
+\textinit{N}atural language processing has, since its inception, required
+techniques to extract semantic information from raw corpora with little to no
+supervision. Some early techniques to perform this were systems which used
+linear-algebraic ideas such as SVD. This reliance on linear algebra made these
+algorithms amenable to mathematical analysis. For example, Latent semantic
+analysis (LSA) is a technique in natural language processing, in particular
+distributional semantics, of analyzing relationships between a set of documents
+and the terms they contain by producing a set of concepts related to the
+documents and terms. LSA assumes that words that are close in meaning will
+occur in similar pieces of text (the distributional hypothesis). A matrix
+containing word counts per document (rows represent unique words and columns
+represent each document) is constructed from a large piece of text and a
+mathematical technique called singular value decomposition (SVD) is used to
+reduce the number of rows while preserving the similarity structure among
+columns. Documents are then compared by taking the cosine of the angle between
+the two vectors (or the dot product between the normalizations of the two
+vectors) formed by any two columns. Values close to 1 represent very similar
+documents while values close to 0 represent very dissimilar documents.1
 
 
 
-\texttt{Word2vec} is a technique to create unsupervised word embeddings for NLP from unstructured data. The word2vec algorithm uses a neural network model to learn word associations from a large corpus of text. Once trained, such a model can detect synonymous words or suggest additional words for a partial sentence. As befitting the name, \texttt{word2vec} represents each distinct word with a particular list of numbers called a vector. The vectors are chosen carefully such that a simple mathematical function (the cosine similarity between the vectors) indicates the level of semantic similarity between the words represented by those vectors.
+\texttt{Word2vec} is a technique to create unsupervised word embeddings for NLP
+from unstructured data. The word2vec algorithm uses a neural network model to
+learn word associations from a large corpus of text. Once trained, such a model
+can detect synonymous words or suggest additional words for a partial sentence.
+As befitting the name, \texttt{word2vec} represents each distinct word with a
+particular list of numbers called a vector. The vectors are chosen carefully
+such that a simple mathematical function (the cosine similarity between the
+vectors) indicates the level of semantic similarity between the words
+represented by those vectors.
 
-A common explanation given fo the success of \texttt{word2vec} is The Distributional Hypothesis, which states that words that occur in the same contexts tend to have similar meanings (Harris, 1954). The underlying idea that "a word is characterized by the company it keeps" was popularized by Firth (1957), and it is implicit in Weaver's (1955) discussion of word sense disambiguation (originally written as a memorandum, in 1949). The Distributional Hypothesis is the basis for Statistical Semantics. Although the Distributional Hypothesis originated in Linguistics, it is now receiving attention in Cognitive Science (McDonald and Ramscar, 2001). The origin and theoretical basis of the Distributional Hypothesis is discussed by Sahlgren (2008).
-
-
-
-
+A common explanation given fo the success of \texttt{word2vec} is The
+Distributional Hypothesis, which states that words that occur in the same
+contexts tend to have similar meanings (Harris, 1954). The underlying idea that
+"a word is characterized by the company it keeps" was popularized by Firth
+(1957), and it is implicit in Weaver's (1955) discussion of word sense
+disambiguation (originally written as a memorandum, in 1949). The
+Distributional Hypothesis is the basis for Statistical Semantics. Although the
+Distributional Hypothesis originated in Linguistics, it is now receiving
+attention in Cognitive Science (McDonald and Ramscar, 2001). The origin and
+theoretical basis of the Distributional Hypothesis is discussed by Sahlgren
+(2008).
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
-is as successful as it is. We aim to provide an explanation in two ways. First, we attempt to begin with a \emph{linguistic} theory of meaning, with that of Montague semantics. From here, we borrow the tools of \emph{Abstract Interpretation}, a technique development in computer science for program analysis, which is used to approximate the (formal) meaning/semantics of a program. From this launching point, we ..
+is as successful as it is. We aim to provide an explanation in two ways. First,
+we attempt to begin with a \emph{linguistic} theory of meaning, with that of
+Montague semantics. From here, we borrow the tools of \emph{Abstract
+Interpretation}, a technique development in computer science for program
+analysis, which is used to approximate the (formal) meaning/semantics of a
+program. From this launching point, we ..
 
-Furthermore, we attempt to understand why \emph{vectors} are critical to word embeddings, and if possible, whether we can generalize the notion of a vector embedding to arbitrary spaces.
+Furthermore, we attempt to understand why \emph{vectors} are critical to word
+embeddings, and if possible, whether we can generalize the notion of a vector
+embedding to arbitrary spaces.
 
 Concretely, we tackle the following questions:
 
 \begin{enumerate}
-	\item How does \texttt{word2vec} \emph{really} work, including an investigation of all the tricks that are used in its reference C implementation and the bearings they have on the quality of the generated word vectors.
-	\item What is a general theory of meaning that can be adapted to statistical machine learning? Why is abstract interpretation a potential candidate?
-	\item How can Abstract Interpretation be retrofitted into the  \texttt{word2vec} unsupervised training regime?
-	\item What is the largest setting where \texttt{word2vec} can be implemented? In particular, how much of the mathematical structure of a vector is exploited by \texttt{word2vec} embeddings, and by how much can we generalize this training regime?
+    \item How does \texttt{word2vec} \emph{really} work, including an
+        investigation of all the tricks that are used in its reference C
+        implementation and the bearings they have on the quality of the
+        generated word vectors.
+    \item What is a general theory of meaning that can be adapted to
+        statistical machine learning? Why is abstract interpretation a
+        potential candidate?
+    \item How can Abstract Interpretation be retrofitted into the
+        \texttt{word2vec} unsupervised training regime?
+    \item What is the largest setting where \texttt{word2vec} can be
+        implemented? In particular, how much of the mathematical structure of a
+        vector is exploited by \texttt{word2vec} embeddings, and by how much
+        can we generalize this training regime?
 \end{enumerate}
 
 
 
-\chapter{A deep dive into \wtov }
+\chapter{A deep dive into \wtov}
 
-The popular opinion thanks to a confluence of distributional semantics
-and machine learning is that systems such as \texttt{word2vec} learn
-''vector representations''. It is hard to quantify what a vector representation \emph{is}.
-In particular, it conflates the encoding of the learnt representation
-(as a tuple of real numbers) with mathematical structure
-(a vector space). Towards this end, we begin by surveying the algebraic structure of a vector
-space, and what it would really mean if words were vectors. We then provide
-a short explanation of the training mechanism of \texttt{word2vec}, and
-discuss why the embeddings that are learnt by systems it and its ilk do not
-deserve to be called vectors. 
-
-Thereafter, we take a step back and start from scratch; what ought the axioms
-be? Starting from a purely linguistic approach, we are led to conjecture, following
-the seminal work of montague, that a set-based representation ought to be
-the best representation possible.
-
-Following an empirical approach, we attempt to generalize the success
-of \wtov and the newly developed theory of contrastive losses, where we conjecture
-that a Lie group representation ought to be the best representation possible.
-
-We report on experiments performed on both of these representations, always
-explained through the dual lenses of linguistics and abstract algebra. We hope
-that this blend of perspectives provides fresh insight into representation
-learning for NLP.
+\textinit{T}he popular opinion thanks to a confluence of distributional
+semantics and machine learning is that systems such as \texttt{word2vec} learn
+''vector representations''. It is hard to quantify what a vector representation
+\emph{is}.  In particular, it conflates the encoding of the learnt
+representation (as a tuple of real numbers) with mathematical structure (a
+vector space). We begin by surveying the popular explanation of \texttt{word2vec}
+like systems. We then critique this explanation by comparing the explanation to 
+the source code. Armed with detailed knowledge of the training mechanism,
+we lay out open questions in the design of \texttt{word2vec}. To answer these
+questions, we explain the mathematical theory of abstract interpretation and
+connect this to montague semantics in \autoref{chapter:abstract-interpretation},
+and we then use this to build fuzzy set representations in
+\autoref{chapter:abstract-interpretation}.
 
 \section{\wtov in the literature}
-\begin{minted}{cpp}
+
+\begin{figure}[htb]
+\begin{minted}[linenos]{cpp}
+Maintain a word -> vector mapping.
 while(1) {
-	1. vf = vector of focus word
-	2. vc = vector of context word
-	3. train such that (vc . vf = 1)
-	4. for(0 <= i < negative samples):
-	vneg = vector of word *not* in context
-	train such that (vf . vneg = 0)
+  vf = vector corresponding to focus word
+  vc = vector corresponding to context word
+  train such that (vc . vf = 1)
+  for(0 <= i < negative samples):
+  vneg = vector of word *not* in context
+  train such that (vf . vneg = 0)
 }
 \end{minted}
+\caption{word2vec:  high-level\emph{incorrect} pseudocode. This is the popular
+    explanation of available on Wikipedia  and the tensorflow page.}
+\label{fig:wrong-w2v-pseudocode}
+\end{figure}
 
 % TODO: fix the wikipedia implementation
 % Indeed, if I google "word2vec skipgram", the results I get are:
@@ -220,17 +308,19 @@ while(1) {
 % 
 % The list goes on. However, __every single one of these implementations is wrong__.
 
+The classic explanation of \texttt{word2vec}, in skip-gram, with negative
+sampling is the pseudocode shown in \autoref{fig:wrong-w2v-pseudocode}. The paper
+is arguably too terse to extract out any pseudocode from, so we thus defer to the
+explanations available on \href{https://en.wikipedia.org/wiki/Word2vec#Training_algorithm}{Wikipedia}
+and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{TensorFlow} re-implementation.
+
 The original \wtov \texttt{C} implementation does not do what's explained above,
 and is drastically different. Most serious users of word embeddings, who use
-embeddings generated from \texttt{word2vec} do one of the following things:
-
-\begin{itemize}
-	\item They invoke the original C implementation directly.
-	\item They invoke the \texttt{gensim} implementation, which is
-	\emph{transliterated} from the C source to the extent that the variables names
-	are the same.
-\end{itemize}
-
+embeddings generated from \texttt{word2vec} either (a) invoke the original C implementation directly,
+or (b) invoke the \texttt{gensim} implementation, which is
+\emph{transliterated} from the C source to the extent that the variables names
+are the same. Hence, we shall read the source code to better understand the training
+scheme of \texttt{word2vec }.
 
 \section{\wtov in the sources}
 
@@ -253,9 +343,9 @@ as a \emph{focus word}. This is random initialized.
 \begin{minted}{cpp}
 // tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L369
 for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
-	next_random = next_random * (unsigned long long)25214903917 + 11;
-	syn0[a * layer1_size + b] =
-	(((next_random & 0xFFFF) / (real)65536) - 0.5) / layer1_size;
+ next_random = next_random * (unsigned long long)25214903917 + 11;
+ syn0[a * layer1_size + b] =
+ (((next_random & 0xFFFF) / (real)65536) - 0.5) / layer1_size;
 }
 \end{minted}
 
@@ -276,37 +366,37 @@ are accumulated in a buffer, and are applied to the focus word
 
 \begin{minted}{cpp}
 for (d = 0; d < negative + 1; d++) {
-	// if we are performing negative sampling, in the 1st iteration,
-	// pick a word from the context and set the dot product target to 1
-	if (d == 0) {
-	  target = word;
-	  label = 1;
-	} else {
-	  // for all other iterations, pick a word randomly and set the dot
-	  //product target to 0
-	  next_random = next_random * (unsigned long long)25214903917 + 11;
-	  target = table[(next_random >> 16) % table_size];
-	  if (target == 0) target = next_random % (vocab_size - 1) + 1;
-	  if (target == word) continue;
-	  label = 0;
-	}
-	l2 = target * layer1_size;
-	f = 0;
-	
-	// find dot product of original vector with negative sample vector
-	// store in f
-	for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
-	
-	// set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
-	if (f > MAX_EXP) g = (label - 1) * alpha;
-	else if (f < -MAX_EXP) g = (label - 0) * alpha;
-	else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
-	
-	// 1. update the vector syn1neg,
-	// 2. DO NOT UPDATE syn0
-	// 3. STORE THE syn0 gradient in a temporary buffer neu1e
-	for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
-	for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
+ // if we are performing negative sampling, in the 1st iteration,
+ // pick a word from the context and set the dot product target to 1
+ if (d == 0) {
+   target = word;
+   label = 1;
+ } else {
+   // for all other iterations, pick a word randomly and set the dot
+   //product target to 0
+   next_random = next_random * (unsigned long long)25214903917 + 11;
+   target = table[(next_random >> 16) % table_size];
+   if (target == 0) target = next_random % (vocab_size - 1) + 1;
+   if (target == word) continue;
+   label = 0;
+ }
+ l2 = target * layer1_size;
+ f = 0;
+ 
+ // find dot product of original vector with negative sample vector
+ // store in f
+ for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
+ 
+ // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
+ if (f > MAX_EXP) g = (label - 1) * alpha;
+ else if (f < -MAX_EXP) g = (label - 0) * alpha;
+ else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
+ 
+ // 1. update the vector syn1neg,
+ // 2. DO NOT UPDATE syn0
+ // 3. STORE THE syn0 gradient in a temporary buffer neu1e
+ for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
+ for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
 }
 // Finally, after all samples, update syn1 from neu1e
 // tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
@@ -314,32 +404,19 @@ for (d = 0; d < negative + 1; d++) {
 for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 \end{minted}
 
-\subsection{Initialization choices}
+\subsection{Summarizing the real \wtov algorithm}
 
-We conjecture that since the negative samples come from all over the text
-and are not really weighed by frequency, you can wind up picking \emph{any word},
-and more often than not, \emph{a word whose vector has not been trained much at all}.
-If this vector actually had a value, then it could move the actually important
-focus word randomly. The solution is to set all negative samples to zero, so that 
-\emph{only vectors that have occurred somewhat frequently} will affect the representation 
-of another vector. This also explains GloVe's radical choice of having a separate vector
-for the negative context --- they re-used \wtov's  scheme, re-interpreting
-the negative vector and positive vector as accounting for different aspects of co-occurence.
-
-
-\section{The real \wtov algorithm}
-
-In this section, we outline what we have learnt from delving into the C sources of \wtov
-to provide high-level pseudocode of the algorithm. We discuss the ramifications of the
-implementation, and the various choices that have been made in the process.
+We outline what we have learnt from delving into the C sources
+of \wtov to provide high-level pseudocode of the algorithm.
 
 \begin{figure}[htb]
 \begin{minted}{python}
 def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
-    out :float, target: float):
-    # gradient descent on loss (target - out)^2 where
-    # out = larr[lix] . rarr[rix ]
-
+  out :float, target: float):
+  # gradient descent on loss (target - out)^2 where
+  gloss = 2 * (target - out)
+  pass
+ 
 def train(corpus):
   poss = np.array((VOCABSIZE, DIMSIZE))
   negs = np.array((VOCABSIZE, DIMSIZE))
@@ -364,11 +441,26 @@ def train(corpus):
 \label{fig:w2v-py-pseudocode} 
 \end{figure}
 
+\subsection{Initialization choices}
+
+We conjecture that since the negative samples come from all over the text and
+are not really weighed by frequency, you can wind up picking \emph{any word},
+and more often than not, \emph{a word whose vector has not been trained much at
+all}.  If this vector actually had a value, then it could move the actually
+important focus word randomly. The solution is to set all negative samples to
+zero, so that \emph{only vectors that have occurred somewhat frequently} will
+affect the representation of another vector. This also explains GloVe's radical
+choice of having a separate vector for the negative context --- they re-used
+\wtov's  scheme, re-interpreting the negative vector and positive vector as
+accounting for different aspects of co-occurence.
+
+
 
 \section{Conclusion}
 
-The output of the training regime are popularly interpreted as vectors. However,
-we augment this discussion by bringing in nuance. In particular, we note that:
+The output of the training regime are popularly interpreted as vectors.
+However, we augment this discussion by bringing in nuance. In particular, we
+note that:
 \begin{itemize}
 \item Scalar multiples of the same vector represent the same concept as per the testing regime.
 \item Vector addition has no clear meaning in the representation.
@@ -379,27 +471,67 @@ we augment this discussion by bringing in nuance. In particular, we note that:
 
 
 We learn that the \texttt{word2vec} training regime creates two sets of vectors, henceforth
-referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are the ones that are left at the end. The training regime \emph{does not use} gradient descent. Rather, a style of perceptron based update is used.  Thus, this leaves the question open as to what is really being learnt by \texttt{word2vec}. We answer this question by hypothesizing that the representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets of word senses}, which we extract from \texttt{word2vec} by using ideas of abstract interpretation. We explain the ideas of abstract interpretation in \autoref{chapter:abstract-interpretation}, and then proceed to use these ideas to build fuzzy set representations in \autoref{chapter:abstract-interpretation}. Finally, we propose an abstract version of the \texttt{word2vec} training algorithm on any choice of Lie group in \autoref{chapter:geometrization}
-
+referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors
+\texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are
+the ones that are left at the end. The training regime \emph{does not use}
+gradient descent. Rather, a style of perceptron based update is used.  Thus,
+this leaves the question open as to what is really being learnt by
+\texttt{word2vec}. We answer this question by hypothesizing that the
+representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets
+of word senses}, which we extract from \texttt{word2vec} by using ideas of
+abstract interpretation. We explain the ideas of abstract interpretation in
+\autoref{chapter:abstract-interpretation}, and then proceed to use these ideas
+to build fuzzy set representations in
+\autoref{chapter:abstract-interpretation}. Finally, we propose an abstract
+version of the \texttt{word2vec} training algorithm on any choice of Lie group
+in \autoref{chapter:geometrization}.
 
 \chapter{Abstract Interpretation: Semantics}
 \label{chapter:abstract-interpretation}
 
-Abstract interpretation is a mathematical theory of approximation of meaning. It was created by Cousout and Cousout to unify many disparate program analysis techniques that had been developed until then. The broad idea is to consider two worlds: a concrete world, which contains "all the meaning", yet which is hopeless non-computable. In parallel, we consider an abstract world, one that is but a mere approximation to the concrete. This loss of information allows the abstract domain be \emph{computable}, thereby providing the ability to
-approximate concrete meaning. These two worlds are enriched with the structure of a \emph{lattice}, which allows the conjunction and disjunction of meaning; Disjunction to combine facts from disparate sources, such as the \texttt{then} and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )} and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}. 
+\textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
+It was created by Cousout and Cousout to unify many disparate program analysis
+techniques that had been developed until then. The broad idea is to consider
+two worlds: a concrete world, which contains "all the meaning", yet which is
+hopeless non-computable. In parallel, we consider an abstract world, one that
+is but a mere approximation to the concrete. This loss of information allows
+the abstract domain be \emph{computable}, thereby providing the ability to
+approximate concrete meaning. These two worlds are enriched with the structure
+of a \emph{lattice}, which allows the conjunction and disjunction of meaning;
+Disjunction to combine facts from disparate sources, such as the \texttt{then}
+and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to
+combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )}
+and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}. 
 
 
-In the most general setting, an abstract interpretation is a manifestation of an \emph{adjunction}, a mathematical structure which captures a notion of "approximate inverses". It will be too much of a detour to explore the vast land of categories and adjunctions. Suffice to say that many of the deep ideas of mathematics arise out of adjunctions. The relationship between algebra and geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO: cite MathOverflow where nullstellensatz is adjunction)
-. 
+In the most general setting, an abstract interpretation is a manifestation of
+an \emph{adjunction}, a mathematical structure which captures a notion of
+"approximate inverses". It will be too much of a detour to explore the vast
+land of categories and adjunctions. Suffice to say that many of the deep ideas
+of mathematics arise out of adjunctions. The relationship between algebra and
+geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO:
+cite MathOverflow where nullstellensatz is adjunction) . 
 
-Here, we shall focus on the special case of an adjunction for lattices, known as a \emph{Galois connection}. We will show how the notion of a Galois connection provides a good notion of "approximation of meaning", and how this directly relates to Montague's ideas of representing semantics as subsets.
+Here, we shall focus on the special case of an adjunction for lattices, known
+as a \emph{Galois connection}. We will show how the notion of a Galois
+connection provides a good notion of "approximation of meaning", and how this
+directly relates to Montague's ideas of representing semantics as subsets.
 
 \section{Abstracting away even-ness}
 
-Consider a notion of "odd" and even", and how we can generalize this notion to arbitrary subsets of the integers.
-Let us consider two lattices, $L \equiv 2^\Z$, the set of subsets of the integers, and $L^\sharp \equiv \{\bot, O, E, \top\}$,
-the odd-even lattice. We define two functions, the abstract function $\alpha: L \rightarrow L^\sharp$ which abstracts away information about subsets of the integers into \texttt{even} and \texttt{odd}, and the concretization function $\gamma: L^\sharp \rightarrow L$ which
-concretizes the idea of even-ness and odd-ness into subsets of the integers. The abstraction function maps the empty subset to $\bot$, since we know nothing about an empty set. It maps sets of integers that are all even to $E$, since such a set is "even". Similarly, it maps set of integers that are all odd to  $O$, since such a set is "odd". For sets that contain a mixture of both even and odd, it maps these top $\top$ to indicate "failure".
+Consider a notion of "odd" and even", and how we can generalize this notion to
+arbitrary subsets of the integers.  Let us consider two lattices, $L \equiv
+2^\Z$, the set of subsets of the integers, and $L^\sharp \equiv \{\bot, O, E,
+\top\}$, the odd-even lattice. We define two functions, the abstract function
+$\alpha: L \rightarrow L^\sharp$ which abstracts away information about subsets
+of the integers into \texttt{even} and \texttt{odd}, and the concretization
+function $\gamma: L^\sharp \rightarrow L$ which concretizes the idea of
+even-ness and odd-ness into subsets of the integers. The abstraction function
+maps the empty subset to $\bot$, since we know nothing about an empty set. It
+maps sets of integers that are all even to $E$, since such a set is "even".
+Similarly, it maps set of integers that are all odd to  $O$, since such a set
+is "odd". For sets that contain a mixture of both even and odd, it maps these
+top $\top$ to indicate "failure".
 
 \[
 	\alpha: 2^\Z\rightarrow L^\sharp; \quad
@@ -412,7 +544,9 @@ concretizes the idea of even-ness and odd-ness into subsets of the integers. The
 	\end{cases}
 \]
 
-The concretization function attempts to make the idea of \emph{even} and \emph{odd} concrete, by sending the concepts $\bot, E, O, \top$ to the sets that best represent them. This is given by:
+The concretization function attempts to make the idea of \emph{even} and
+\emph{odd} concrete, by sending the concepts $\bot, E, O, \top$ to the sets
+that best represent them. This is given by:
 
 \begin{align*}
 &\gamma: L^\sharp \rightarrow 2^\Z \\
@@ -421,7 +555,11 @@ The concretization function attempts to make the idea of \emph{even} and \emph{o
 \gamma(O) \equiv \{ 2k + 1: k \in \Z \}
 \end{align*}
 
-That is, $\gamma$ maps $E$ to the even numbers, $O$ to the set of all odd numbers, $\bot$ to the empty set, and $\top$ to the set of all numbers, since we know nothing. Let's explore the relationship between $\alpha$ and $\gamma$. What happens  when we consider the compositions $\alpha \circ \gamma$ (read as "$\alpha$ after $\gamma$") and $\gamma \circ alpha$?
+That is, $\gamma$ maps $E$ to the even numbers, $O$ to the set of all odd
+numbers, $\bot$ to the empty set, and $\top$ to the set of all numbers, since
+we know nothing. Let's explore the relationship between $\alpha$ and $\gamma$.
+What happens  when we consider the compositions $\alpha \circ \gamma$ (read as
+"$\alpha$ after $\gamma$") and $\gamma \circ alpha$?
 
 This leads us to the following relations:
 
@@ -430,26 +568,71 @@ This leads us to the following relations:
 	&a = (\alpha \circ \gamma)(a) \\
 \end{align*}
 
-These first equation tell us that abstracting a concrete idea $C$ into $\alpha(C)$ and then
-concretizing the abstract idea using $\gamma(\alpha(C))$ creates a loss of information. This captures the intuition that the abstraction is lossy. The second equation tells us that if we start with an abstract object $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$. 
+These first equation tell us that abstracting a concrete idea $C$ into
+$\alpha(C)$ and then concretizing the abstract idea using $\gamma(\alpha(C))$
+creates a loss of information. This captures the intuition that the abstraction
+is lossy. The second equation tells us that if we start with an abstract object
+$a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
+it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
 \section{Interval domain}
 
 
-A second example is that of the interval domain, where we map subsets of the integers $2^\Z$ to \emph{intervals} of the integers. The interval domain is a less trivial domain that showcases conjunction and disjunction. For this purpose, we pursue this example as well.
-Our abstract domain $I \equiv Z \times Z$ represents closed intervals. So an element
-$(1, 3) \in I$ is an abstract representation of the closed interval $[1, 3] = \{ 1, 2, 3 \}$.
-In this case, the abstraction function $\alpha: L \rightarrow L^\sharp$ goes from a set of integers to the smallest interval containing these numbers. For example, $\alpha(\{1, 2, 3\}) = (1, 3)$, and $\alpha(\{1, 5\}) = (1, 3, 5)$. See that the latter is an approximation: we are representing the triple of numbers $1, 3$ and $5$ by the \emph{whole interval} $(1, 5)$, which we think of as $\{1, 2, 3, 4, 5\}$. To make this formal, we define the concretization function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x \in \mathbb Z : l \leq x \leq r \}$.
+A second example is that of the interval domain, where we map subsets of the
+integers $2^\Z$ to \emph{intervals} of the integers. The interval domain is a
+less trivial domain that showcases conjunction and disjunction. For this
+purpose, we pursue this example as well.  Our abstract domain $I \equiv Z
+\times Z$ represents closed intervals. So an element $(1, 3) \in I$ is an
+abstract representation of the closed interval $[1, 3] = \{ 1, 2, 3 \}$.  Similarly,
+the element $(1, 0) \in I$ is an abstract representation of the interval $[1, 0] = \emptyset$,
+as there is no interval whose leftmost point is $1$ and rightmost point is $0$.
+In this case, the abstraction function $\alpha: L \rightarrow L^\sharp$ goes
+from a set of integers to the smallest interval containing these numbers. For
+example, $\alpha(\{1, 2, 3\}) = (1, 3)$, and $\alpha(\{1, 5\}) = (1, 3, 5)$.
+See that the latter is an approximation: we are representing the triple of
+numbers $1, 3$ and $5$ by the \emph{whole interval} $(1, 5)$, which we think of
+as $\{1, 2, 3, 4, 5\}$. To make this formal, we define the concretization
+function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x
+\in \mathbb Z : l \leq x \leq r \}$.
 
 
-TODO: union, intersection: $\alpha(S \cap T) = \alpha(S) \sqcap^\sharp \alpha(T)$, $\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$
+To define \emph{union} and \emph{intersection} of our intervals, we intuitively
+want toe \emph{union} of two intervals to be the smallest interval that \emph{contains} them.
+Similarly, we want the \emph{intersection} of two intervals to be the \emph{largest} interval
+\emph{contained} in both of them. These are given by the definitions:
 
-This shows that the theory of abstract interpretation is compatible with set operations. In particular, the theory of abstract interpretation is capable of abstracting notions of union and intersection. This is exploited when building fuzzy set representations to provide notions of union and intersection for fuzzy sets.
+% https://scicomp.stackexchange.com/a/26260/31940
+\begin{align*}
+    &\sqcap^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcap (l', r') \equiv 
+    \begin{cases}
+        (1, 0) & r < l' \lor r' < l \\
+        (\max (l, l'), \max (r, r')) & \text{otherwise}
+    \end{cases} \\
+    &\sqcup^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcup (l', r') \equiv (\min(l, l'), \max(r, r'))
+\end{align*}
+
+Given two subsets $S, T \subseteq 2^\Z$, $\alpha(S \cap T)$ is the largest interval
+containing elements of both $S$ and $T$. $\alpha(S) \sqcap^\sharp \alpha(T)$ is the
+intersection of intervals containing $S$ and $T$, which is also the largest interval
+containing both $S$ and $T$. Similarly, for union, we have the equation
+$\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$
+
+This shows that the theory of abstract interpretation is compatible with set
+operations. In particular, the theory of abstract interpretation is capable of
+abstracting notions of union and intersection. This is exploited when building
+fuzzy set representations to provide notions of union and intersection for
+fuzzy sets.
 
 \section{The formal viewpoint}
 
-A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L \times L$
-which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b \land b \leq a \implies a = b$, and (c) transitive: $a \leq b \land b \leq c \implies a \leq c$.  A monotone map is a morphism of partial orders. Formally, it is a function $f: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$ such that $a \leq b \implies f(a) \leq^\sharp f(b)$.  A galois connectio between two lattice $(L, \leq)$ and $(L^\sharp, \leq^\sharp)$ is a pair of monotone maps 
-$F: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and $G: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ such that:
+A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
+\times L$ which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b
+\land b \leq a \implies a = b$, and (c) transitive: $a \leq b \land b \leq c
+\implies a \leq c$.  A monotone map is a morphism of partial orders. Formally,
+it is a function $f: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$ such that
+$a \leq b \implies f(a) \leq^\sharp f(b)$.  A galois connectio between two
+lattice $(L, \leq)$ and $(L^\sharp, \leq^\sharp)$ is a pair of monotone maps
+$F: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and
+$G: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ such that:
 
 $$
 a \leq F(b) \iff a \leq G(b)
@@ -462,42 +645,63 @@ a \leq F(G(a)); \quad b \leq G(f(b))
 $$
 
 
-\subsection{Montague semantics}
+\section{Montague semantics}
 
-Montague grammar is an approach to natural language semantics, named after
-American logician Richard Montague. The Montague grammar is based on
-mathematical logic, especially higher-order predicate logic and lambda
-calculus, and makes use of the notions of intensional logic, via Kripke models.
-Montague pioneered this approach in the 1960s and early 1970s.
-
-Montague held the view that natural language was a formal language very much in the same sense as predicate logic was a formal language. As such, in Montague’s view, the study of natural language belonged to mathematics, and not to psychology (Thomason 1974, 2). Montague formulated his views: % TODO, cute SEP
+Montague grammar is an approach to natural language semantics pioneered by
+Richard Montague. The Montague grammar is based on mathematical logic.
+Montague held the view that natural language was a formal language very much in
+the same sense as predicate logic was a formal language. As such, in Montague’s
+view, the study of natural language belonged to mathematics. To quote:
 
 
 \begin{quote}
-	There is in my opinion no important theoretical difference between natural languages and the artificial languages of logicians; indeed I consider it possible to comprehend the syntax and semantics of both kinds of languages with a single natural and mathematically precise theory. (Montague 1970c, 373)
+There is in my opinion no important theoretical difference between natural
+languages and the artificial languages of logicians; indeed I consider it
+possible to comprehend the syntax and semantics of both kinds of languages
+with a single natural and mathematically precise theory. 
 \end{quote}
 
-Montague semantics is not interested in a particular situation (e.g. the real world) but in semantical properties of language. When formalizing such properties, reference to a class of models has to be made, and therefore the interpretation of a language will be defined with respect to a set of (suitable) models. For example, in the introduction we mentioned that the characterization of entailment was a basic goal of semantics. That notion is defined as follows. Sentence 
+Montague semantics is used to describe the semantic properties of language.
+Broadly speaking, a sentence is given meaning by constructing the set of all
+possible worlds where that sentence is true. For a mathematical example, the
+sentence $l \equiv (\forall x \in \Z, x < 2)$ is given meaning by constructing
+the set $S_l \equiv \{ x \in \Z : x < 2 \} = \{1, 0, -1, \dots \}$. A false
+proposition, such that $l' \equiv \forall x \in \Z, x > x + 1$ is given meaning
+by the \emph{empty set} $S_{l'} \equiv \{ x \in \Z: x > x + 1 \} = \emptyset$.
+As a linguistic example, the meaning of walk, or sing is  defined as the set of
+individuals who share respectively the property of walking or the property of
+singining.  By appealing to the principle of compositionality, if there is a
+rule that combines these two expressions to the verb phrase walk and sing,
+there must be a corresponding rule that determines the meaning of that verb
+phrase. In this case, the resulting meaning will be the \emph{intersection} of
+the two sets.  Thus, the meaning of walk and sing is a subset of the meaning of
+walk.
+
+Ambiguity is dealt with by constructing sets which capture \emph{all possible
+meanings}.  For example, the sentence ``Every man loves a woman'' can be ascribed
+multiple meanings: (a) Every man loves the \emph{same} woman (say, Lilith), or
+(b) every man loves a \emph{different} woman. This is dealt with by considering
+the union of \emph{both sets of meanings}. To resolve ambiguity given more
+context, we intersect the union of both sets of meaning with the correct context.
 
 
-An example: Suppose that the meaning of walk, or sing is (for each model in the class) defined as the set of individuals who share respectively the property of (being an individual that is) walking or the property of (being an individual that is) singing. By appealing to the principle of compositionality, if there is a rule that combines these two expressions to the verb phrase walk and sing, there must be a corresponding rule that determines the meaning of that verb phrase. In this case, the resulting meaning will be the intersection of the two sets. Consequently, in all models the meaning of walk and sing is a subset of the meaning of walk. Furthermore, we have a rule that combines the noun phrase John with a verb phrase. The resulting sentence John walks and sings means that John is an element of the set denoted by the verb phrase. Note that in any model in which John is element of the intersection of walkers and singers, he is an element of the set of walkers. So John walks and sings entails John walks.
-
-In Montague 1973, the scope ambiguity is dealt with by providing for the sentence two different derivations. (Non-determinism). On the reading that every has wide scope, the sentence is produced from every man and loves a woman. On the reading that only one woman is involved, the sentence is obtained from Every man loves him
-is an artifact, a placeholder, or, one might say, a syntactic variable. A special kind of rule, called a ‘quantifying-in rule’, will replace this him
-by a noun phrase or a pronoun (in case there are more occurrences of this placeholder). The placeholder corresponds with a logical variable that becomes bound by the semantic counterpart of the quantifying-in rule. For the sentence under discussion, the effect of the application of the quantifying-in rule to a woman and Every man loves him.
-
-For Montague the principle of compositionality did not seem to be a subject of deliberation or discussion, but the only way to proceed. In effect he made compositionality the core part of his ‘theory of meaning’ (Montague 1970c, 378), which was later summed up in the slogan: ‘Syntax is an algebra, semantics is an algebra, and meaning is a homomorphism between them’ (Janssen 1983, 25). Yet although Montague used the term ‘Frege’s functionality principle’ for the way in which extension and intension are compositionally intertwined, he did not have a special term for compositionality in general. Later authors, who identified the Principle of Compositionality as a cornerstone of Montague’s work, also used the term ‘Frege’s Principle’ (originating with Cresswell 1973, 75); Thomason 1980 is an early source for the term ‘compositional’.
-
-
-
-We exploit Montague semantics as the bridge to connect \texttt{word2vec} with abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec} 
-computes a sequence of abstract interpretations, first from the uncomputable semantics of natural language that of the uncomputable montagueian semantics. We conjecture that systems such as \texttt{word2vec} themselves compute another layer of abstract interpretation. We attempt to extract evidence for this, and come up non-empty-handed.
+We see that compositionality arises naturally from set-theoretic semantics; It
+is one of the cruxes of Montague's ``theory of meaning'', which was expanded
+upon by the denotational semantics school of thought, where syntax and
+semantics are algebra, and denotation, or meaning is a morphism between them.
+In our work, we exploit Montague semantics as the bridge to connect \texttt{word2vec} with
+abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec}
+computes a sequence of abstract interpretations, first from the uncomputable
+semantics of natural language that of the uncomputable montagueian semantics.
+We conjecture that systems such as \texttt{word2vec} themselves compute another
+layer of abstract interpretation. We attempt to extract evidence for this, and
+come up non-empty-handed.
 
 
 \chapter{Fuzzy set representations}
 \label{chapter:fuzzy-set-representation}
 
-We provide an alternate perspective on word representations, by
+\textinit{W}e provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
 collection of features. In this reinterpretation, every component of the word
 vector is normalized against all the word vectors in the vocabulary. This idea
@@ -1291,7 +1495,7 @@ feature based representations at lower dimensions for downstream tasks.
 
 
 
-\chapter{The geometry of word represenatations}
+\chapter{Geometry of Word Represenatations}
 \label{chapter:geometrization}
 
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
@@ -1307,24 +1511,17 @@ def analogy(a, b, c):
   return d
 \end{minted}
 
-Embedding words in vector spaces has become the norm for distributional
-lexical semantic representations. While esoteric literature has attempted
-to change the underlying embedding space, the resultant word embeddings are
-specific to a given task or linguistic property. In this paper, we
-hypothesize that word representations need not change the embedding space,
+\textinit{E}mbedding words in vector spaces has become the norm for
+distributional lexical semantic representations. While esoteric literature has
+attempted to change the underlying embedding space, the resultant word
+embeddings are specific to a given task or linguistic property. In this paper,
+we hypothesize that word representations need not change the embedding space,
 rather the object they are embedded as. We address the notion of a context
-vector introduced in the skip-gram, CBOW and GloVe models, and test our
-hypothesis by analyzing word embeddings in the symplectic manifold, where
-each word is represented by a 2-dimensional pair of (position, momentum),
-as proposed by Hamiltonian mechanics. We further generalize our
-representation to embedding words in a Grassmanian space $\mathbf{Gr}(p, V)$,
-where each word is a $p$-dimensional subspace of a larger $n$
-dimensional vector space $V$, and similarity and analogy are computed
-exploiting the Lie theoretic structure of the Grassmanian; its exponential
-map, retraction, and parallel transport of geodesics. Finally, we provide
-rigorous empirical evidence and theoretical insight into our embeddings'
-ability to capture sense information and latent syntactic characteristics,
-improving the expressivity of the overall representation.
+vector introduced in the skip-gram, CBOW and GloVe models, and introduce a
+generalization based on embedding words in an arbitrary Lie group. To
+demonstrate this approach, we embed words into symplectic space, where each
+word is represented by a \emph{tuple} of words, and similarity and analogy are
+computed based on tuples of dot products.
 
 Word representation is a central challenge in natural language processing. The
 terms \emph{word vectors} and \emph{word embeddings} synonymous to one another,
@@ -1336,31 +1533,17 @@ challenges with this assumption of word to vector have been based around
 resolving polysemy and the treatment of function words, to which the classical
 answer has been extracting and using contextual information. 
 
-% Esoteric literature has motivated the modification of the vector space to a
-% different mathematical object, either for the sake of task specific
-% interpretability, or for enforcing the encoding of linguistic information
-% based on human-created resources. However, these representations suffer from
-% issues in scalability and generalization, therefore the interpretability
-% afforded by these embeddings does not transport when replaced by a different
-% task, or the need for a specific natural language ontologies, which are time
-% and effort-intensive to create and use.
-
-
 \subsection{The blessing and curse of $\mathbb{R}^n$}
 
-Let us consider the fundamental operations performed with \wtov:
-
-\begin{itemize}
-\item Similarity: Given two words, find how similar they are in meaning. This is
-     expressed as a dot product between the two word vectors.
-\item Analogy: Given three words representing a sense of analogy \texttt{(king : man :: woman)},
-      find the unknown word \texttt{x} which represents the analogy
-      \texttt{king : man :: woman : x}. This is computed as $x \equiv \texttt{man} - \texttt{king} + \texttt{woman}$.
-\end{itemize}
-
-Let us see how we use the vector space structure for these operations.
-For similarity, we use the dot product for a notion of similarity. For 
-analogy, we use the vectorial addition and subtraction operations.
+The fundamental operations performed with \wtov are (1)
+\emph{Similarity}: Given two words, find how similar they are in meaning. This is
+expressed as a dot product between the two word vectors.  (2) \emph{Analogy}: Given
+three words representing a sense of analogy \texttt{(king : man :: woman)},
+find the unknown word \texttt{x} which represents the analogy \texttt{king :
+man :: woman : x}. This is computed as $x \equiv \texttt{man} - \texttt{king} +
+\texttt{woman}$. The vector space strucutre is exploited to compute both of
+these notions. We use the dot product for a notion of similarity, and 
+the vectorial addition and subtraction operations for analogy.
 
 However, linguistically speaking, there is a difference between \emph{words}
 such as \texttt{man}, \texttt{woman}, and \emph{analogies}, such as
@@ -1436,20 +1619,13 @@ after which we move on to the full generalisation. In the symplectic manifold,
 we train pairs of vectors as our embedding representation, and use the
 angle between their subspaces as the similarity measure.
 
-\subsection{The Grassmanian: Generalizing \wtov to $n$-Dimensions}
-
-The grassmanian represents all $k$-dimensional subspaces of an $n$-dimensional
-vector space. More importantly, the grassmanian is a \emph{lie group}; This means
-that we can build analogues of the \wtov operations for the Grassmanian. Here,
-we lay out a general theory of similarity and analogy, and use the theory to
-develop our implementation of the Grassmanian.
-
 
 \section{Lie groups, Similarly, and Analogy}
-A Lie group is a generalization of the situation of the Grassmanian. We have the Lie group itself,
-which consists of "locations". Then, there is a Lie algebra, which consists of "directions at a location".
-This allows us to decompose  our notion of analogy as explained before, into two steps: one is to analogize,
-()and the other is to transport the analogy to a new word ().
+which consists of "locations". Then, there is a Lie algebra, which consists of
+"directions at a location".  This allows us to decompose  our notion of analogy
+as explained before, into two steps: one is to analogize, () and the other is
+to transport the analogy to a new word ().
+
 
 \section{Optimisation on Lie groups}
 
@@ -1503,6 +1679,8 @@ Given all of this machinery, the algorithm is indeed quite simple.
 	giving a point on the manifold $\overline M$.
 \end{itemize}
 
+\subsection{Symplectic space: Pairs of word vectors}
+
 \section{Pseudocode}
 % https://arxiv.org/abs/1902.09229
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
@@ -1519,7 +1697,31 @@ We would like to understand what happens with our generalized training mechanism
 
 \chapter{Conclusion}
 
-With the growing use of natural language processing tools (NLP) in wide-ranging applications, it becomes imperative to understand why NLP models are as successful as they are. In particular, it is essential to understand what mathematical structures precisely underpin these models. To investigate the mathematical models of NLP knowledge representations, we focus on the setting of unsupervised word embeddings, due to the presence of robust models, and a seemingly simple mathematical structure. We find that even in this restricted setting, there are subtle, cross-cutting concerns as to how the model learns --- beginning from the high level description of learning a ``vector'', to the low level details of implementations of these algorithms, including initialization and gradient calculation. We build a theory of knowledge representations for word embeddings, inspired by two seemingly unrelated ideas (a) Montague semantics, a linguistic theory of meaning which ascribes set-theoretic meaning to language, and (b) abstract interpretation, a  mathematical theory of creating computable approximations to uncomputable semantics of programs. We find that syntheszing these ideas provide a way to extract fuzzy-set embeddings from existing word-embeddings, which provides the full range of set-theoretic operations (union, intersection, and others), along with probabilistic operations (KL divergence, entropy) which are used to perform polysemy detection and word sense disambiguation, while retaining performance on regular word embeddings tasks such as similarity. Next, we turn our attention to generalizing the word embedding training regime by extracting the geometry which is currently held implicit. This leads us to formulate a general theory of learning word representations on Lie groups. In summary, we provide insight into the mathematical structure of word representations. 
+\textinit{W}ith the growing use of natural language processing tools (NLP) in
+wide-ranging applications, it becomes imperative to understand why NLP models
+are as successful as they are. In particular, it is essential to understand
+what mathematical structures precisely underpin these models. To investigate
+the mathematical models of NLP knowledge representations, we focus on the
+setting of unsupervised word embeddings, due to the presence of robust models,
+and a seemingly simple mathematical structure. We find that even in this
+restricted setting, there are subtle, cross-cutting concerns as to how the
+model learns --- beginning from the high level description of learning a
+``vector'', to the low level details of implementations of these algorithms,
+including initialization and gradient calculation. We build a theory of
+knowledge representations for word embeddings, inspired by two seemingly
+unrelated ideas (a) Montague semantics, a linguistic theory of meaning which
+ascribes set-theoretic meaning to language, and (b) abstract interpretation, a
+mathematical theory of creating computable approximations to uncomputable
+semantics of programs. We find that synthesizing these ideas provide a way to
+extract fuzzy-set embeddings from existing word-embeddings, which provides the
+full range of set-theoretic operations (union, intersection, and others), along
+with probabilistic operations (KL divergence, entropy) which are used to
+perform polysemy detection and word sense disambiguation, while retaining
+performance on regular word embeddings tasks such as similarity. Next, we turn
+our attention to generalizing the word embedding training regime by extracting
+the geometry which is currently held implicit. This leads us to formulate a
+general theory of learning word representations on Lie groups. In summary, we
+provide insight into the mathematical structure of word representations. 
 
 %--------------------------------------------------------
 % Recommended 'Related Publication'
