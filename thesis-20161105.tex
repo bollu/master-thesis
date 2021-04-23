@@ -125,8 +125,7 @@
 \label{ch:ack}
 \texttt{\#harmless}, \texttt{\#math}, ness, celina, mona, dad, mum, ciel, bob,
 arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh, 
-harmless, davean, topos, z-module, drazak, dalcde, antonfire, PlanckWalk, Millennial, sure,
-Vyn, GodotMisogi. uday, arnaud, tobias, animesh, mahathi, bharti, bharath, athreya, shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai. 
+harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWalk, Millennial, sure, Vyn, GodotMisog,  Uday, Arnaud, Tobias, Animesh, Mahathi, Bharti, Bharath, Athreya, Shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai. 
 
 
 %% ABSTRACT PAGE
@@ -340,6 +339,7 @@ def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
     out :float, target: float):
     # gradient descent on loss (target - out)^2 where
     # out = larr[lix] . rarr[rix ]
+
 def train(corpus):
   poss = np.array((VOCABSIZE, DIMSIZE))
   negs = np.array((VOCABSIZE, DIMSIZE))
@@ -365,8 +365,7 @@ def train(corpus):
 \end{figure}
 
 
-
-\section{The output of \texttt{word2vec}}
+\section{Conclusion}
 
 The output of the training regime are popularly interpreted as vectors. However,
 we augment this discussion by bringing in nuance. In particular, we note that:
@@ -378,19 +377,13 @@ we augment this discussion by bringing in nuance. In particular, we note that:
       what mathematical object is being learnt.
 \end{itemize}
 
-The classic explanation of `word2vec`, in skip-gram, with negative sampling,
-in the paper and countless blog posts on the internet is as follows:
-
-
-
-\section{Conclusion}
 
 We learn that the \texttt{word2vec} training regime creates two sets of vectors, henceforth
-referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are the ones that are left at the end. The training regime \emph{does not use} gradient descent. Rather, a style of perceptron based update is used. 
-
+referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are the ones that are left at the end. The training regime \emph{does not use} gradient descent. Rather, a style of perceptron based update is used.  Thus, this leaves the question open as to what is really being learnt by \texttt{word2vec}. We answer this question by hypothesizing that the representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets of word senses}, which we extract from \texttt{word2vec} by using ideas of abstract interpretation. We explain the ideas of abstract interpretation in \autoref{chapter:abstract-interpretation}, and then proceed to use these ideas to build fuzzy set representations in \autoref{chapter:abstract-interpretation}. Finally, we propose an abstract version of the \texttt{word2vec} training algorithm on any choice of Lie group in \autoref{chapter:geometrization}
 
 
 \chapter{Abstract Interpretation: Semantics}
+\label{chapter:abstract-interpretation}
 
 Abstract interpretation is a mathematical theory of approximation of meaning. It was created by Cousout and Cousout to unify many disparate program analysis techniques that had been developed until then. The broad idea is to consider two worlds: a concrete world, which contains "all the meaning", yet which is hopeless non-computable. In parallel, we consider an abstract world, one that is but a mere approximation to the concrete. This loss of information allows the abstract domain be \emph{computable}, thereby providing the ability to
 approximate concrete meaning. These two worlds are enriched with the structure of a \emph{lattice}, which allows the conjunction and disjunction of meaning; Disjunction to combine facts from disparate sources, such as the \texttt{then} and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )} and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}. 
@@ -442,21 +435,34 @@ concretizing the abstract idea using $\gamma(\alpha(C))$ creates a loss of infor
 \section{Interval domain}
 
 
-A second example is that of the interval domain, where we map subsets of the integers $\mathbb 2^Z$ to \emph{intervals}, The interval domain is a less trivial domain that showcases conjunction and disjunction. For this purpose, we pursue this example as well.
+A second example is that of the interval domain, where we map subsets of the integers $2^\Z$ to \emph{intervals} of the integers. The interval domain is a less trivial domain that showcases conjunction and disjunction. For this purpose, we pursue this example as well.
+Our abstract domain $I \equiv Z \times Z$ represents closed intervals. So an element
+$(1, 3) \in I$ is an abstract representation of the closed interval $[1, 3] = \{ 1, 2, 3 \}$.
+In this case, the abstraction function $\alpha: L \rightarrow L^\sharp$ goes from a set of integers to the smallest interval containing these numbers. For example, $\alpha(\{1, 2, 3\}) = (1, 3)$, and $\alpha(\{1, 5\}) = (1, 3, 5)$. See that the latter is an approximation: we are representing the triple of numbers $1, 3$ and $5$ by the \emph{whole interval} $(1, 5)$, which we think of as $\{1, 2, 3, 4, 5\}$. To make this formal, we define the concretization function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x \in \mathbb Z : l \leq x \leq r \}$.
 
 
+TODO: union, intersection: $\alpha(S \cap T) = \alpha(S) \sqcap^\sharp \alpha(T)$, $\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$
+
+This shows that the theory of abstract interpretation is compatible with set operations. In particular, the theory of abstract interpretation is capable of abstracting notions of union and intersection. This is exploited when building fuzzy set representations to provide notions of union and intersection for fuzzy sets.
 
 \section{The formal viewpoint}
 
-A partial order $L$ is .. A monotone map is a ... A meet semi-lattice is.. A semi lattice morphism is ... A galois connection between two lattices is ... 
+A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L \times L$
+which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b \land b \leq a \implies a = b$, and (c) transitive: $a \leq b \land b \leq c \implies a \leq c$.  A monotone map is a morphism of partial orders. Formally, it is a function $f: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$ such that $a \leq b \implies f(a) \leq^\sharp f(b)$.  A galois connectio between two lattice $(L, \leq)$ and $(L^\sharp, \leq^\sharp)$ is a pair of monotone maps 
+$F: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and $G: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ such that:
 
-\section{The bridge}
+$$
+a \leq F(b) \iff a \leq G(b)
+$$ 
 
-Montague semantics wishes to abstract natural language with sets. We believe that what is really going on is that we have a sequence of abstract interpretations, first from the uncomputable semantics of natural language that of the uncomputable montagueian semantics. We conjecture that systems such as \texttt{word2vec} themselves compute another layer of abstract interpretation. We attempt to extract evidence for this, and come up non-empty-handed.
+This is equivalent to the pair of conditions:
+
+$$
+a \leq F(G(a)); \quad b \leq G(f(b))
+$$
 
 
 \subsection{Montague semantics}
-\chapter{Montague Semantics: Interpretations}
 
 Montague grammar is an approach to natural language semantics, named after
 American logician Richard Montague. The Montague grammar is based on
@@ -484,7 +490,12 @@ For Montague the principle of compositionality did not seem to be a subject of d
 
 
 
+We exploit Montague semantics as the bridge to connect \texttt{word2vec} with abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec} 
+computes a sequence of abstract interpretations, first from the uncomputable semantics of natural language that of the uncomputable montagueian semantics. We conjecture that systems such as \texttt{word2vec} themselves compute another layer of abstract interpretation. We attempt to extract evidence for this, and come up non-empty-handed.
+
+
 \chapter{Fuzzy set representations}
+\label{chapter:fuzzy-set-representation}
 
 We provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
@@ -1281,6 +1292,8 @@ feature based representations at lower dimensions for downstream tasks.
 
 
 \chapter{The geometry of word represenatations}
+\label{chapter:geometrization}
+
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 % https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
@@ -1438,8 +1451,8 @@ which consists of "locations". Then, there is a Lie algebra, which consists of "
 This allows us to decompose  our notion of analogy as explained before, into two steps: one is to analogize,
 ()and the other is to transport the analogy to a new word ().
 
+\section{Optimisation on Lie groups}
 
-\chapter{Optimisation on Lie groups}
 We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
 The metric at a point $g(p)$ provides an inner product structure on the point $T_pM$
@@ -1503,6 +1516,10 @@ We would like to understand what happens with our generalized training mechanism
 %\appendix
 %\chapter{}
 %\label{}
+
+\chapter{Conclusion}
+
+With the growing use of natural language processing tools (NLP) in wide-ranging applications, it becomes imperative to understand why NLP models are as successful as they are. In particular, it is essential to understand what mathematical structures precisely underpin these models. To investigate the mathematical models of NLP knowledge representations, we focus on the setting of unsupervised word embeddings, due to the presence of robust models, and a seemingly simple mathematical structure. We find that even in this restricted setting, there are subtle, cross-cutting concerns as to how the model learns --- beginning from the high level description of learning a ``vector'', to the low level details of implementations of these algorithms, including initialization and gradient calculation. We build a theory of knowledge representations for word embeddings, inspired by two seemingly unrelated ideas (a) Montague semantics, a linguistic theory of meaning which ascribes set-theoretic meaning to language, and (b) abstract interpretation, a  mathematical theory of creating computable approximations to uncomputable semantics of programs. We find that syntheszing these ideas provide a way to extract fuzzy-set embeddings from existing word-embeddings, which provides the full range of set-theoretic operations (union, intersection, and others), along with probabilistic operations (KL divergence, entropy) which are used to perform polysemy detection and word sense disambiguation, while retaining performance on regular word embeddings tasks such as similarity. Next, we turn our attention to generalizing the word embedding training regime by extracting the geometry which is currently held implicit. This leads us to formulate a general theory of learning word representations on Lie groups. In summary, we provide insight into the mathematical structure of word representations. 
 
 %--------------------------------------------------------
 % Recommended 'Related Publication'
