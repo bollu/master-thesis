@@ -28,7 +28,10 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{booktabs}
-% \usepackage{float} % use for H with figures, which forces figure locations. 
+% \usepackage{natbib}
+% \bibliographystyle{unsrtnat}
+
+% \usepackage{float} % use for H with figures, which forces figure locations.
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
@@ -45,29 +48,6 @@
 \usepackage{inconsolata}
 \usepackage{lettrine}
 \usepackage{yfonts}
-
-\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
-\newcommand{\N}{\ensuremath{\mathbb{N}}}
-\newcommand{\coT}{\ensuremath{T^*}}
-\newcommand{\Lie}{\ensuremath{\mathfrak{L}}}
-\newcommand{\Vectorfield}{\ensuremath{\mathfrak{X}}}
-\newcommand{\pushforward}[1]{\ensuremath{{#1}_{\star}}}
-\newcommand{\pullback}[1]{\ensuremath{{#1}^{\star}}}
-\newcommand{\vectorfield}{\ensuremath{\mathfrak{X}}}
-\newcommand{\Z}{\ensuremath{\mathbb Z}}
-\newcommand{\pushfwd}[1]{\pushforward{#1}}
-\newcommand{\pf}[1]{\pushfwd{#1}}
-
-\newcommand{\boldX}{\ensuremath{\mathbf{X}}}
-\newcommand{\boldY}{\ensuremath{\mathbf{Y}}}
-%\renewcommand{\UrlFont}{\ttfamily\small}
-\newcommand{\card}[1]{\left| #1 \right|}
-\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{%
- #1\;\delimsize|\delimsize|\;#2%
-}
-
-
-\newcommand{\infdiv}{D\infdivx}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -88,6 +68,31 @@
     urlcolor={red!50!black}
 }
 
+
+\newcommand{\skewsym}{\mathrm{Skew}}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\coT}{\ensuremath{T^*}}
+\newcommand{\Lie}{\ensuremath{\mathfrak{L}}}
+\newcommand{\Vectorfield}{\ensuremath{\mathfrak{X}}}
+\newcommand{\pushforward}[1]{\ensuremath{{#1}_{\star}}}
+\newcommand{\pullback}[1]{\ensuremath{{#1}^{\star}}}
+\newcommand{\vectorfield}{\ensuremath{\mathfrak{X}}}
+\newcommand{\Z}{\ensuremath{\mathbb Z}}
+\newcommand{\pushfwd}[1]{\pushforward{#1}}
+\newcommand{\pf}[1]{\pushfwd{#1}}
+
+\newcommand{\boldX}{\ensuremath{\mathbf{X}}}
+\newcommand{\boldY}{\ensuremath{\mathbf{Y}}}
+%\renewcommand{\UrlFont}{\ttfamily\small}
+\newcommand{\card}[1]{\left| #1 \right|}
+\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{%
+ #1\;\delimsize|\delimsize|\;#2%
+}
+
+
+\newcommand{\infdiv}{D\infdivx}
 
 %\newcommand{\card}[1]{\ensuremath{\left| #1 \right|}}
 \newcommand{\wtov}{\texttt{word2vec }}
@@ -146,8 +151,8 @@
 \chapter*{Acknowledgments}
 \label{ch:ack}
 \texttt{\#harmless}, \texttt{\#math}, ness, celina, mona, dad, mum, ciel, bob,
-arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh, 
-harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWalk, Millennial, sure, Vyn, GodotMisog,  Uday, Arnaud, Tobias, Animesh, Mahathi, Bharti, Bharath, Athreya, Shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai. 
+arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh,
+harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWalk, Millennial, sure, Vyn, GodotMisog,  Uday, Arnaud, Tobias, Animesh, Mahathi, Bharti, Bharath, Athreya, Shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai.
 
 
 %% ABSTRACT PAGE
@@ -177,7 +182,7 @@ performance on regular word embeddings tasks such as similarity. Next, we turn
 our attention to generalizing the word embedding training regime by extracting
 the geometry which is currently held implicit. This leads us to formulate a
 general theory of learning word representations on Lie groups. In summary, we
-provide insight into the mathematical structure of word representations. 
+provide insight into the mathematical structure of word representations.
 
 
 
@@ -273,7 +278,7 @@ semantics and machine learning is that systems such as \texttt{word2vec} learn
 \emph{is}.  In particular, it conflates the encoding of the learnt
 representation (as a tuple of real numbers) with mathematical structure (a
 vector space). We begin by surveying the popular explanation of \texttt{word2vec}
-like systems. We then critique this explanation by comparing the explanation to 
+like systems. We then critique this explanation by comparing the explanation to
 the source code. Armed with detailed knowledge of the training mechanism,
 we lay out open questions in the design of \texttt{word2vec}. To answer these
 questions, we explain the mathematical theory of abstract interpretation and
@@ -305,7 +310,7 @@ while(1) {
 % - [The wikipedia page which describes the algorithm on a high level](https://en.wikipedia.org/wiki/Word2vec#Training_algorithm)
 % - [The tensorflow page with the same explanation](https://www.tensorflow.org/tutorials/representation/word2vec)
 % - [The towards data science blog which describes the same algorithm](https://towardsdatascience.com/word2vec-skip-gram-model-part-1-intuition-78614e4d6e0b)
-% 
+%
 % The list goes on. However, __every single one of these implementations is wrong__.
 
 The classic explanation of \texttt{word2vec}, in skip-gram, with negative
@@ -382,16 +387,16 @@ for (d = 0; d < negative + 1; d++) {
  }
  l2 = target * layer1_size;
  f = 0;
- 
+
  // find dot product of original vector with negative sample vector
  // store in f
  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
- 
+
  // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
  if (f > MAX_EXP) g = (label - 1) * alpha;
  else if (f < -MAX_EXP) g = (label - 0) * alpha;
  else g = (label - expTable[(int)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / 2))]) * alpha;
- 
+
  // 1. update the vector syn1neg,
  // 2. DO NOT UPDATE syn0
  // 3. STORE THE syn0 gradient in a temporary buffer neu1e
@@ -416,7 +421,7 @@ def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
   # gradient descent on loss (target - out)^2 where
   gloss = 2 * (target - out)
   pass
- 
+
 def train(corpus):
   poss = np.array((VOCABSIZE, DIMSIZE))
   negs = np.array((VOCABSIZE, DIMSIZE))
@@ -438,7 +443,7 @@ def train(corpus):
         learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
 \end{minted}
 \caption{\texttt{word2vec} pseudocode, explaining the core training algorithm}.
-\label{fig:w2v-py-pseudocode} 
+\label{fig:w2v-py-pseudocode}
 \end{figure}
 
 \subsection{Initialization choices}
@@ -501,7 +506,7 @@ of a \emph{lattice}, which allows the conjunction and disjunction of meaning;
 Disjunction to combine facts from disparate sources, such as the \texttt{then}
 and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to
 combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )}
-and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}. 
+and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}.
 
 
 In the most general setting, an abstract interpretation is a manifestation of
@@ -510,7 +515,7 @@ an \emph{adjunction}, a mathematical structure which captures a notion of
 land of categories and adjunctions. Suffice to say that many of the deep ideas
 of mathematics arise out of adjunctions. The relationship between algebra and
 geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO:
-cite MathOverflow where nullstellensatz is adjunction) . 
+cite MathOverflow where nullstellensatz is adjunction) .
 
 Here, we shall focus on the special case of an adjunction for lattices, known
 as a \emph{Galois connection}. We will show how the notion of a Galois
@@ -602,7 +607,7 @@ Similarly, we want the \emph{intersection} of two intervals to be the \emph{larg
 
 % https://scicomp.stackexchange.com/a/26260/31940
 \begin{align*}
-    &\sqcap^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcap (l', r') \equiv 
+    &\sqcap^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcap (l', r') \equiv
     \begin{cases}
         (1, 0) & r < l' \lor r' < l \\
         (\max (l, l'), \max (r, r')) & \text{otherwise}
@@ -636,7 +641,7 @@ $G: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ such that:
 
 $$
 a \leq F(b) \iff a \leq G(b)
-$$ 
+$$
 
 This is equivalent to the pair of conditions:
 
@@ -658,7 +663,7 @@ view, the study of natural language belonged to mathematics. To quote:
 There is in my opinion no important theoretical difference between natural
 languages and the artificial languages of logicians; indeed I consider it
 possible to comprehend the syntax and semantics of both kinds of languages
-with a single natural and mathematically precise theory. 
+with a single natural and mathematically precise theory.
 \end{quote}
 
 Montague semantics is used to describe the semantic properties of language.
@@ -741,7 +746,7 @@ analogy, which are far from human similarity judgements
 asymmetric notions of similarity in a non-contextualized setting, including
 Gaussian embeddings \citep{vilnis2014word} and word similarity by dependency
 \citep{gawron2014improving}. However, these models could not account for the
-inherent compositionality of word embeddings \citep{mikolov2013distributed}. 
+inherent compositionality of word embeddings \citep{mikolov2013distributed}.
 
 Moreover, while work has been done on providing entailment for vector space
 models by entirely reinterpreting word2vec as an entailment based semantic
@@ -752,7 +757,7 @@ represented by a single vector \citep{camacho2018word}. Sense representation
 models in non-contextualized representations such as multi-sense skip gram, by
 performing joint clustering for local word neighbourhood. However, these sense
 representations are conditioned on non-disambiguated senses in the context and
-require additional conditioning on the intended senses \citep{li2015multi}. 
+require additional conditioning on the intended senses \citep{li2015multi}.
 
 In this paper, we aim to answer the question: \textit{Can a single word
 representation mechanism account for lexical similarity and analogy,
@@ -781,7 +786,7 @@ compositionality which are discussed in the paper.
 The representation of words using logical paradigms such as fuzzy logic,
 tensorial representations and other probabilistic approaches have been
 attempted before. In this section, we uncover some of these representations in
-detail. 
+detail.
 
 \citet{lee1999measures} introduced measures of distributional similarity to
 improve the probability estimation for unseen occurrences. The measure of
@@ -807,25 +812,25 @@ not be expressed.
 inferred from a distributional representation by creating relevant ontology
 based on the existing distribution. This mapping is therefore from a standard
 distributional model to a set-theoretic model, where dimensions are predicates
-and weights are generalised quantifiers. 
+and weights are generalised quantifiers.
 
 \citet{emerson2016functional, emerson2017semantic} developed functional
 distributional semantics, which is a probabilistic framework based on model
 theory. The framework relies on differentiating and learning entities and
 predicates and their relations, on which Bayesian inference is performed. This
-representation is inherently compositional, context dependent representation. 
+representation is inherently compositional, context dependent representation.
 
 \section{Background: Fuzzy Sets and Fuzzy Logic} \label{sec: math}
 
 In this section, we provide a basic background of fuzzy sets including some
 fuzzy set operations, reinterpreting sets as tuples in a universe of finite
 elements and showing some set operations. We also cover the computation of
-fuzzy entropy as a Bernoulli random variable. 
+fuzzy entropy as a Bernoulli random variable.
 
 A fuzzy set is defined as a set with probabilistic set membership. Therefore, a
 fuzzy set is denoted as $A = \{ (x, \mu_A(x)), x \in \Omega\}$,  where $x$ is
 an element of set $A$ with a probability $\mu_A(x)$ such that $0 \leq \mu_A
-\leq 1$, and $\Omega$ is the universal set. 
+\leq 1$, and $\Omega$ is the universal set.
 
 If our universe $\Omega$ is finite and of cardinality $n$, our notion of
 probabilistic set membership is constrained to a maximum $n$ values. Therefore,
@@ -874,7 +879,7 @@ also look into some measures of similarity and their formulation in this
 framework. All examples in this section have been taken using the Google News
 Negative 300
 vectors\footnote{\url{https://code.google.com/archive/p/word2vec/}}. We used
-these gold standard vectors 
+these gold standard vectors
 
 \subsection{Constructing the Tuple of Feature Probabilities} \label{ssec:
 constructing}
@@ -893,14 +898,14 @@ entire vocabulary size, i.e. column-wise.
 w_{\text{exp}}[i]} \end{align*} }
 
 This normalization then produces a tuple of probabilities associated with each
-feature (corresponding to the dimensions of $\mathbb{R}^n$). 
+feature (corresponding to the dimensions of $\mathbb{R}^n$).
 
 In line with our discussion from \ref{sec: math}, this tuple of probabilities
 is akin to our representation of a fuzzy set. Let us consider the word $v$, and
 its corresponding $n$-dimensional word vector $\vec v$. The projection of $\vec
 v$ on a dimension $i$ normalized (as shown above) to be interpreted as
 \textit{if this dimension $i$ were a property, what is probability that $v$
-would possess that property?} 
+would possess that property?}
 
 In word2vec, words are distributed in a vector space of a particular
 dimensionality. Our representation attempts to provide some insight into how
@@ -927,7 +932,7 @@ universe of elements. As we saw in section \ref{ssec: constructing},
 considering each dimension as a feature allows us to reinterpret word vectors
 as tuples of feature probabilities. Therefore, we can use the fuzzy set
 theoretic operations on this reinterpretation of fuzzy sets. For convenience,
-these operations have been called feature union, intersection and difference. 
+these operations have been called feature union, intersection and difference.
 
 Intuitively, the feature intersection of words $\hat w_1$ and $\hat w_2$ should
 give us that word $\hat w_{1 \cap 2}$ which has the features common between the
@@ -950,10 +955,10 @@ analogous to vector difference.
   \begin{tabular}{l l l l l}
       $\hat R$    & $\vec R$ & $\hat V$       & $\vec V$  & $\hat R \cup \hat V$  \\
       risen       & cashew   & wavelengths    & yellowish & flower                \\
-      capita      & risen    & ultraviolet    & whitish   & red                   \\ 
+      capita      & risen    & ultraviolet    & whitish   & red                   \\
       peaked      & soared   & purple         & aquamarine& stripes               \\
       declined    & acuff    & infrared       & roans     & flowers               \\
-      increased   & rafters  & yellowish      & bluish    & green                 \\    
+      increased   & rafters  & yellowish      & bluish    & green                 \\
       rises       & equalled & pigment        & greenish  & garlands              \\
   \end{tabular}
   }
@@ -973,10 +978,10 @@ analogous to vector difference.
     \begin{tabular}{l l l}
         $\hat C$        & $\hat P$          & $\hat C \cap \hat P$      \\
         hardware        & vested            & cpu                       \\
-        graphics        & purchasing        & hardware                  \\ 
+        graphics        & purchasing        & hardware                  \\
         multitasking    & capita            & powerpc                   \\
         console         & exercise          & machine                   \\
-        firewire        & parity            & multitasking              \\    
+        firewire        & parity            & multitasking              \\
         mainframe       & veto              & microcode                 \\ \midrule
         $\vec C$        & $\vec P$          & $\vec C + \vec P$         \\
         bioses          & centralize        & expandability             \\
@@ -984,7 +989,7 @@ analogous to vector difference.
         hardware        & decembrist        & cpcs                      \\
         imovie          & exercised         & reconfigure               \\
         writable        & redistribution    & backplane                 \\
-        console         & devolving         & oem                        
+        console         & devolving         & oem
     \end{tabular}
     }
     \caption{An example of feature intersection with the possible word2vec
@@ -1002,20 +1007,20 @@ analogous to vector difference.
     \centering
     {\small
     \begin{tabular}{l l l}
-        $\hat F$    & $\hat B $     & $\hat F \setminus \hat B$    \\ 
+        $\hat F$    & $\hat B $     & $\hat F \setminus \hat B$    \\
         french      & isles         & communaut                    \\
-        english     & colonial      & aise                         \\ 
+        english     & colonial      & aise                         \\
         france      & subcontinent  & langue                       \\
-        german      & cinema        & monet                        \\ 
+        german      & cinema        & monet                        \\
         spanish     & boer          & dictionnaire                 \\
         british     & canadians     & gascon                       \\ \midrule
         $\vec F$    & $\vec B$      & $\vec F - \vec B$             \\
         french      & scottish      & ranjit                        \\
         english     & american      & privatised                    \\
-        france      & thatcherism   & tardis                        \\    
+        france      & thatcherism   & tardis                        \\
         german      & netherlands   & molloy                        \\
         spanish     & hillier       & isaacs                        \\
-        british     & cukcs         & raj                   
+        british     & cukcs         & raj
     \end{tabular}
     }
     \caption{An example of feature difference, along with a possible word2vec
@@ -1045,7 +1050,7 @@ elements belonging to the set. The possibility a member $x_i$ belonging to $S$
 is a random variable $X^S_i$, which is \texttt{true} with probability $p^S_i$,
 \texttt{false} with probability $(1 - p^S_i)$. Thus, $X^S_i$ is a Bernoulli
 random variable. So, to measure the fuzzy entropy of a set, we add up the
-entropy values of each of the $X^S_i$ \citep{mackay2003information}. 
+entropy values of each of the $X^S_i$ \citep{mackay2003information}.
 
 Intuitively, words with the highest entropy are those which have features which
 are equally likely to belong to them and to their complement, i.e. $\forall i
@@ -1061,7 +1066,7 @@ simply using frequency, as it identifies the information theoretic distribution
 of features based on the context the function word occurs in. Table \ref{tab:
 function word list} provides the top 15 function words by entropy, and the
 correspodingly ranked words by frequency. We see that frequency is clearly not
-a good enough measure to identify function words. 
+a good enough measure to identify function words.
 
 {\tiny
 \begin{table*}[t]
@@ -1070,13 +1075,13 @@ a good enough measure to identify function words.
     \begin{tabular}{l r | l r | l r | l r | l r}
     and		& the   &   in		&   one         &   which	    &   to          &   however	&   \emph{two}  &   for	    &   \emph{eight}  \\
     this    & of    &   of	    &   in          &   the		    &   \emph{zero} &   to		&   is          &   a	    &   for \\
-    as	    & and   &   only	&   a           &   also	    &   \emph{nine} &   it		&   as          &   but	    &   \emph{s} 
+    as	    & and   &   only	&   a           &   also	    &   \emph{nine} &   it		&   as          &   but	    &   \emph{s}
     \end{tabular}
     }
     \caption{On the left: Top 15 words with highest entropy with frequency $\geq 100$ (note that all of them are function words). On the right: Top 15 words with the highest frequency. The non-function words have been emphasized for comparison.}
     \label{tab: function word list}
 \end{table*}
-}   
+}
 
 \subsection{Similarity Measures} \label{ssec: similarity math} One of the most
 important notions in presenting a distributional word representation is its
@@ -1106,7 +1111,7 @@ an innately asymmetric notion of similarity.
 as an overlap of features. For this purpose, we exploit the notion of fuzzy
 information theory by comparing how close the probability distributions of the
 similar words are using a standard measure, Kullback-Leibler (K-L) divergence.
-K-L divergence is an asymmetric measure of similarity. 
+K-L divergence is an asymmetric measure of similarity.
 
 The K-L divergence of a distribution $P$ from another distribution $Q$ is
 defined in terms of loss of compression. Given data $d$ which follows
@@ -1117,7 +1122,7 @@ as:
 
 {\footnotesize
 \begin{equation*}
-     \infdiv{S}{T} \equiv \infdiv[\bigg]{X^S_i}{X^T_i} =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right) 
+     \infdiv{S}{T} \equiv \infdiv[\bigg]{X^S_i}{X^T_i} =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right)
 \end{equation*}
 }
 
@@ -1148,7 +1153,7 @@ words, as it can be used to determine the entropy associated with the
 similarity between two words. Ideally, by determining the "spread" of the
 similarity of features between two words, we can determine the features that
 allow two words to be similar, allowing a more interpretable notion of
-feature-wise relation. 
+feature-wise relation.
 
 The cross-entropy of two distributions $P$ and $Q$ is a sum of the entropy of
 $P$ and the K-L divergence between $P$ and $Q$. In this sense, in captures both
@@ -1171,7 +1176,7 @@ surface form (and its representation) can capture the distribution associated
 with different senses. Here, we use cross-entropy as a measure of polysemy, and
 isolate polysemous words based on context. We provide an example of capturing
 polysemy using composition by feature intersection in table \ref{tab:
-polysemy}. 
+polysemy}.
 
 We can see that the words which are most similar to \texttt{noble} are a
 combination of words from many senses, which provides some perspective into its
@@ -1194,8 +1199,8 @@ reference, the word \texttt{the} has an entropy of $6.2934$.}.
          auctoritas  & carbides  & natured   & metals                & virtuous                  \\
          abies       & metallic  & humoured  & sulfides              & believeth                 \\
          eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
-         vojt        & alloying  & gracious  & rhodium               & hedonist                  
-     \end{tabular}                                                   
+         vojt        & alloying  & gracious  & rhodium               & hedonist
+     \end{tabular}
      }
      \caption{Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}. \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$. We also provide the word2vec analogues of the same.}
      \label{tab: polysemy}
@@ -1241,7 +1246,7 @@ also provide a context for the analogy, effectively reconstructing analogous
 reasoning to account for the type of relation from a lexical semantic
 perspective.
 
-Some examples of word analogy based are presented in table \ref{tab: analogy}. 
+Some examples of word analogy based are presented in table \ref{tab: analogy}.
 
 \begin{table}[]
     \centering
@@ -1280,11 +1285,11 @@ training and testing at different dimensions For word analogy, we use the MSR
 Word Relatedness Test \citep{mikolov2013linguistic}. We compare it to the
 vector representation of words for different dimensions.
 
-\subsubsection{Similarity} 
+\subsubsection{Similarity}
 
 Our scores our compared to the word2vec scores of similarity using the Spearman
 rank correlation coefficient \citep{spearman1987proof}, which is a ratio of the
-covariances and standard deviations of the inputs being compared. 
+covariances and standard deviations of the inputs being compared.
 
 \begin{table}[]
     \centering
@@ -1295,7 +1300,7 @@ covariances and standard deviations of the inputs being compared.
         20  &   0.2478   & 0.2690 & \bf 0.2744    \\
         50  &   0.2916   & 0.2966 & \bf 0.2981    \\
         100 &   0.2960   & 0.3124 & \bf 0.3206    \\
-        200 &   0.3259   & 0.3253 & \bf 0.3298    
+        200 &   0.3259   & 0.3253 & \bf 0.3298
     \end{tabular}
     }
     \caption{Similarity scores on the SimLex-999 dataset \citep{hill2015simlex}, for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.}
@@ -1310,7 +1315,7 @@ cross-entropy performs better than K-L Divergence. While the similarity scores
 are generally higher, we see a reduction in the degree of similarity beyond 100
 dimension vectors (features).
 
-\subsubsection{Analogy} 
+\subsubsection{Analogy}
 
 \begin{table}[]
     {\tiny
@@ -1362,7 +1367,7 @@ representation captures significantly more syntactic and semantic information
 than its vector counterpart. We conjecture that this can primarily be
 attributed to the fact that constructing feature probabilities provides more
 information about the common (and distinct) "concepts" which are shared between
-two words. 
+two words.
 
 Since feature representations are inherently fuzzy sets, lower dimension sizes
 provide a more reliable probability distribution, which becomes more and more
@@ -1416,7 +1421,7 @@ difficult task for modern non-contextual word embeddings. In order to analyse
 nominal compounds, we adjust our similarity metric to account for asymmetry in
 the similarity between the head-word and the modifier, and vice versa. We
 report performance on two metrics, the Spearman correlation
-\citep{spearman1987proof} and Pearson correlation \citep{pearson1920notes}. 
+\citep{spearman1987proof} and Pearson correlation \citep{pearson1920notes}.
 
 \begin{table}[]
     \centering
@@ -1452,7 +1457,7 @@ here, the evaluation has been done on smaller dimension sizes of 50 and 100,
 and we see that our representation can be used for a slightly larger range of
 tasks from the perspective of intrinsic evaluations. However, the results of
 quantitative analogy for higher dimensions have been observed to be lower for
-fuzzy representations rather than the word2vec negative-sampling word vectors. 
+fuzzy representations rather than the word2vec negative-sampling word vectors.
 
 We see that the representation we propose does not scale well as dimensions
 increase. This is because our representation relies on the distribution of
@@ -1484,7 +1489,7 @@ similarity, analogy, compositionality and function word detection. We
 hypothesize that lower dimensions are more suited for our representation as
 sparsity increases with higher dimensions, so the significance of feature
 probabilities reduces. This sparsity causes a diffusion of the probabilities
-across multiple features. 
+across multiple features.
 
 Through this work, we aim to provide some insights into interpreting word
 representations by showing one possible perspective and explanation of the
@@ -1531,103 +1536,183 @@ underlying structure of word representations has remained the same, mapping a
 word to a single vector in a continuous vector space. Some of the known
 challenges with this assumption of word to vector have been based around
 resolving polysemy and the treatment of function words, to which the classical
-answer has been extracting and using contextual information. 
+answer has been extracting and using contextual information.
 
 \subsection{The blessing and curse of $\mathbb{R}^n$}
 
-The fundamental operations performed with \wtov are (1)
-\emph{Similarity}: Given two words, find how similar they are in meaning. This is
-expressed as a dot product between the two word vectors.  (2) \emph{Analogy}: Given
-three words representing a sense of analogy \texttt{(king : man :: woman)},
-find the unknown word \texttt{x} which represents the analogy \texttt{king :
+The fundamental operations performed with \wtov during training are
+(1a) computing dot products between the focus and context vector, and (1b)
+performing gradient descent to choose a new focus and context vector. The fundamental
+operations during testing are (2a) \emph{Similarity}, which is
+expressed as a dot product between the two word vectors, and (2b) \emph{Analogy},
+which when given three words representing a sense of analogy \texttt{(king : man :: woman)},
+finds the unknown word \texttt{x} which represents the analogy \texttt{king :
 man :: woman : x}. This is computed as $x \equiv \texttt{man} - \texttt{king} +
-\texttt{woman}$. The vector space strucutre is exploited to compute both of
-these notions. We use the dot product for a notion of similarity, and 
-the vectorial addition and subtraction operations for analogy.
+\texttt{woman}$. Mathematically speaking, these operations all use
+different facets of $\R^n$; The \emph{vector space} is used to compute
+the vectorial addition and subtraction operations for analogy, the \emph{inner product}
+structure is used to compute the dot-product, and the \emph{Riemannian} structure is used to perform
+gradient descent. We break these structures down, and then write down the most
+general version of the algorithm which can still honestly be called the \texttt{word2vec} algorithm.
 
-However, linguistically speaking, there is a difference between \emph{words}
-such as \texttt{man}, \texttt{woman}, and \emph{analogies}, such as
-\texttt{king : man}, \texttt{woman : queen}. How ought we interpret this
-with respect to the mathematics?
-
-Towards capturing this difference between words and anaalogies mathematically,
+Towards capturing these distinctions mathematically,
 we rewrite the analogy as $(\texttt{man} - \texttt{king}) + \texttt{woman}$.
-This is suggestive: it suggests that an analogy is a subtraction of
-vectors of the form $(\texttt{man}-\texttt{king})$, while a word is just a vector
-such as \texttt{woman}.
-In $\mathbb{R}^n$, the subtraction of vectors continues to  be a vector.
+This is suggestive: it suggests that an analogy is comprised of two operations. First,
+a subtraction of vectors $(\texttt{man}-\texttt{king})$, which gives us the \emph{displacement}
+\emph{from} king \emph{to} man. This is followed by ``shifting'' this displacement to be
+located at the basepoint \texttt{woman}. This gives us the combined effect of analogy, where
+we consider the displacement from king to man, and then reconsider this displacement, starting
+at the location of woman. Hence, the distinction between points such as \texttt{woman}
+and displacements such as $(\texttt{man} - \texttt{king})$
+is a distinction without a (pun intended) difference, since both the point \texttt{woman}
+and the displacement $(\texttt{man} - \texttt{king})$ are vectors. However, in spaces
+that are \emph{not like} $\R^n$, this distinction is sharpened, and displacements and points
+are no longer interchangeable.
 
-Hence, the distinction between points such as $c$  and directions such as $(b - a)$
-is a distinction without a (pun intended) difference, since both of these
-continue to be vectors.  This no longer holds in curved spaces. Directions or
-paths are curved, and words are points of the space.
+TODO: add circle example.
 
 
 This distinction \emph{does} make a difference for more complicated spaces.
-In particular, we choose to examine the example of a sphere versus the plane 
+In particular, we choose to examine the example of a sphere versus the plane
 $\mathbb R^2$:
 
-\begin{figure}[H]
-\includegraphics[width=\textwidth]{./sphere-shortest-path.png}
-\caption{$(b - a)$ on a sphere versus the plane ($\R^2$). Red and
-  orange are the words $b$, $a$. The path in blue for the sphere and the
-  line in blue for the plane corresponds to the difference $(b - a)$. See
-  how in the case of the plane, both the points as well as the difference can
-  be represented by vectors. However, in the case of a sphere, this is
-  not possible since there is no clean correspondence between a "path" and
-  a point on the sphere.}
-\end{figure}
-
+TODO: add picture.
 
 \subsection{Generalizing \wtov: Distinction with differences}
 
-Let us reformulate the fundamental operations performed with \wtov, in light
-of our discussion above.
+In light of the discussion above, we reformulate the informally discussed notions of
+points, displacement, and moving along a displacement. We will first describe training, and then
+testing where we perform operations such as similarity and analogy.
 
-\begin{itemize}
-\item Similarity: Given two words, find how similar they are in meaning. This is
-     expressed as a dot product between the two vectors.
-\item Analogy: Given two words, representing a sense of analogy \texttt{(king : man)},
-      then a third word, representing the base of another analogous
-      pair \texttt{(woman : ?)}, find the unknown word \texttt{?}
-\end{itemize}
+\subsection{Riemannian Manifolds}
+A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
+dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
+been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
+This can be embedded in 2D space $\mathbb R^2$ via the map $\theta \mapsto (\cos \theta, \sin \theta)$.
+Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ and the angle
+at the azimuth $\phi$, and can be mapped into 3D via the map
+$(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
+
+TODO: circle; TODO: sphere.
+
+Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
+Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$ 
+is a subset $M \subseteq \R^N$ such that for each $p \in M$,
+there exists an open set $C \subseteq R^k$ (of parameters), and an
+an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
+and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
+(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
+\footnote{We provide the extrinsic definition of a Riemannian manifold as a
+subspace of $\mathbb R^n$.  A definition without reference to the embedding
+space is an intrinsic definition, which is provided in standard texts, such as
+Lee's introduction to smooth manifolds}
+
+Intuitively, a Riemannian manifold allows us to assign co-ordinates at each
+local region of the manifold which looks like $\R^N$. For example, the Earth in
+total is curved, since it is a sphere. However, around each of us, it is
+approximated by a plane, since the Earth appears flat around a small region.
+Thus, we can continue to use the differential calculus that we know and love to
+compute gradients on a Riemannian manifold, which we will use to perform gradient 
+descent on curved spaces.
+
+\subsection{Tangent space}
+On every manifold, at each point, we have a \emph{tangent space}, which
+represents the space of possible directions we can move on the space at that
+point. For example, at each point on a circle, we can define a velocity that is
+tangential to the circle. See that this space that is tangential is \emph{one dimensional},
+even though the circle is itself two-dimensional. The gradient of a function at a point is a 
+vector which lives in the tangent space a point.
+
+TODO: add tangent space example.
+
+\subsection{Lie groups}
+A lie group is a Riemannian manifold $M$ which is also a group, whose group
+structure is compatible with the manifold structure. This means that we have 
+an associative \emph{group operation} $*: M \times M \rightarrow M$, which comes with an
+inverse $(\cdot)^{-1} : M \rightarrow M$, and an identity $e \in M$ such that the group operation $*$
+and the inverse $(\cdot)^{-1}$ are continuous with respect to the inherited
+subspace topology on $M$.
+
+Intuitively, this gives us the operations (1) $v \cdot w \simeq v + w$ to add
+vectors, (2)  $(v)^{-1} \simeq -v$ to invert a vector, and (3) $v \cdot w^{-1} \simeq v - w$
+to subtract vectors. This allows us to generalize analogy to curved spaces, by using
+lie group operations to perform analogy.
 
 
-In our description of analogy, we deliberately describe the analogy operation
-in two steps: first to provide an analogy \texttt{(king : man)}, and second
-to provide the base of a new analogy \texttt{(woman : ? )}. As we shall see,
-the mathematical generalization to Lie groups naturally contains this distinction;
-Words such as \texttt{man, king, woman} become \emph{points} on the manifold,
-while analogies such as \texttt{(king : man)} become \emph{paths} on the manifold.
-This is not so strange, as this is exactly what happens in \wtov. We have
-words such as \texttt{king, man, woman} which are vectors (elements of $\R^n$). 
-On performing analogy \texttt{(a : b :: c : ?)}, we perform the vector
-space operation $b - a + c$, which can be rearranged as $c + (b - a)$, which
-is the base point $c$ to which we add the direction $(b - a)$.
+\subsection{Lie algebra}
+The Lie algebra of a Lie group is the \emph{tangent space} of the Lie group
+\emph{at} the identity element. Informally, the idea is that while the Lie group is a 
+``non-linear'' object, the tangent space represents tangents / ``linearlizations'' of the group.
+Moreover, in a group, given a tangent vector at the identity, we can \emph{exponentiate} this
+tangent vector to get a Lie group element.
 
-\begin{figure}[H]
-\includegraphics[width=\textwidth]{./symplectic.png}
-\caption{Angle between subspaces. Here, we see that when we consider angle
- between words, it is only possible to consider a single sense direction. When
- we consider angles between subspaces, the subspace can capture multiple senses
- since it can extend into multiple directions.  The angle between the subspaces
- provides us our notion of similarity.}
-\end{figure}
+For example, we consider the Lie group of complex numbers of unit norm,
+$G \equiv \C^\times = \{ z \in \C : |z| = 1 \}$. The Lie algebra corresponding to $G$, denoted
+by $\mathfrak g$ are the real numbers $\mathfrak g = \mathbb R$. We can \emph{exponentiate}
+a real number via the map $\exp : \mathfrak g \rightarrow G$, $\exp(r) \equiv e^{i r}$. Similarly,
+we have a logarithm map $\log: G \rightarrow \mathfrak g$, which takes any
+element $z \in \C^\times$, and produces a real number $\log(z) \equiv arg(z)$.
+Notice that the space $\mathfrak g = \mathbb R$ is a real vector space, since it contains an
+additive identity $0$, while the space $G = C^\times$ is not a real vector space, since it
+is not closed under scaling by reals.
 
-We first explain a modest generalisation of \wtov, the symplectic manifold,
-after which we move on to the full generalisation. In the symplectic manifold,
-we train pairs of vectors as our embedding representation, and use the
-angle between their subspaces as the similarity measure.
+For a more non-trivial example, we consider the space of all rotations in 3D. These are given
+by the orthogonal matrices $SO(3) \equiv \{ O : O O ^T = I \}$. We will not derive the Lie algebra
+space formally, which can be found in \cite{absil2009optimisation} \footnote{A derivation of the tangent space of $SO(n)$
+performed by the author can be found at \url{https://math.stackexchange.com/questions/3389983/explicit-description-of-tangent-spaces-of-on}}.
+Informally, the idea is that the Lie algebra represents a logarithmization of the tangent space. Thus,
+we must compute $\log(SO(3)) = \{ \log(O): \log(O O^T) = \log(I) \}$. This leads to the calculation:
+
+\begin{align*}
+&\log(SO(3)) = \{ \log(O): \log(O O^T) = \log(I) \} \\
+&\log(SO(3)) = \{ \log(O): \log(O) + \log(O^T) = \log(I) \} \\
+&\log(SO(3)) = \{ \log(O): \log(O) + \log(O)^T = \log(I) \} \\
+&\log(SO(3)) = \{ \log(O): \log(O) + \log(O)^T = 0 \} \\
+&\skewsym = \{ Z: Z + Z^T = 0 \} \\
+\end{align*}
+
+Thus, the tangent space of $SO(3)$ is the space $\skewsym$ of skew-symmetric matrices. Notice that skew symmetric
+matrices form a vector space, since the sum of two skew symmetric matrices is skew-symmetric, and skew-symmetric
+matrices are closed under scaling by the real numbers. On the other hand, $SO(3)$ is not a vector space; For example,
+the element $I \in SO(3)$ as $I I^T = I$. On the other hand, consider $J \equiv 2I$. We have 
+$J J^T = 4I \neq I$. Thus $SO(3)$ is not closed under scaling by reals, and is thus not a vector space. Hence,
+we see that even in this case, the Lie group is not a vector space, while the Lie algebra is a vector space.
+Philosophically, skew-symmetric matrcies correspond to angular momenta, which are indeed the ``velocities''
+of a rotation.
 
 
-\section{Lie groups, Similarly, and Analogy}
-which consists of "locations". Then, there is a Lie algebra, which consists of
-"directions at a location".  This allows us to decompose  our notion of analogy
-as explained before, into two steps: one is to analogize, () and the other is
-to transport the analogy to a new word ().
+\subsubsection{Setting} We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
+they are points in some \emph{subspace} of $\mathbb R^n$, where this subspace can be curved in shape.
+Also, the elements are equipped with the notion of a logarithm; That is, they come equipped with a
+function $\log : G \rightarrow \mathfrak g$, and $\exp: \mathfrak g \rightarrow G$,
+where $\log$ maps from the lie group (a group) to its lie algebra (a vector space),
+and vice versa for the $\exp$ map.
 
 
-\section{Optimisation on Lie groups}
+\subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
+them, and then take the dot product of their logarithms, which lives in the Lie algebra.
+Hence, we define the dot product on the Lie group $\langle \cdot , \cdot \rangle$ as
+$\langle g, h \rangle \equiv \log(g) \cdot \log(h)$.
+
+
+\subsubsection{Gradients} Next, to perform gradient descent, we need
+a notion of a \emph{gradient} to decide in which direction to move, and a way to perform a gradient update.
+How one performs the gradient update is explained in detail in the \label{section:optim-on-riem}. Intuitively,
+since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
+along the gradient vector (which will take us out of the manifold), and finally ``retract back'' into the
+manifold, which gives us a gradient step, starting from a point in the manifold, ending at a point in the manifold.
+
+\subsubsection{Similarity} We compute similarity between two words by computing the dot product between
+the vectors which represent the words.
+
+\subsubsection{Displacement} To compute the displacement from one word $v$ to another word $w$, we compute the element $d \equiv (v \cdot w^{-1})$.
+See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
+
+\subsubsection{Moving along displacement} To perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$.
+
+
+\section{Optimisation on Riemannian Manifolds}
+\label{section:optim-on-riem}.
 
 We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
@@ -1648,7 +1733,7 @@ We define $\overline M \subset \mathbb R^n; \overline M \equiv image(E)$.
 We define $\overline c: \overline M \subseteq \mathbb R^n \rightarrow \mathbb R; \overline c \equiv c \circ E^{-1}$
 
 We then needh two operators, that allows us to project onto the tangent space
-and the normal space. The tangent space at a point $x_0 \in M$, $\overline{T_{x_0} M} \equiv span(\partial_i E |_{E(x_0)})$. 
+and the normal space. The tangent space at a point $x_0 \in M$, $\overline{T_{x_0} M} \equiv span(\partial_i E |_{E(x_0)})$.
 We get an induced mapping of tangent spaces $dE: T_{x_0} M$ and $T_{x_0} \overline M$.
 
 we consider the gradient
@@ -1666,12 +1751,12 @@ retraction must obey the property $R(p \in \overline M) = p$.
 (TODO: is this correct? Do we need $R(\overline M) = \overline M$ or is this pointwise?)
 (what are the other conditions on the retraction? smoothness?)
 
-Given all of this machinery, the algorithm is indeed quite simple. 
+Given all of this machinery, the algorithm is indeed quite simple.
 
 \begin{itemize}
 	\item $x \in \overline M \subseteq \mathbb R^n$ is the current point on the manifold as an element of $\mathbb R^n$
 	\item Compute $g = \grad c(x) \in T_x \mathbb R^n$ is the gradient with respect to $\mathbb R^n$.
-	\item $\overline g = P_{T_x} g \in T_x M$ is the projection of the gradient with respect to $\mathbb R^n$ onto the 
+	\item $\overline g = P_{T_x} g \in T_x M$ is the projection of the gradient with respect to $\mathbb R^n$ onto the
 	tangent space of the manifold.
 	\item $x_{mid}\in \mathbb R^n \equiv x + \eta \overline g$, a motion along the tangent vector, giving a point in
 	$\mathbb R^n$.
@@ -1679,7 +1764,6 @@ Given all of this machinery, the algorithm is indeed quite simple.
 	giving a point on the manifold $\overline M$.
 \end{itemize}
 
-\subsection{Symplectic space: Pairs of word vectors}
 
 \section{Pseudocode}
 % https://arxiv.org/abs/1902.09229
@@ -1727,6 +1811,6 @@ Word Embeddings as Tuples of Feature Probabilities: Siddharth Bhat, Alok Debnath
 
 \bibliographystyle{latex8}
 %\bibliography{References,Introduction/References} % To include one or more reference.bib files
-\bibliography{references} 
+\bibliography{references}
 
 \end{document}
