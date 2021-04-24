@@ -28,6 +28,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{booktabs}
+\usepackage{epigraph}
 % \usepackage{natbib}
 % \bibliographystyle{unsrtnat}
 
@@ -158,6 +159,8 @@ harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWal
 %% ABSTRACT PAGE
 \chapter*{Abstract}
 \label{ch:abstract}
+\epigraph{It is only proper to realize that language is largely a historical accident.}{John Von Neumann}
+
 With the growing use of natural language processing tools (NLP) in
 wide-ranging applications, it becomes imperative to understand why NLP models
 are as successful as they are. In particular, it is essential to understand
@@ -193,6 +196,8 @@ provide insight into the mathematical structure of word representations.
 \pagenumbering{arabic}
 
 \chapter{Introduction}
+
+\epigraph{The sky is the limit, so lets build rockets!}{Anonymous}
 
 
 \textinit{N}atural language processing has, since its inception, required
@@ -271,6 +276,8 @@ Concretely, we tackle the following questions:
 
 
 \chapter{A deep dive into \wtov}
+
+\epigraph{And if we tamper with our inheritance, so what? What is more ours to tamper with?}{Ian M Banks}
 
 \textinit{T}he popular opinion thanks to a confluence of distributional
 semantics and machine learning is that systems such as \texttt{word2vec} learn
@@ -491,8 +498,9 @@ to build fuzzy set representations in
 version of the \texttt{word2vec} training algorithm on any choice of Lie group
 in \autoref{chapter:geometrization}.
 
-\chapter{Abstract Interpretation: Semantics}
+\chapter{Abstract Interpretation}
 \label{chapter:abstract-interpretation}
+\epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
 \textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
 It was created by Cousout and Cousout to unify many disparate program analysis
@@ -1500,21 +1508,16 @@ feature based representations at lower dimensions for downstream tasks.
 
 
 
-\chapter{Geometry of Word Represenatations}
+\chapter{Geometry of Word Representations}
 \label{chapter:geometrization}
+
+\epigraph{In the deeper dreams everything was likewise more distinct, and Gillman
+felt that the twilight abysses around him were those of the fourth dimension.}{H. P. Lovecraft}
 
 % http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
 % https://www.cis.upenn.edu/~cis515/Stiefel-Grassmann-manifolds-Edelman.pdf
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
 % https://arxiv.org/pdf/1205.5935.pdf
-\begin{minted}{py}
-def analogy(a, b, c):
-  len_ab = length_of_shortest_geodesic(a, b)
-  va = velocity_of_shortest_geodesic(a, b)
-  va_at_c = parallel_transport(vec=va, from=a, to=c)
-  d = follow_geodesic_along(from=c, vec=va_at_c, len=len_ab)
-  return d
-\end{minted}
 
 \textinit{E}mbedding words in vector spaces has become the norm for
 distributional lexical semantic representations. While esoteric literature has
@@ -1781,28 +1784,33 @@ We would like to understand what happens with our generalized training mechanism
 
 \chapter{Conclusion and Future Work}
 
+\epigraph{A good proof is one that makes us wiser.}{Yuri Manin}
+
 In this thesis, we focus on \emph{empirical study} to provide
-\emph{mathematical} formalisms for word embeddings. Towards this goal,
-we provide two directions of research: One based on the linguistic theory
-of Montague semantics, which we link to the formal theory of abstract
-interpretation, from which we produce fuzzy set representations. These
-fuzzy embeddings are extracted from standard word embeddings, and provide
-access to set theoretic and probabilistic operations on word embeddings. This
-exhibits our conjecture that word embeddings are in fact capturing montagueian
-based semantics. The second prong of our research is purely mathematical,
-where we analyze the conflation of various ideas in classical word embeddings,
-and dis-entangle these ideas to provide a framework for generating word
-embeddings over Lie groups.  We see that our generalization provides a cleaner
-framework to \emph{think} about word embeddings, where we provide separate
-mathematical objects that captures notions of similarity, analogy, meaning
-distance, and meaning interpolation.
+\emph{mathematical} formalisms for word embeddings. Towards this goal, we
+provide two directions of research: One based on the linguistic theory of
+Montague semantics, which we link to the formal theory of abstract
+interpretation, from which we produce fuzzy set representations. These fuzzy
+embeddings are extracted from standard word embeddings, and provide access to
+set theoretic and probabilistic operations on word embeddings. This exhibits
+our conjecture that word embeddings are in fact capturing montagueian based
+semantics. The second prong of our research is purely mathematical, where we
+analyze the conflation of various ideas in classical word embeddings, and
+dis-entangle these ideas to provide a framework for generating word embeddings
+over Lie groups.  We see that our generalization provides a cleaner framework
+to \emph{think} about word embeddings, where we provide separate mathematical
+objects that captures notions of similarity, analogy, meaning distance, and
+meaning interpolation.  For the future, we envision lines of research which
+exploits other geometric structures posessed by the manifold, including notions
+of \emph{parallel transport}, which provide a notion of interpolation of word
+meaning. Furthermore, we wish to adapt results from PAC learning --- in
+particular the contrastive losses \cite{arora2019theoretical} to our
+generalized setting of Lie groups.  In closing, I hope this thesis has given
+you, the reader, a glimpse into pretty mathematical abstractions, reified by
+the humble \texttt{word2vec}.
 
 
-For the future, we envision lines of research which exploits other geometric
-structures posessed by the manifold, including notions of \emph{parallel transport},
-which provide a notion of interpolation of word meaning. Furthermore, we wish
-to adapt results from PAC learning --- in particular the contrastive losses \cite{arora2019theoretical}
-to our generalized setting of Lie groups.
+
 
 %--------------------------------------------------------
 % Recommended 'Related Publication'
