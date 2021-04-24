@@ -111,6 +111,15 @@
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 
+\definecolor{pairedNegOneLightGray}{HTML}{cacaca}
+\definecolor{pairedNegTwoDarkGray}{HTML}{827b7b}
+\definecolor{pairedOneLightBlue}{HTML}{a6cee3}
+\definecolor{pairedTwoDarkBlue}{HTML}{1f78b4}
+\definecolor{pairedThreeLightGreen}{HTML}{b2df8a}
+\definecolor{pairedFourDarkGreen}{HTML}{33a02c}
+\definecolor{pairedFiveLightRed}{HTML}{fb9a99}
+\definecolor{pairedSixDarkRed}{HTML}{e31a1c}
+
 
 \graphicspath{{figures/}{./}} % To include images in other directories
 
@@ -279,19 +288,17 @@ Concretely, we tackle the following questions:
 
 \epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
 
-\textinit{T}he popular opinion thanks to a confluence of distributional
-semantics and machine learning is that systems such as \texttt{word2vec} learn
-''vector representations''. It is hard to quantify what a vector representation
-\emph{is}.  In particular, it conflates the encoding of the learnt
-representation (as a tuple of real numbers) with mathematical structure (a
-vector space). We begin by surveying the popular explanation of \texttt{word2vec}
-like systems. We then critique this explanation by comparing the explanation to
-the source code. Armed with detailed knowledge of the training mechanism,
-we lay out open questions in the design of \texttt{word2vec}. To answer these
-questions, we explain the mathematical theory of abstract interpretation and
-connect this to montague semantics in \autoref{chapter:abstract-interpretation},
-and we then use this to build fuzzy set representations in
-\autoref{chapter:abstract-interpretation}.
+\textinit{T}he popular opinion in the NLP literature 
+is that that systems such as \texttt{word2vec} learn
+vector representations. Hence, this forms as the launching point for our study. We will
+first describe the popular description of the algorithm as found online, describe
+gaps in both the online descriptions and in the original paper. Next, we dissect the
+source code of \texttt{word2vec}.Armed with detailed knowledge of the real
+training mechanism, we lay out the list of open questions in the design of
+\texttt{word2vec}. To answer these questions, we explain the mathematical
+theory of abstract interpretation and connect this to montague semantics in
+\autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
+set representations in \autoref{chapter:abstract-interpretation}.
 
 \section{\wtov in the literature}
 
@@ -326,30 +333,35 @@ is arguably too terse to extract out any pseudocode from, so we thus defer to th
 explanations available on \href{https://en.wikipedia.org/wiki/Word2vec#Training_algorithm}{Wikipedia}
 and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{TensorFlow} re-implementation.
 
-The original \wtov \texttt{C} implementation does not do what's explained above,
-and is drastically different. Most serious users of word embeddings, who use
-embeddings generated from \texttt{word2vec} either (a) invoke the original C implementation directly,
-or (b) invoke the \texttt{gensim} implementation, which is
-\emph{transliterated} from the C source to the extent that the variables names
-are the same. Hence, we shall read the source code to better understand the training
-scheme of \texttt{word2vec }.
+The original \wtov \texttt{C} implementation does not do what is explained above.
+serious users of word embeddingseither (a) directly invoke the original C
+implementation of \texttt{word2vec}, or (b) invoke the \texttt{gensim}
+implementation, which is \emph{transliterated} from the C source to the extent
+that the variables names are the same as that of the C implementation. Hence, we shall read the source code to
+better understand the training scheme of \texttt{word2vec}.
 
 \section{\wtov in the sources}
 
-We analyze the original C implementation of \texttt{word2vec}, to point out salient
-features, curious implementation decisions and bugs in the implementation.
-The core training loop of \wtov (trained using negative sampling, in skip-gram
-mode) ingests a corpus, and then attempts to learn \emph{two} representations for a given word, called as the positive and negative representation. At a high level,
-the python pseudocode at \autoref{fig:w2v-py-pseudocode} explains the implementation of \texttt{word2vec}.
+We analyze the original C implementation of \texttt{word2vec}, to point out
+salient features, curious implementation decisions and bugs in the
+implementation
+\footnote{sources taken from \url{https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c}}. 
+This necessitates interleaving high level explanations with direct snippets of  C source code;
+We do not apologize for this. We view this as a feature of this thesis, not a bug, since we deal
+with details such as the initialization and gradient calculations.  The core
+training loop of \wtov (trained using negative sampling, in skip-gram mode)
+ingests a corpus, and then attempts to learn \emph{two} representations for a
+given word, called as the positive and negative representation. At a high
+level, the python pseudocode at \autoref{fig:w2v-py-pseudocode} explains the
+implementation of \texttt{word2vec}.
 
 The \texttt{C} implementation in fact maintains \emph{two vectors for each word}, one where
 it appears as a focus word, and one where it appears as a context word.
 (Is this sounding familiar? Indeed, it appears that GloVe actually took this
 idea from `word2vec`, which has never mentioned this fact!)
 
-The setup is incredibly well done in the C code:
-
-- An array called `syn0` holds the vector embedding of a word when it occurs
+\subsubsection{Initialization}
+(a) An array called `syn0` holds the vector embedding of a word when it occurs
 as a \emph{focus word}. This is random initialized.
 
 \begin{minted}{cpp}
@@ -361,7 +373,7 @@ for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
 }
 \end{minted}
 
-Another array called \texttt{syn1neg} holds the vector of a word when it occurs
+(b) Another array called \texttt{syn1neg} holds the vector of a word when it occurs
 as a \emph{context word}. This is zero initialized.
 
 \begin{minted}{cpp}
@@ -370,19 +382,33 @@ for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
 syn1neg[a * layer1_size + b] = 0;
 \end{minted}
 
+
+\subsubsection{Training}
+
 During training (skip-gram, negative sampling, though other cases are
 also similar), we first pick a focus word. This is held constant throughout
 the positive and negative sample training. The gradients of the focus vector
 are accumulated in a buffer, and are applied to the focus word
 \emph{after} it has been affected by both positive and negative samples.
+Line number \circled{4} decides whether we are picking a positive sample (\texttt{d = 0})
+or a negative sample (\texttt{d > 0}). If we are picking a positive sample, then we expect 
+at \circled{5} to find the dot-product with the \texttt{word} to be \texttt{1}.
+On the other hand, if we are picking a negative sample, then we expect at \circled{10} to pick
+a random word, and at \circled{13} for the dot-product to be zero. \circled{20} computes
+the dot-product between the focus word and the picked context word.
+\circled{23}-\circled{25} computes the gradient $g \equiv \sigma(\texttt{label} - \texttt{focus} \cdot \texttt{ctx})$.
+\circled{30}-\circled{31} performs the backprop of the loss of the focus and context word. Note that
+the gradient of the focus word is stored into a buffer \texttt{neu1e}. This ensures that the gradient of
+the focus word is held constant throught the positive and negative samples. Finally, on
+\circled{36}, the buffered gradient \texttt{neu1e} is propagated into the focus word.
 
-\begin{minted}{cpp}
+
+\begin{minted}[linenos]{cpp}
 for (d = 0; d < negative + 1; d++) {
  // if we are performing negative sampling, in the 1st iteration,
  // pick a word from the context and set the dot product target to 1
  if (d == 0) {
-   target = word;
-   label = 1;
+   target = word; label = 1;
  } else {
    // for all other iterations, pick a word randomly and set the dot
    //product target to 0
@@ -416,7 +442,9 @@ for (d = 0; d < negative + 1; d++) {
 for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 \end{minted}
 
-\subsection{Summarizing the real \wtov algorithm}
+
+
+\subsubsection{Summary}
 
 We outline what we have learnt from delving into the C sources
 of \wtov to provide high-level pseudocode of the algorithm.
@@ -452,6 +480,34 @@ def train(corpus):
 \caption{\texttt{word2vec} pseudocode, explaining the core training algorithm}.
 \label{fig:w2v-py-pseudocode}
 \end{figure}
+
+\subsection{Bugs}
+
+In this subsection, we list bugs that were discovered by us in the \texttt{word2vec}
+codebase. While these do not impact training significantly, they do point out
+the dangers of using C as programming language, as well as provides justification
+for reading the original sources.
+
+
+\subsubsection{Epoch resetting}
+
+\begin{minted}[linenos]{cpp}
+if (eof || (word_count > train_words / num_threads)) {
+  word_count_actual += word_count - last_word_count; local_iter--;
+  if (local_iter == 0) break;
+  word_count = 0; last_word_count = 0; sentence_length = 0;
+  // eof = 0; /* Missing code! */
+  fseek(fi, file_size / (long long)num_threads * (long long)id,
+     SEEK_SET);
+  continue;
+}
+\end{minted}
+
+\texttt{word2vec} trains on multiple threads in parallel. The thread that reads
+the final chunk of text does not reset its \texttt{eof} (end-of-file) state
+upon reaching the end of file. The code at line \circled{5} ought to have been present,
+but is missing. Thus, the final fragment of text is trained for only a single
+epoch, which causes the word vectors to miss data about the last section of the document.
 
 \subsection{Initialization choices}
 
@@ -1770,13 +1826,11 @@ Given all of this machinery, the algorithm is indeed quite simple.
 \end{itemize}
 
 
-\section{Pseudocode}
-% https://arxiv.org/abs/1902.09229
-% http://svcl.ucsd.edu/publications/journal/2016/ggr/supplementary_material.pdf
-
-\section{Expected Outcomes}
-
-We would like to understand what happens with our generalized training mechanism. In particular, there are many Lie groups that are amenable to perform training on --- the orthogonal and special orthogonal group, the steifel manifold, the grassmanian, and others. It would be interesting to how which of these training mechanisms reproduce the performance of \texttt{word2vec}, and to what degree.
+We point out that this algorithm, when specialized to $\mathbb R^n$ as a Lie
+group recovers the fuzzy set representation, where we perform similarity and
+analogy on the \emph{logarithmized inputs}, which we interpreted as treating
+\texttt{word2vec} vectors as fuzzy sets. We leave the experimentation on more
+exotic manifolds as open for future work.
 
 %--------------------------------------------------------
 %%% Optional appendix
