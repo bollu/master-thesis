@@ -211,80 +211,73 @@ provide insight into the mathematical structure of word representations.
 
 \textinit{N}atural language processing has, since its inception, required
 techniques to extract semantic information from raw corpora with little to no
-supervision. Some early techniques to perform this were systems which used
-linear-algebraic ideas such as SVD. This reliance on linear algebra made these
-algorithms amenable to mathematical analysis. For example, Latent semantic
-analysis (LSA) is a technique in natural language processing, in particular
-distributional semantics, of analyzing relationships between a set of documents
-and the terms they contain by producing a set of concepts related to the
-documents and terms. LSA assumes that words that are close in meaning will
-occur in similar pieces of text (the distributional hypothesis). A matrix
-containing word counts per document (rows represent unique words and columns
-represent each document) is constructed from a large piece of text and a
-mathematical technique called singular value decomposition (SVD) is used to
-reduce the number of rows while preserving the similarity structure among
-columns. Documents are then compared by taking the cosine of the angle between
-the two vectors (or the dot product between the normalizations of the two
-vectors) formed by any two columns. Values close to 1 represent very similar
-documents while values close to 0 represent very dissimilar documents.1
+supervision. To perform such unsupervised learning, many models
+have been built, based off of the ``Distributional Hypothesis'', which states
+that words that occur in the same contexts tend to have similar meanings
+(Harris, 1954). The underlying idea that ``a word is characterized by the
+company it keeps'' was popularized by Firth. 
 
+An early technique which exploited distributional semantics was Latent Semantic
+analysis (LSA). LSA analyzes relationships by assuming that words that are close in
+meaning will occur in similar pieces of text (the distributional hypothesis), and
+thus matrix containing word counts per document (rows represent unique words
+and columns represent each document) is constructed from a large piece of text
+and  singular value decomposition (SVD) is used to reduce the number of rows
+while preserving the similarity structure among columns. Documents are then
+compared by taking the cosine of the angle between the two vectors, where angles
+close to $1$ represent very similar documents, and angles close to $0$
+represent dis-similar documents. 
 
-
-\texttt{Word2vec} is a technique to create unsupervised word embeddings for NLP
-from unstructured data. The word2vec algorithm uses a neural network model to
-learn word associations from a large corpus of text. Once trained, such a model
-can detect synonymous words or suggest additional words for a partial sentence.
-As befitting the name, \texttt{word2vec} represents each distinct word with a
-particular list of numbers called a vector. The vectors are chosen carefully
-such that a simple mathematical function (the cosine similarity between the
-vectors) indicates the level of semantic similarity between the words
-represented by those vectors.
-
-A common explanation given fo the success of \texttt{word2vec} is The
-Distributional Hypothesis, which states that words that occur in the same
-contexts tend to have similar meanings (Harris, 1954). The underlying idea that
-"a word is characterized by the company it keeps" was popularized by Firth
-(1957), and it is implicit in Weaver's (1955) discussion of word sense
-disambiguation (originally written as a memorandum, in 1949). The
-Distributional Hypothesis is the basis for Statistical Semantics. Although the
-Distributional Hypothesis originated in Linguistics, it is now receiving
-attention in Cognitive Science (McDonald and Ramscar, 2001). The origin and
-theoretical basis of the Distributional Hypothesis is discussed by Sahlgren
-(2008).
+\texttt{Word2vec} is a recent technique to create unsupervised word embeddings
+for NLP from unstructured data, whose informal correctness is based on the
+distributional hypothesis. The \emph{word2vec} algorithm uses a neural network
+model to learn word associations from a large corpus of text. Once trained,
+such a model can detect synonymous words or suggest additional words for a
+partial sentence.  As befitting the name, \texttt{word2vec} represents each
+distinct word with a vector. The training mechanism yields vectors such that 
+the cosine of the angle between the vectors reflects the the level of semantic
+similarity between the words represented by those vectors.
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
-is as successful as it is. We aim to provide an explanation in two ways. First,
-we attempt to begin with a \emph{linguistic} theory of meaning, with that of
-Montague semantics. From here, we borrow the tools of \emph{Abstract
-Interpretation}, a technique development in computer science for program
-analysis, which is used to approximate the (formal) meaning/semantics of a
-program. From this launching point, we ..
-
-Furthermore, we attempt to understand why \emph{vectors} are critical to word
-embeddings, and if possible, whether we can generalize the notion of a vector
-embedding to arbitrary spaces.
-
-Concretely, we tackle the following questions:
+is as successful as it is. In comparison to LSA, which has theoretical guarantees
+since it is based on linear-algebraic ideas such as SVD, the correctness of
+\texttt{word2vec} is far less clear. In this thesis, we attempt to provide a 
+\emph{linguistically} as well as \emph{mathematically} motivated explanation
+for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
+implementation. Following this, we chase a \emph{linguistic} theory of meaning,
+by considering \emph{Montague semantics}. Developing on this idea, we borrow the tools of
+\emph{Abstract Interpretation}, a technique development in computer science for
+program analysis, which is used to approximate the (formal) meaning/semantics
+of a program. Using abstract interpretation, we propose a scheme to extract
+\emph{Montagueian semantics} from \texttt{word2vec}, and evaluate the
+performance of our proposed system. Finally, we generalize \texttt{word2vec}
+far beyond its original setting. Concretely, we tackle the following questions:
 
 \begin{enumerate}
     \item How does \texttt{word2vec} \emph{really} work, including an
         investigation of all the tricks that are used in its reference C
         implementation and the bearings they have on the quality of the
-        generated word vectors.
+        generated word vectors. This is answered in \autoref{chapter:deep-dive-wtov}, 
+        where we analyze the \texttt{word2vec} sources and extract insights from this process.
     \item What is a general theory of meaning that can be adapted to
         statistical machine learning? Why is abstract interpretation a
-        potential candidate?
-    \item How can Abstract Interpretation be retrofitted into the
-        \texttt{word2vec} unsupervised training regime?
+        potential candidate? This is answered in \autoref{chapter:abstract-interpretation},
+        where we explain Abstract Interpretation, and link this theory to Montague semantics.
+    \item How can Abstract Interpretation be melded into the \texttt{word2vec}
+        training regime? This is answered in
+        \autoref{chapter:fuzzy-set-representation}, where we create new
+        \emph{fuzzy embeddings} and evaluate their effectiveness.
     \item What is the largest setting where \texttt{word2vec} can be
         implemented? In particular, how much of the mathematical structure of a
         vector is exploited by \texttt{word2vec} embeddings, and by how much
-        can we generalize this training regime?
+        can we generalize this training regime? This is answered in
+        \autoref{chapter:geometrization} where we generalize \texttt{word2vec} to arbitrary Lie groups.
 \end{enumerate}
 
 
 
 \chapter{A deep dive into \wtov}
+\label{chapter:deep-dive-wtov}
 
 \epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
 
