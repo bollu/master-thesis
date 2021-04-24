@@ -218,15 +218,15 @@ that words that occur in the same contexts tend to have similar meanings
 company it keeps'' was popularized by Firth. 
 
 An early technique which exploited distributional semantics was Latent Semantic
-analysis (LSA). LSA analyzes relationships by assuming that words that are close in
-meaning will occur in similar pieces of text (the distributional hypothesis), and
-thus matrix containing word counts per document (rows represent unique words
-and columns represent each document) is constructed from a large piece of text
-and  singular value decomposition (SVD) is used to reduce the number of rows
-while preserving the similarity structure among columns. Documents are then
-compared by taking the cosine of the angle between the two vectors, where angles
-close to $1$ represent very similar documents, and angles close to $0$
-represent dis-similar documents. 
+analysis (LSA)\cite{landauer1998introduction}. LSA analyzes relationships by
+assuming that words that are close in meaning will occur in similar pieces of
+text (the distributional hypothesis), and thus matrix containing word counts
+per document (rows represent unique words and columns represent each document)
+is constructed from a large piece of text and  singular value decomposition
+(SVD) is used to reduce the number of rows while preserving the similarity
+structure among columns. Documents are then compared by taking the cosine of
+the angle between the two vectors, where angles close to $1$ represent very
+similar documents, and angles close to $0$ represent dis-similar documents. 
 
 \texttt{Word2vec} is a recent technique to create unsupervised word embeddings
 for NLP from unstructured data, whose informal correctness is based on the
@@ -246,7 +246,7 @@ since it is based on linear-algebraic ideas such as SVD, the correctness of
 for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
 implementation. Following this, we chase a \emph{linguistic} theory of meaning,
 by considering \emph{Montague semantics}. Developing on this idea, we borrow the tools of
-\emph{Abstract Interpretation}, a technique development in computer science for
+\emph{Abstract Interpretation} \cite{cousout1996abstract}, a technique development in computer science for
 program analysis, which is used to approximate the (formal) meaning/semantics
 of a program. Using abstract interpretation, we propose a scheme to extract
 \emph{Montagueian semantics} from \texttt{word2vec}, and evaluate the
@@ -575,7 +575,7 @@ geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO:
 cite MathOverflow where nullstellensatz is adjunction) .
 
 Here, we shall focus on the special case of an adjunction for lattices, known
-as a \emph{Galois connection}. We will show how the notion of a Galois
+as a \emph{Galois connection} \cite{cousout1992comparing}. We will show how the notion of a Galois
 connection provides a good notion of "approximation of meaning", and how this
 directly relates to Montague's ideas of representing semantics as subsets.
 
@@ -783,7 +783,6 @@ theoretic operations.
 
 \section{Introduction} \label{sec: intro}
 
-(TOTO \cite{levy2012call} WRONG CITATION)
 Word embedding is one of the most crucial facets of Natural Language Processing
 (NLP) research. Most non-contextualized word representations aim to provide a
 distributional view of lexical semantics, known popularly by the adage
@@ -1859,8 +1858,6 @@ you, the reader, a glimpse into pretty mathematical abstractions, reified by
 the humble \texttt{word2vec}.
 
 
-
-
 %--------------------------------------------------------
 % Recommended 'Related Publication'
 \chapter*{Related Publications}
@@ -1875,6 +1872,7 @@ Word Embeddings as Tuples of Feature Probabilities: \textbf{Siddharth Bhat}, Alo
 
 \bibliographystyle{latex8}
 %\bibliography{References,Introduction/References} % To include one or more reference.bib files
+\nocite{*}
 \bibliography{references}
 
 \end{document}
