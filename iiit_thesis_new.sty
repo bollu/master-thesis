@@ -297,11 +297,608 @@
 \newcommand\@titlevspace{1.01875in}  % sets distance from top of page to title
 \newcommand\@titlekern{1.85in} % sets distance from title to rest of titlepage
 
+%%%
+%%% Change names to match UIUC requirements
+%%%
+%%%%%%% CHANGED by Karteek
+\renewcommand\contentsname{Contents}
+\renewcommand\listfigurename{List of Figures}  
+\renewcommand\listtablename{List of Tables}
+\renewcommand\bibname{Bibliography}
+\renewcommand\indexname{Index}   
+\renewcommand\figurename{Figure} 
+\renewcommand\tablename{Table}   
+\renewcommand\partname{PART}
+\renewcommand\chaptername{{\it Chapter}}
+\renewcommand\appendixname{{\it Appendix}}
+%\renewcommand\abstractname{ABSTRACT}
+%%%
+%%% Set up default values.
+%%%
+\newcommand{\@universityname}{International Institute of Information Technology}
+\newcommand{\@publicationno}{Publication No.\ \line(1,0){40} \\[10mm]}
+\newcommand{\thesisauthor}{Ima Student}
+\newcommand{\thesistitlepageauthor}{\thesisauthor}
+\newcommand{\thesismonth}{Dec}
+\newcommand{\thesisyear}{2005}
+\newcommand{\thesistitle}{Title}
+\newcommand{\thesistitletypesize}{\Large}
+\newcommand{\thesisauthorpreviousdegrees}{Degree}
+\newcommand{\previousschools}{B.S., FOO U}
+\newcommand{\thesissupervisor}{Supervisor}
+\newcommand{\thesisauthoraddress}{India}
+\newcommand{\thesisapprovedby}{Approved by}
+\newcommand{\thesisapprovedbytypesize}{\large}
+\newcommand{\thesiscopyrightholder}{\thesisauthor}
+\newcommand{\thesistypist}{the author}
+\newcommand{\thesistype}{Dissertation}
+\newcommand{\thesistypetypesize}{\large}
+\newcommand{\thesistypesize}{\large}
+\newcommand{\thesisdegree}{Doctor of Philosophy}
+\newcommand{\thesisdepartment}{Computer Science}
+\newcommand{\thesisdegreetypesize}{\large}
+\newcommand{\thesisdegreeabbreviation}{Ph.D.}
+\newcommand{\thesiscommitteesize}{5}
+\newcommand{\thesiscommittee}{Dissertation Committee:}
+\newcommand{\thesiscommitteetypesize}{\large}
+\newcommand{\thesisvitahead}{VITA}
+\newcommand{\thesisvitaheadtypesize}{\Large}
+\newcommand{\thesisacknowledgmenthead}{ACKNOWLEDGMENTS}
+\newcommand{\thesisacknowledgmentheadtypesize}{\Large}
+\newcommand{\thesisacknowledgmentsigname}{\thesisauthor}
+\newcommand{\thesisacknowledgmentsignametypesize}{\large}
+\newcommand{\thesisacknowledgmentsigplace}%
+    {{\slshape
+       \renewcommand{\arraystretch}{1.0}
+       \begin{tabular}{l}
+         \@universityname \\
+         \thesismonth\ \thesisyear
+       \end{tabular}}}
+\newcommand{\thesisdedication}{}
+\newcommand{\tocspacing}{1}
+\newcommand{\lofspacing}{1}
+\newcommand{\lofchapskip}{1}
+\newcommand{\lotspacing}{1}
+\newcommand{\lotchapskip}{1}
 
-%%%% BOLLU NEWvvv
 
+%%%
+%%% Command for masters theses.  \phdthesis is provided for symmetry.
+%%%
+\newcommand{\mastersthesis}{
+    \renewcommand{\thesistype}{THESIS}
+    \renewcommand{\thesisdegree}{Master of Science}
+    \renewcommand{\thesisdegreeabbreviation}{M.S.}
+    \renewcommand{\thesiscommitteesize}{2}
+    \renewcommand{\thesiscommittee}{Supervising Committee:}}
+\newcommand{\phdthesis}{}
+
+%%%
+%%% Set up other commands.
+%%%
+\newcommand{\@defaultbaselinestretch}{1.5}
 \newcommand{\@base}[1]{\renewcommand{\baselinestretch}{#1}}
+\newcommand{\singlespace}{\renewcommand{\@defaultbaselinestretch}{1.1}}
+\newcommand{\oneandhalfspace}{\renewcommand{\@defaultbaselinestretch}{1.5}}
+\newcommand{\doublespace}{\renewcommand{\@defaultbaselinestretch}{1.7}}
+\newcommand{\@thesistitle}{\textbf{\thesistitletypesize \thesistitle}}
+%\newcommand{\@thesistitle}{\textbf{\thesistitletypesize  A Framework
+%for Designing a Low-Loss, Low-Delay Internet}}
+\newcommand{\@thesisapprovedby}%
+    {\textbf{\thesisapprovedbytypesize \thesisapprovedby}}
+\newcommand{\@thesistype}{\textbf{\thesistypetypesize \thesistype}}
+\newcommand{\@thesisdegree}{\textbf{\thesisdegreetypesize \thesisdegree}}
+\newcommand{\@thesisdegreeabbreviation}{\thesisdegreeabbreviation}
+\newcommand{\@thesiscommittee}%
+    {\textbf{\thesiscommitteetypesize \thesiscommittee}}
+\newcommand{\@thesisvitahead}{\thesisvitahead}
+\newcommand{\@thesisacknowledgmenthead}%
+    {\thesisacknowledgmenthead}
+\newcommand{\@thesisacknowledgmentsigname}%
+    {\textsc{\thesisacknowledgmentsignametypesize \thesisacknowledgmentsigname}}
+\newcommand{\@thesisacknowledgmentsigplace}{\thesisacknowledgmentsigplace}
+\newcommand{\@thesisstudent}{\textbf{\thesisstudenttypesize \thesisstudent}}
 
+%%%
+%%%   Taken from the old uiuc style file.
+%%%	Make chapter entries in the TOC have dotted leaders.
+%%%	Also, make certain page breaks don't occur after
+%%%	chapter headings in the TOC.
+%%%
+\def\l@chapter#1#2{\pagebreak[3] 
+\vskip 1.0em plus 1pt \@tempdima 1.5em
+\begingroup
+\parindent \z@ \rightskip \@pnumwidth%
+\parfillskip -\@pnumwidth%
+\leavevmode \advance\leftskip\@tempdima \hskip -\leftskip%
+\hyphenpenalty10000
+#1\nobreak\hfil
+%
+% following two lines stolen from \@dottedtocline in latex.tex
+%
+\nobreak\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep mu$}%
+\hfill \nobreak \hbox to\@pnumwidth{\hfil\rm #2}\par
+\endgroup\nopagebreak[4]}
+
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%% This is needed because UIUC requires the caption lables to be in bold
+%%% and not have a colon like in the original report style.
+%%%
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip 
+  \sbox\@tempboxa{\textbf{#1} #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    \textbf{#1} #2\par
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%  
+  \fi
+  \vskip\belowcaptionskip}
+
+%%%
+%%% Indent the first paragraph after a sectioning command.
+%%%
+\let\@afterindentfalse\@afterindenttrue
+\@afterindenttrue
+
+%%%
+%%% Set up default page numbering and line spacing.
+%%%
+\newcommand{\@textpagenumbering}{arabic}
+\newcommand{\@preamblepagenumbering}{roman}
+\newcommand{\@textpagestyle}{plain}
+\newcommand{\@preamblepagestyle}{plain}
+\pagenumbering{\@preamblepagenumbering}
+\@base{\@defaultbaselinestretch}
+
+\newcommand{\@chaptertype}{\chaptername}
+\newcommand{\@appendix}{0}
+
+
+%%%  ****************************************
+%%%  *           COPYRIGHT PAGE             *
+%%%  ****************************************
+%%%  borrowed from fuiucthesis.sty  
+%%% 
+
+\newcommand{\thesiscopyrightpage}{{
+ \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \else \newpage \fi\thispagestyle{empty}
+ \vrule width 0pt height 1pt depth 1pt %  some non-empty space for vfil 
+ \vfill
+ \centerline{\copyright\,Copyright by \thesiscopyrightholder,\,\thesisyear}
+ \vfill
+ \if@restonecol\twocolumn \else \newpage \fi}}
+
+
+%%% Much of this is from the original make title command from uiucthesis.sty. 
+%%% I didn't have the time or inclination to fix it.  It should really
+%%% support 2 line titles and stuff.  Feel free to impliment it if you
+%%% wish.
+%%%
+%%% Command to generate title page.
+%%%
+\newcommand{\thesistitlepage}{
+    \begingroup
+    \begin{spacing}{1}
+    \lineskip=0pt
+    \lineskiplimit=\maxdimen
+    \thispagestyle{empty}
+    %\vspace*{\1.01875in}%
+    \vspace*{\@titlevspace}%
+    \vtop to 0in{%
+    %the ``kern'' in the next line was -.25in. klm
+    \vtop to 0in{\begin{center}\kern -.125in
+    \begin{tabular}{c}\uppercase\expandafter{\thesistitle}
+    \end{tabular}\end{center}%
+    \vss}
+    %
+    % \vtop to 0in{\centerline{\uppercase\expandafter{\@title}}\vss}%
+    %
+    %  skip to ``by'' and author line; measurements w.r.t top line (2.25in)
+    %   
+    % The kern in the next line was 1.89 for a single-line title       
+    %\kern 1.85in%
+    \kern \@titlekern%
+    \vtop to 0in{\centerline{BY}%
+    \vskip \baselineskip
+    \centerline{\uppercase\expandafter{\thesistitlepageauthor}}%       
+    \vskip \baselineskip
+    \begin{center}\begin{tabular}{c}\previousschools\end{tabular}\end{center}%
+    \vss}\kern -1.75in%
+    %
+    %  Skip down from last item (which has baseline at the top) to     
+    %  thesis line.
+    %
+    % The kern in the next line was 4.4in for a single-line title      
+    \kern 4.25in%
+    \vtop to 0in{%
+    \centerline{THESIS}%
+    \vskip \baselineskip
+    \centerline{\strut Submitted in partial fulfillment of the
+    requirements}% 
+    \centerline{\strut for the degree of \thesisdegree \, in \thesisdepartment
+     }%
+    \centerline{\strut in the Graduate College of the}%
+    %\centerline{\strut Department of Electrical and Computer Engineering}
+    \centerline{\strut \@universityname, \thesisyear}%
+    \vss}\kern -4.25in%
+    %
+    % The kern in the next line was 6.91in for a single-line title    
+    \kern 6.75in%
+    \vtop to 0in{\centerline{Urbana, Illinois}\vss}%
+    \kern -6.75in\vss}
+    \end{spacing}
+    \endgroup
+    \newpage}
+
+%%%
+%%% Command to generate signature page.
+%%%
+\newcommand{\thesissignaturepage}{
+    \thispagestyle{empty}
+    \begin{spacing}{2}
+    \strut \vfill
+    \begin{center}
+      \@thesistitle
+    \end{center}
+    \vspace{50mm}
+    \mbox{} \hfill \begin{minipage}{72mm}
+                     \begin{spacing}{1}
+                     \@thesisapprovedby\hfill\mbox{} \\
+                     \@thesiscommittee \\[15mm]
+                     \end{spacing}
+                     \setlength{\unitlength}{1mm}
+                     \begin{picture}(67,70)(0,0)
+                       \multiput(0,70)(0,-10)
+                         {\thesiscommitteesize}{\line(1,0){67}}
+                     \end{picture}
+                   \end{minipage}
+    \vfill \strut
+    \end{spacing}
+    \newpage}
+
+%%%
+%%% Environment to generate abstract page.
+%%%
+  \newenvironment{thesisabstract}
+    {\chapter*{\abstractname
+         \@mkboth{\uppercase{\abstractname}}
+                 {\uppercase{\abstractname}}}
+     \begin{spacing}{\@defaultbaselinestretch} \par}
+    {\end{spacing} \par \vspace{20mm} \newpage}
+
+
+%%%
+%%% Command to generate dedication page.
+%%%
+\newcommand{\thesisdedicationpage}{
+    \strut \vfill
+    \begin{spacing}{\@defaultbaselinestretch}
+    \begin{center}
+      \thesisdedication
+    \end{center}
+    \end{spacing}
+    \vfill \strut
+    \newpage}
+
+%%%
+%%% Environment to generate acknowledgments page.
+%%%
+\newenvironment{thesisacknowledgments}
+    {%\doublespace\small\normalsize
+     \chapter*{\@thesisacknowledgmenthead
+         \@mkboth{\uppercase{\@thesisacknowledgmenthead}}
+                 {\uppercase{\@thesisacknowledgmenthead}}}
+     %\addcontentsline{toc}{chapter}{\@thesisacknowledgmenthead}
+     \begin{spacing}{\@defaultbaselinestretch}}
+     { \end{spacing}\newpage}
+%%%
+%%%  While this looks cool thesis check rejects it.
+%%%
+%%%    {\end{spacing} \par \vspace{10mm}
+%%%     \raggedleft \@thesisacknowledgmentsigname \\[5mm]
+%%%     \raggedright \@thesisacknowledgmentsigplace \newpage}
+
+%%%
+%%% Environment to generate vita page.
+%%%
+\newenvironment{thesisauthorvita}
+    {\clearpage
+     \chapter*{\@thesisvitahead
+         \@mkboth{\uppercase{\@thesisvitahead}}
+                 {\uppercase{\@thesisvitahead}}}
+    \addcontentsline{toc}{chapter}{\@thesisvitahead}
+    \begin{spacing}{\@defaultbaselinestretch}}
+    {\end{spacing} \par \vspace{20mm}
+     %\noindent Permanent Address:
+      % \begin{minipage}[t]{90mm}
+       %  \thesisauthoraddress
+       %\end{minipage}
+     %\par \vspace{15mm}
+     %\noindent This \lowercase\expandafter{\thesistype} was
+     %  typeset with \LaTeXe\footnote{\LaTeXe{} is an extension of \LaTeX.
+      % trademark of the American Mathematical Society.  The macros used in
+      % formatting this \lowercase\expandafter{\thesistype} were written
+     %  by Dinesh Das, Department of Computer Sciences, The University
+     %  of Texas at Austin.
+    %} by \thesistypist.
+}
+
+\newcommand{\@chapteralignment}{\centering}
+\renewcommand{\chapter}{\clearpage
+   \ifnum\@appendix=1
+     \renewcommand{\@chaptertype}{\appendixname}
+   \else
+     \renewcommand{\@chaptertype}{\chaptername}
+   \fi
+   \thispagestyle{plain}%
+   \global\@topnum\z@
+   \@afterindentfalse
+   \secdef\@chapter\@schapter
+   }
+\renewcommand\appendix{\par
+%  \addcontentsline{toc}{chapter}%
+%    {\appendixname \protect\numberline{}}%
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \renewcommand{\@chapapp}{\appendixname}%
+  \renewcommand{\thechapter}{\Alph{chapter}}
+  \renewcommand{\@appendix}{1}}
+
+%%%
+%%% Define chapter heading placement commands.
+%%%
+\newcommand{\leftchapter}{
+    \renewcommand{\@chapteralignment}{\raggedright}}
+\newcommand{\centerchapter}{
+    \renewcommand{\@chapteralignment}{\centering}}
+\newcommand{\rightchapter}{
+    \renewcommand{\@chapteralignment}{\raggedleft}}
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%% edited to remove the leading chapter etc from toc.
+%%% Original lines remain they are just commented out.
+%%%
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                      \refstepcounter{chapter}%
+                      \typeout{\@chapapp\space\thechapter.}%
+                         \ifnum\@appendix=1
+                           \addcontentsline{toc}{chapter}%
+                             {\protect\numberline{}\appendixname\ {\it \thechapter}:\ #1}%
+                         \else
+                           \addcontentsline{toc}{chapter}%
+                             {\protect\numberline{\thechapter}#1}%
+                         \fi
+                    \else
+                    	\ifnum\@appendix=1
+                        \addcontentsline{toc}{chapter}{\protect\numberline{}\appendixname\ {\it \thechapter}:\ #1}
+                      \else
+                        \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter} #1}
+                      \fi
+                    \fi
+                    \ifnum\value{chapter}=1
+                      \ifnum\@appendix=0
+                        \pagestyle{\@textpagestyle}
+                        \pagenumbering{\@textpagenumbering}
+                      \fi
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{\lofchapskip em}}%
+                    \addtocontents{lot}{\protect\addvspace{\lotchapskip em}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi
+                    }
+
+%%% ADDCONTENTSLINE
+%%% Command from latex.ltx, (c) LaTeX3 Project.
+%%% 
+%%% Needs to be fixed to handle appendix subsections correctly
+%%%
+\def\addcontentsline#1#2#3{\if@filesw \begingroup
+\let\label\@gobble \let\index\@gobble \let\glossary\@gobble
+\let\protect\@unexpandable@protect
+\@temptokena{\thepage}%
+\edef\@tempa{\write \@auxout{\string\@writefile{#1}{\protect
+     \contentsline{#2}{#3}{\the\@temptokena}}}}\@tempa
+   \if@nobreak \ifvmode\nobreak\fi\fi\endgroup\fi}
+
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+%%%%%% CHANGED by Karteek
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \@chapteralignment \reset@font
+    \ifnum \c@secnumdepth >\m@ne
+      \Large\bfseries \@chapapp{} {\it \thechapter}
+      \par
+      \vskip 20\p@
+    \fi
+    \Large \bfseries #1\par
+    \nobreak
+    \vskip 40\p@
+  }}
+
+\def\@makeschapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \@chapteralignment
+    \reset@font
+    \Large \bfseries #1\par
+    \nobreak
+    \vskip 40\p@
+  }}
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\def\thebibliography#1{%
+ \chapter*{\center{Bibliography}}
+ \@mkboth{\centerline{{\ThesisHeadSize BIBLIOGRAPHY}}}{{\ThesisHeadSize BIBLIOGRAPHY}}
+ \addtocontents{toc}{\protect{\addvspace{3.0ex plus 1pt}}}
+ \addcontentsline{toc}{chapter}{\protect{Bibliography}}
+ \list{[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\renewcommand\listoftables{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listtablename
+      \@mkboth{\uppercase{\listtablename}}{\uppercase{\listtablename}}}%
+    %\addcontentsline{toc}{chapter}{\listtablename}
+    \hbox to \textwidth{{{Table \hfill Page}}}
+    \begin{spacing}{\lotspacing}
+    \@starttoc{lot}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+    }
+
+\renewcommand\listoffigures{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listfigurename
+      \@mkboth{\uppercase{\listfigurename}}%
+              {\uppercase{\listfigurename}}}%
+    %\addcontentsline{toc}{chapter}{\listfigurename}
+    \hbox to \textwidth{{{Figure \hfill Page}}}
+    \begin{spacing}{\lofspacing}
+       \@starttoc{lof}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+    }
+
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname
+        \@mkboth{\uppercase{\contentsname}}{\uppercase{\contentsname}}}%
+    \hbox to \textwidth{{{Chapter \hfill Page}}}
+    \begin{spacing}{\tocspacing}
+    \@starttoc{toc}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+    }
+
+%%%
+%%% Command to print draft version of the thesis.
+%%%
+\newcommand{\thesisdraft}{
+    \setlength{\topmargin}{0in}
+    \setlength{\headheight}{0.2in}
+    \setlength{\headsep}{0.25in}
+    \renewcommand{\@textpagestyle}{myheadings}
+    \def\ps@myheadings{%
+     \let\@oddfoot\@empty\let\@evenfoot\@empty
+     \def\@oddhead{\textsl{Draft of \timestamp}\hfil\thepage}%
+     \let\@mkboth\@gobbletwo
+     \let\chaptermark\@gobble
+     \let\sectionmark\@gobble}
+    }
+
+%%%
+%%% Code to compute current timestamp.  By Christopher Lott.
+%%%
+\newcount\hour \newcount\minute
+\hour=\time  \divide \hour by 60
+\minute=\time
+\loop \ifnum \minute > 59 \advance \minute by -60 \repeat
+\def\now{\ifnum \hour<13 \number\hour:%
+                      \ifnum \minute<10 0\fi
+                      \number\minute
+                      \ifnum \hour<12 \ am\else \ pm\fi
+         \else \advance \hour by -12 \number\hour:%
+                      \ifnum \minute<10 0\fi
+                      \number\minute \ pm\fi}
+\newcount\wwwy
+\newcount\wwwm
+\newcount\wwwd
+\newcount\wwwc
+\newcount\wwwt
+\newcount\wwws
+
+\def\weekday@{% suppress the blank before the day
+\wwwc=\wwwy
+\divide\wwwc100\relax
+\wwwt=-\wwwc
+\multiply\wwwt100\relax
+\advance\wwwy\wwwt
+\wwws=\wwwy
+\multiply\wwws1461\relax
+\divide\wwws4\relax
+\wwwt=\wwwm
+\multiply\wwwt764\relax
+\divide\wwwt25\relax
+\advance\wwws\wwwt
+\advance\wwws\wwwd
+\ifnum\wwwm>\tw@\advance\wwws\thr@@\else\weekday@@\fi
+\wwwt=-\wwws
+\divide\wwwt7\relax
+\multiply\wwwt7\relax
+\advance\wwws\wwwt
+}
+
+\def\weekday@@{%
+\wwwt=\wwwy
+\divide\wwwt4\relax
+\multiply\wwwt4\relax
+\advance\wwwt-\wwwy
+\ifnum\wwwt=\z@\advance\wwws4\else\advance\wwws5\if}
+
+\def\weekdayenglish#1#2#3{% year, month 1--12, day 1--31
+\wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
+\ifcase\wwws Sunday\or Monday\or Tuesday\or Wednesday\or 
+Thursday\or Friday\or Saturday\fi}
+
+\def\weekdaygerman#1#2#3{% year, month 1--12, day 1--31
+\wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
+\ifcase\wwws Sonntag\or Montag\or Dienstag\or Mittwoch\or 
+Donnerstag\or Freitag\or Samstag\fi}
+
+\def\weekdayfrench#1#2#3{% year, month 1--12, day 1--31
+\wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
+\ifcase\wwws dimanche\or lundi\or mardi\or mercredi\or 
+jeudi\or vendredi\or samedi\fi}
+
+\def\weekday#1#2#3{\weekdayenglish{#1}{#2}{#3}}
+
+\def\timestamp{\now,\ \weekday{\year}{\month}{\day},\ \today}
+
+%%%
+%%% Commands for spacing.  Some parts from spacing.sty by Stephen Page.
+%%% 
+\ifx\undefined\selectfont
+\def\@setsize#1#2#3#4{\@nomath#1
+   \let\@currsize#1\baselineskip
+   #2\baselineskip\baselinestretch\baselineskip
+   \parskip\baselinestretch\parskip
+   \setbox\strutbox\hbox{\vrule height.7\baselineskip
+      depth.3\baselineskip width\z@}
+   \normalbaselineskip\baselineskip#3#4}
+\else
 \def\@newbaseline{%
     \ifx\undefined\setnew@baselineskip
       \baselineskip\f@baselineskip\relax
@@ -312,7 +909,42 @@
     \setbox\strutbox\hbox{\vrule\@height.7\baselineskip
     \@depth.3\baselineskip \@width\z@}%
     \normalbaselineskip\baselineskip}
-
+\fi
+%%%
+%%% Reset baselinestretch within footnotes and floats. Originally stolen
+%%% from Stanford thesis style.
+%%%
+% \def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+%    \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+%       \@parmoderr\@floatpenalty\z@
+%     \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+%        \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+%        \@tfor \@tempa :=#2\do
+%                         {\if\@tempa h\advance\@tempcnta \@ne\fi
+%                          \if\@tempa t\advance\@tempcnta \tw@\fi
+%                          \if\@tempa b\advance\@tempcnta 4\relax\fi
+%                          \if\@tempa p\advance\@tempcnta 8\relax\fi
+%          }\global\count\@currbox\@tempcnta}\@fltovf\fi
+%     \global\setbox\@currbox\vbox\bgroup 
+%     \def\baselinestretch{1}
+%     \ifx\undefined\selectfont
+%     \small\normalsize
+%     \else
+%     \@newbaseline
+%     \fi
+%     \boxmaxdepth\z@
+%     \hsize\columnwidth \@parboxrestore}
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty 
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+%%%
+%%% Stolen from MIT.
+%%%
 \def\spacing#1{\par%
  \begingroup
  \def\baselinestretch{#1}
@@ -321,715 +953,41 @@
  \else
  \@newbaseline
  \fi}
+\def\endspacing{\par
+ \vskip \parskip
+ \vskip \baselineskip
+ \endgroup
+ \vskip -\parskip
+ \vskip -\baselineskip}
 
-
-\newcommand{\@defaultbaselinestretch}{1.5}
-
-\newcommand{\thesisdedication}{}
-\newcommand{\thesisdedicationpage}{
-    % \strut \vfill
-    % \begin{spacing}{\@defaultbaselinestretch}
-    \begin{center}
-      \thesisdedication
-    \end{center}
-}
-    % \end{spacing}
-    % \vfill \strut
-    % \newpage}
-\newcommand{\oneandhalfspace}{}
-\newcommand{\mastersthesis}{}
-%%%% END BOLLU NEW ^^^
 %%%
-%%% Change names to match UIUC requirements
+%%% The following commands are for LaTeX compatibility mode.
+%%% This does not work as yet without ugly hacks; if you know of an
+%%% elegant solution, please send me email.
 %%%
-%%%%%%% CHANGED by Karteek
-%%%% | bollu comment | \renewcommand\contentsname{Contents}
-%%%% | bollu comment | \renewcommand\listfigurename{List of Figures}  
-%%%% | bollu comment | \renewcommand\listtablename{List of Tables}
-%%%% | bollu comment | \renewcommand\bibname{Bibliography}
-%%%% | bollu comment | \renewcommand\indexname{Index}   
-%%%% | bollu comment | \renewcommand\figurename{Figure} 
-%%%% | bollu comment | \renewcommand\tablename{Table}   
-%%%% | bollu comment | \renewcommand\partname{PART}
-%%%% | bollu comment | \renewcommand\chaptername{{\it Chapter}}
-%%%% | bollu comment | \renewcommand\appendixname{{\it Appendix}}
-%%%% | bollu comment | %\renewcommand\abstractname{ABSTRACT}
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Set up default values.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\@universityname}{International Institute of Information Technology}
-%%%% | bollu comment | \newcommand{\@publicationno}{Publication No.\ \line(1,0){40} \\[10mm]}
-%%%% | bollu comment | \newcommand{\thesisauthor}{Ima Student}
-%%%% | bollu comment | \newcommand{\thesistitlepageauthor}{\thesisauthor}
-%%%% | bollu comment | \newcommand{\thesismonth}{Dec}
-%%%% | bollu comment | \newcommand{\thesisyear}{2005}
-%%%% | bollu comment | \newcommand{\thesistitle}{Title}
-%%%% | bollu comment | \newcommand{\thesistitletypesize}{\Large}
-%%%% | bollu comment | \newcommand{\thesisauthorpreviousdegrees}{Degree}
-%%%% | bollu comment | \newcommand{\previousschools}{B.S., FOO U}
-%%%% | bollu comment | \newcommand{\thesissupervisor}{Supervisor}
-%%%% | bollu comment | \newcommand{\thesisauthoraddress}{India}
-%%%% | bollu comment | \newcommand{\thesisapprovedby}{Approved by}
-%%%% | bollu comment | \newcommand{\thesisapprovedbytypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesiscopyrightholder}{\thesisauthor}
-%%%% | bollu comment | \newcommand{\thesistypist}{the author}
-%%%% | bollu comment | \newcommand{\thesistype}{Dissertation}
-%%%% | bollu comment | \newcommand{\thesistypetypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesistypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesisdegree}{Doctor of Philosophy}
-%%%% | bollu comment | \newcommand{\thesisdepartment}{Computer Science}
-%%%% | bollu comment | \newcommand{\thesisdegreetypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesisdegreeabbreviation}{Ph.D.}
-%%%% | bollu comment | \newcommand{\thesiscommitteesize}{5}
-%%%% | bollu comment | \newcommand{\thesiscommittee}{Dissertation Committee:}
-%%%% | bollu comment | \newcommand{\thesiscommitteetypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesisvitahead}{VITA}
-%%%% | bollu comment | \newcommand{\thesisvitaheadtypesize}{\Large}
-%%%% | bollu comment | \newcommand{\thesisacknowledgmenthead}{ACKNOWLEDGMENTS}
-%%%% | bollu comment | \newcommand{\thesisacknowledgmentheadtypesize}{\Large}
-%%%% | bollu comment | \newcommand{\thesisacknowledgmentsigname}{\thesisauthor}
-%%%% | bollu comment | \newcommand{\thesisacknowledgmentsignametypesize}{\large}
-%%%% | bollu comment | \newcommand{\thesisacknowledgmentsigplace}%
-%%%% | bollu comment |     {{\slshape
-%%%% | bollu comment |        \renewcommand{\arraystretch}{1.0}
-%%%% | bollu comment |        \begin{tabular}{l}
-%%%% | bollu comment |          \@universityname \\
-%%%% | bollu comment |          \thesismonth\ \thesisyear
-%%%% | bollu comment |        \end{tabular}}}
-%%%% | bollu comment | \newcommand{\thesisdedication}{}
-%%%% | bollu comment | \newcommand{\tocspacing}{1}
-%%%% | bollu comment | \newcommand{\lofspacing}{1}
-%%%% | bollu comment | \newcommand{\lofchapskip}{1}
-%%%% | bollu comment | \newcommand{\lotspacing}{1}
-%%%% | bollu comment | \newcommand{\lotchapskip}{1}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command for masters theses.  \phdthesis is provided for symmetry.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\mastersthesis}{
-%%%% | bollu comment |     \renewcommand{\thesistype}{THESIS}
-%%%% | bollu comment |     \renewcommand{\thesisdegree}{Master of Science}
-%%%% | bollu comment |     \renewcommand{\thesisdegreeabbreviation}{M.S.}
-%%%% | bollu comment |     \renewcommand{\thesiscommitteesize}{2}
-%%%% | bollu comment |     \renewcommand{\thesiscommittee}{Supervising Committee:}}
-%%%% | bollu comment | \newcommand{\phdthesis}{}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Set up other commands.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\@defaultbaselinestretch}{1.5}
-%%%% | bollu comment | \newcommand{\@base}[1]{\renewcommand{\baselinestretch}{#1}}
-%%%% | bollu comment | \newcommand{\singlespace}{\renewcommand{\@defaultbaselinestretch}{1.1}}
-%%%% | bollu comment | \newcommand{\oneandhalfspace}{\renewcommand{\@defaultbaselinestretch}{1.5}}
-%%%% | bollu comment | \newcommand{\doublespace}{\renewcommand{\@defaultbaselinestretch}{1.7}}
-%%%% | bollu comment | \newcommand{\@thesistitle}{\textbf{\thesistitletypesize \thesistitle}}
-%%%% | bollu comment | %\newcommand{\@thesistitle}{\textbf{\thesistitletypesize  A Framework
-%%%% | bollu comment | %for Designing a Low-Loss, Low-Delay Internet}}
-%%%% | bollu comment | \newcommand{\@thesisapprovedby}%
-%%%% | bollu comment |     {\textbf{\thesisapprovedbytypesize \thesisapprovedby}}
-%%%% | bollu comment | \newcommand{\@thesistype}{\textbf{\thesistypetypesize \thesistype}}
-%%%% | bollu comment | \newcommand{\@thesisdegree}{\textbf{\thesisdegreetypesize \thesisdegree}}
-%%%% | bollu comment | \newcommand{\@thesisdegreeabbreviation}{\thesisdegreeabbreviation}
-%%%% | bollu comment | \newcommand{\@thesiscommittee}%
-%%%% | bollu comment |     {\textbf{\thesiscommitteetypesize \thesiscommittee}}
-%%%% | bollu comment | \newcommand{\@thesisvitahead}{\thesisvitahead}
-%%%% | bollu comment | \newcommand{\@thesisacknowledgmenthead}%
-%%%% | bollu comment |     {\thesisacknowledgmenthead}
-%%%% | bollu comment | \newcommand{\@thesisacknowledgmentsigname}%
-%%%% | bollu comment |     {\textsc{\thesisacknowledgmentsignametypesize \thesisacknowledgmentsigname}}
-%%%% | bollu comment | \newcommand{\@thesisacknowledgmentsigplace}{\thesisacknowledgmentsigplace}
-%%%% | bollu comment | \newcommand{\@thesisstudent}{\textbf{\thesisstudenttypesize \thesisstudent}}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%%   Taken from the old uiuc style file.
-%%%% | bollu comment | %%%	Make chapter entries in the TOC have dotted leaders.
-%%%% | bollu comment | %%%	Also, make certain page breaks don't occur after
-%%%% | bollu comment | %%%	chapter headings in the TOC.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\l@chapter#1#2{\pagebreak[3] 
-%%%% | bollu comment | \vskip 1.0em plus 1pt \@tempdima 1.5em
-%%%% | bollu comment | \begingroup
-%%%% | bollu comment | \parindent \z@ \rightskip \@pnumwidth%
-%%%% | bollu comment | \parfillskip -\@pnumwidth%
-%%%% | bollu comment | \leavevmode \advance\leftskip\@tempdima \hskip -\leftskip%
-%%%% | bollu comment | \hyphenpenalty10000
-%%%% | bollu comment | #1\nobreak\hfil
-%%%% | bollu comment | %
-%%%% | bollu comment | % following two lines stolen from \@dottedtocline in latex.tex
-%%%% | bollu comment | %
-%%%% | bollu comment | \nobreak\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep mu$}%
-%%%% | bollu comment | \hfill \nobreak \hbox to\@pnumwidth{\hfil\rm #2}\par
-%%%% | bollu comment | \endgroup\nopagebreak[4]}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command from report.cls, (c) LaTeX3 Project.
-%%%% | bollu comment | %%% This is needed because UIUC requires the caption lables to be in bold
-%%%% | bollu comment | %%% and not have a colon like in the original report style.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \long\def\@makecaption#1#2{%
-%%%% | bollu comment |   \vskip\abovecaptionskip 
-%%%% | bollu comment |   \sbox\@tempboxa{\textbf{#1} #2}%
-%%%% | bollu comment |   \ifdim \wd\@tempboxa >\hsize
-%%%% | bollu comment |     \textbf{#1} #2\par
-%%%% | bollu comment |   \else
-%%%% | bollu comment |     \hbox to\hsize{\hfil\box\@tempboxa\hfil}%  
-%%%% | bollu comment |   \fi
-%%%% | bollu comment |   \vskip\belowcaptionskip}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Indent the first paragraph after a sectioning command.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \let\@afterindentfalse\@afterindenttrue
-%%%% | bollu comment | \@afterindenttrue
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Set up default page numbering and line spacing.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\@textpagenumbering}{arabic}
-%%%% | bollu comment | \newcommand{\@preamblepagenumbering}{roman}
-%%%% | bollu comment | \newcommand{\@textpagestyle}{plain}
-%%%% | bollu comment | \newcommand{\@preamblepagestyle}{plain}
-%%%% | bollu comment | \pagenumbering{\@preamblepagenumbering}
-%%%% | bollu comment | \@base{\@defaultbaselinestretch}
-%%%% | bollu comment | 
-%%%% | bollu comment | \newcommand{\@chaptertype}{\chaptername}
-%%%% | bollu comment | \newcommand{\@appendix}{0}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%  ****************************************
-%%%% | bollu comment | %%%  *           COPYRIGHT PAGE             *
-%%%% | bollu comment | %%%  ****************************************
-%%%% | bollu comment | %%%  borrowed from fuiucthesis.sty  
-%%%% | bollu comment | %%% 
-%%%% | bollu comment | 
-%%%% | bollu comment | \newcommand{\thesiscopyrightpage}{{
-%%%% | bollu comment |  \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
-%%%% | bollu comment |  \else \newpage \fi\thispagestyle{empty}
-%%%% | bollu comment |  \vrule width 0pt height 1pt depth 1pt %  some non-empty space for vfil 
-%%%% | bollu comment |  \vfill
-%%%% | bollu comment |  \centerline{\copyright\,Copyright by \thesiscopyrightholder,\,\thesisyear}
-%%%% | bollu comment |  \vfill
-%%%% | bollu comment |  \if@restonecol\twocolumn \else \newpage \fi}}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%% Much of this is from the original make title command from uiucthesis.sty. 
-%%%% | bollu comment | %%% I didn't have the time or inclination to fix it.  It should really
-%%%% | bollu comment | %%% support 2 line titles and stuff.  Feel free to impliment it if you
-%%%% | bollu comment | %%% wish.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command to generate title page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\thesistitlepage}{
-%%%% | bollu comment |     \begingroup
-%%%% | bollu comment |     \begin{spacing}{1}
-%%%% | bollu comment |     \lineskip=0pt
-%%%% | bollu comment |     \lineskiplimit=\maxdimen
-%%%% | bollu comment |     \thispagestyle{empty}
-%%%% | bollu comment |     %\vspace*{\1.01875in}%
-%%%% | bollu comment |     \vspace*{\@titlevspace}%
-%%%% | bollu comment |     \vtop to 0in{%
-%%%% | bollu comment |     %the ``kern'' in the next line was -.25in. klm
-%%%% | bollu comment |     \vtop to 0in{\begin{center}\kern -.125in
-%%%% | bollu comment |     \begin{tabular}{c}\uppercase\expandafter{\thesistitle}
-%%%% | bollu comment |     \end{tabular}\end{center}%
-%%%% | bollu comment |     \vss}
-%%%% | bollu comment |     %
-%%%% | bollu comment |     % \vtop to 0in{\centerline{\uppercase\expandafter{\@title}}\vss}%
-%%%% | bollu comment |     %
-%%%% | bollu comment |     %  skip to ``by'' and author line; measurements w.r.t top line (2.25in)
-%%%% | bollu comment |     %   
-%%%% | bollu comment |     % The kern in the next line was 1.89 for a single-line title       
-%%%% | bollu comment |     %\kern 1.85in%
-%%%% | bollu comment |     \kern \@titlekern%
-%%%% | bollu comment |     \vtop to 0in{\centerline{BY}%
-%%%% | bollu comment |     \vskip \baselineskip
-%%%% | bollu comment |     \centerline{\uppercase\expandafter{\thesistitlepageauthor}}%       
-%%%% | bollu comment |     \vskip \baselineskip
-%%%% | bollu comment |     \begin{center}\begin{tabular}{c}\previousschools\end{tabular}\end{center}%
-%%%% | bollu comment |     \vss}\kern -1.75in%
-%%%% | bollu comment |     %
-%%%% | bollu comment |     %  Skip down from last item (which has baseline at the top) to     
-%%%% | bollu comment |     %  thesis line.
-%%%% | bollu comment |     %
-%%%% | bollu comment |     % The kern in the next line was 4.4in for a single-line title      
-%%%% | bollu comment |     \kern 4.25in%
-%%%% | bollu comment |     \vtop to 0in{%
-%%%% | bollu comment |     \centerline{THESIS}%
-%%%% | bollu comment |     \vskip \baselineskip
-%%%% | bollu comment |     \centerline{\strut Submitted in partial fulfillment of the
-%%%% | bollu comment |     requirements}% 
-%%%% | bollu comment |     \centerline{\strut for the degree of \thesisdegree \, in \thesisdepartment
-%%%% | bollu comment |      }%
-%%%% | bollu comment |     \centerline{\strut in the Graduate College of the}%
-%%%% | bollu comment |     %\centerline{\strut Department of Electrical and Computer Engineering}
-%%%% | bollu comment |     \centerline{\strut \@universityname, \thesisyear}%
-%%%% | bollu comment |     \vss}\kern -4.25in%
-%%%% | bollu comment |     %
-%%%% | bollu comment |     % The kern in the next line was 6.91in for a single-line title    
-%%%% | bollu comment |     \kern 6.75in%
-%%%% | bollu comment |     \vtop to 0in{\centerline{Urbana, Illinois}\vss}%
-%%%% | bollu comment |     \kern -6.75in\vss}
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \endgroup
-%%%% | bollu comment |     \newpage}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command to generate signature page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\thesissignaturepage}{
-%%%% | bollu comment |     \thispagestyle{empty}
-%%%% | bollu comment |     \begin{spacing}{2}
-%%%% | bollu comment |     \strut \vfill
-%%%% | bollu comment |     \begin{center}
-%%%% | bollu comment |       \@thesistitle
-%%%% | bollu comment |     \end{center}
-%%%% | bollu comment |     \vspace{50mm}
-%%%% | bollu comment |     \mbox{} \hfill \begin{minipage}{72mm}
-%%%% | bollu comment |                      \begin{spacing}{1}
-%%%% | bollu comment |                      \@thesisapprovedby\hfill\mbox{} \\
-%%%% | bollu comment |                      \@thesiscommittee \\[15mm]
-%%%% | bollu comment |                      \end{spacing}
-%%%% | bollu comment |                      \setlength{\unitlength}{1mm}
-%%%% | bollu comment |                      \begin{picture}(67,70)(0,0)
-%%%% | bollu comment |                        \multiput(0,70)(0,-10)
-%%%% | bollu comment |                          {\thesiscommitteesize}{\line(1,0){67}}
-%%%% | bollu comment |                      \end{picture}
-%%%% | bollu comment |                    \end{minipage}
-%%%% | bollu comment |     \vfill \strut
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \newpage}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Environment to generate abstract page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment |   \newenvironment{thesisabstract}
-%%%% | bollu comment |     {\chapter*{\abstractname
-%%%% | bollu comment |          \@mkboth{\uppercase{\abstractname}}
-%%%% | bollu comment |                  {\uppercase{\abstractname}}}
-%%%% | bollu comment |      \begin{spacing}{\@defaultbaselinestretch} \par}
-%%%% | bollu comment |     {\end{spacing} \par \vspace{20mm} \newpage}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command to generate dedication page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\thesisdedicationpage}{
-%%%% | bollu comment |     \strut \vfill
-%%%% | bollu comment |     \begin{spacing}{\@defaultbaselinestretch}
-%%%% | bollu comment |     \begin{center}
-%%%% | bollu comment |       \thesisdedication
-%%%% | bollu comment |     \end{center}
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \vfill \strut
-%%%% | bollu comment |     \newpage}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Environment to generate acknowledgments page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newenvironment{thesisacknowledgments}
-%%%% | bollu comment |     {%\doublespace\small\normalsize
-%%%% | bollu comment |      \chapter*{\@thesisacknowledgmenthead
-%%%% | bollu comment |          \@mkboth{\uppercase{\@thesisacknowledgmenthead}}
-%%%% | bollu comment |                  {\uppercase{\@thesisacknowledgmenthead}}}
-%%%% | bollu comment |      %\addcontentsline{toc}{chapter}{\@thesisacknowledgmenthead}
-%%%% | bollu comment |      \begin{spacing}{\@defaultbaselinestretch}}
-%%%% | bollu comment |      { \end{spacing}\newpage}
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%%  While this looks cool thesis check rejects it.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%%    {\end{spacing} \par \vspace{10mm}
-%%%% | bollu comment | %%%     \raggedleft \@thesisacknowledgmentsigname \\[5mm]
-%%%% | bollu comment | %%%     \raggedright \@thesisacknowledgmentsigplace \newpage}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Environment to generate vita page.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newenvironment{thesisauthorvita}
-%%%% | bollu comment |     {\clearpage
-%%%% | bollu comment |      \chapter*{\@thesisvitahead
-%%%% | bollu comment |          \@mkboth{\uppercase{\@thesisvitahead}}
-%%%% | bollu comment |                  {\uppercase{\@thesisvitahead}}}
-%%%% | bollu comment |     \addcontentsline{toc}{chapter}{\@thesisvitahead}
-%%%% | bollu comment |     \begin{spacing}{\@defaultbaselinestretch}}
-%%%% | bollu comment |     {\end{spacing} \par \vspace{20mm}
-%%%% | bollu comment |      %\noindent Permanent Address:
-%%%% | bollu comment |       % \begin{minipage}[t]{90mm}
-%%%% | bollu comment |        %  \thesisauthoraddress
-%%%% | bollu comment |        %\end{minipage}
-%%%% | bollu comment |      %\par \vspace{15mm}
-%%%% | bollu comment |      %\noindent This \lowercase\expandafter{\thesistype} was
-%%%% | bollu comment |      %  typeset with \LaTeXe\footnote{\LaTeXe{} is an extension of \LaTeX.
-%%%% | bollu comment |       % trademark of the American Mathematical Society.  The macros used in
-%%%% | bollu comment |       % formatting this \lowercase\expandafter{\thesistype} were written
-%%%% | bollu comment |      %  by Dinesh Das, Department of Computer Sciences, The University
-%%%% | bollu comment |      %  of Texas at Austin.
-%%%% | bollu comment |     %} by \thesistypist.
-%%%% | bollu comment | }
-%%%% | bollu comment | 
-%%%% | bollu comment | \newcommand{\@chapteralignment}{\centering}
-%%%% | bollu comment | \renewcommand{\chapter}{\clearpage
-%%%% | bollu comment |    \ifnum\@appendix=1
-%%%% | bollu comment |      \renewcommand{\@chaptertype}{\appendixname}
-%%%% | bollu comment |    \else
-%%%% | bollu comment |      \renewcommand{\@chaptertype}{\chaptername}
-%%%% | bollu comment |    \fi
-%%%% | bollu comment |    \thispagestyle{plain}%
-%%%% | bollu comment |    \global\@topnum\z@
-%%%% | bollu comment |    \@afterindentfalse
-%%%% | bollu comment |    \secdef\@chapter\@schapter
-%%%% | bollu comment |    }
-%%%% | bollu comment | \renewcommand\appendix{\par
-%%%% | bollu comment | %  \addcontentsline{toc}{chapter}%
-%%%% | bollu comment | %    {\appendixname \protect\numberline{}}%
-%%%% | bollu comment |   \setcounter{chapter}{0}%
-%%%% | bollu comment |   \setcounter{section}{0}%
-%%%% | bollu comment |   \renewcommand{\@chapapp}{\appendixname}%
-%%%% | bollu comment |   \renewcommand{\thechapter}{\Alph{chapter}}
-%%%% | bollu comment |   \renewcommand{\@appendix}{1}}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Define chapter heading placement commands.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\leftchapter}{
-%%%% | bollu comment |     \renewcommand{\@chapteralignment}{\raggedright}}
-%%%% | bollu comment | \newcommand{\centerchapter}{
-%%%% | bollu comment |     \renewcommand{\@chapteralignment}{\centering}}
-%%%% | bollu comment | \newcommand{\rightchapter}{
-%%%% | bollu comment |     \renewcommand{\@chapteralignment}{\raggedleft}}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command from report.cls, (c) LaTeX3 Project.
-%%%% | bollu comment | %%% edited to remove the leading chapter etc from toc.
-%%%% | bollu comment | %%% Original lines remain they are just commented out.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-%%%% | bollu comment |                       \refstepcounter{chapter}%
-%%%% | bollu comment |                       \typeout{\@chapapp\space\thechapter.}%
-%%%% | bollu comment |                          \ifnum\@appendix=1
-%%%% | bollu comment |                            \addcontentsline{toc}{chapter}%
-%%%% | bollu comment |                              {\protect\numberline{}\appendixname\ {\it \thechapter}:\ #1}%
-%%%% | bollu comment |                          \else
-%%%% | bollu comment |                            \addcontentsline{toc}{chapter}%
-%%%% | bollu comment |                              {\protect\numberline{\thechapter}#1}%
-%%%% | bollu comment |                          \fi
-%%%% | bollu comment |                     \else
-%%%% | bollu comment |                     	\ifnum\@appendix=1
-%%%% | bollu comment |                         \addcontentsline{toc}{chapter}{\protect\numberline{}\appendixname\ {\it \thechapter}:\ #1}
-%%%% | bollu comment |                       \else
-%%%% | bollu comment |                         \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter} #1}
-%%%% | bollu comment |                       \fi
-%%%% | bollu comment |                     \fi
-%%%% | bollu comment |                     \ifnum\value{chapter}=1
-%%%% | bollu comment |                       \ifnum\@appendix=0
-%%%% | bollu comment |                         \pagestyle{\@textpagestyle}
-%%%% | bollu comment |                         \pagenumbering{\@textpagenumbering}
-%%%% | bollu comment |                       \fi
-%%%% | bollu comment |                     \fi
-%%%% | bollu comment |                     \chaptermark{#1}%
-%%%% | bollu comment |                     \addtocontents{lof}{\protect\addvspace{\lofchapskip em}}%
-%%%% | bollu comment |                     \addtocontents{lot}{\protect\addvspace{\lotchapskip em}}%
-%%%% | bollu comment |                     \if@twocolumn
-%%%% | bollu comment |                       \@topnewpage[\@makechapterhead{#2}]%
-%%%% | bollu comment |                     \else
-%%%% | bollu comment |                       \@makechapterhead{#2}%
-%%%% | bollu comment |                       \@afterheading
-%%%% | bollu comment |                     \fi
-%%%% | bollu comment |                     }
-%%%% | bollu comment | 
-%%%% | bollu comment | %%% ADDCONTENTSLINE
-%%%% | bollu comment | %%% Command from latex.ltx, (c) LaTeX3 Project.
-%%%% | bollu comment | %%% 
-%%%% | bollu comment | %%% Needs to be fixed to handle appendix subsections correctly
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\addcontentsline#1#2#3{\if@filesw \begingroup
-%%%% | bollu comment | \let\label\@gobble \let\index\@gobble \let\glossary\@gobble
-%%%% | bollu comment | \let\protect\@unexpandable@protect
-%%%% | bollu comment | \@temptokena{\thepage}%
-%%%% | bollu comment | \edef\@tempa{\write \@auxout{\string\@writefile{#1}{\protect
-%%%% | bollu comment |      \contentsline{#2}{#3}{\the\@temptokena}}}}\@tempa
-%%%% | bollu comment |    \if@nobreak \ifvmode\nobreak\fi\fi\endgroup\fi}
-%%%% | bollu comment | 
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command from report.cls, (c) LaTeX3 Project.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%%%%% CHANGED by Karteek
-%%%% | bollu comment | \def\@makechapterhead#1{%
-%%%% | bollu comment |   \vspace*{50\p@}%
-%%%% | bollu comment |   {\parindent \z@ \@chapteralignment \reset@font
-%%%% | bollu comment |     \ifnum \c@secnumdepth >\m@ne
-%%%% | bollu comment |       \Large\bfseries \@chapapp{} {\it \thechapter}
-%%%% | bollu comment |       \par
-%%%% | bollu comment |       \vskip 20\p@
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \Large \bfseries #1\par
-%%%% | bollu comment |     \nobreak
-%%%% | bollu comment |     \vskip 40\p@
-%%%% | bollu comment |   }}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\@makeschapterhead#1{%
-%%%% | bollu comment |   \vspace*{50\p@}%
-%%%% | bollu comment |   {\parindent \z@ \@chapteralignment
-%%%% | bollu comment |     \reset@font
-%%%% | bollu comment |     \Large \bfseries #1\par
-%%%% | bollu comment |     \nobreak
-%%%% | bollu comment |     \vskip 40\p@
-%%%% | bollu comment |   }}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command from report.cls, (c) LaTeX3 Project.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\thebibliography#1{%
-%%%% | bollu comment |  \chapter*{\center{Bibliography}}
-%%%% | bollu comment |  \@mkboth{\centerline{{\ThesisHeadSize BIBLIOGRAPHY}}}{{\ThesisHeadSize BIBLIOGRAPHY}}
-%%%% | bollu comment |  \addtocontents{toc}{\protect{\addvspace{3.0ex plus 1pt}}}
-%%%% | bollu comment |  \addcontentsline{toc}{chapter}{\protect{Bibliography}}
-%%%% | bollu comment |  \list{[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
-%%%% | bollu comment |  \advance\leftmargin\labelsep
-%%%% | bollu comment |  \usecounter{enumi}}
-%%%% | bollu comment |  \def\newblock{\hskip .11em plus .33em minus .07em}
-%%%% | bollu comment |  \sloppy\clubpenalty4000\widowpenalty4000
-%%%% | bollu comment |  \sfcode`\.=1000\relax}
-%%%% | bollu comment | \let\endthebibliography=\endlist
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command from report.cls, (c) LaTeX3 Project.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \renewcommand\listoftables{%
-%%%% | bollu comment |     \if@twocolumn
-%%%% | bollu comment |       \@restonecoltrue\onecolumn
-%%%% | bollu comment |     \else
-%%%% | bollu comment |       \@restonecolfalse
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \chapter*{\listtablename
-%%%% | bollu comment |       \@mkboth{\uppercase{\listtablename}}{\uppercase{\listtablename}}}%
-%%%% | bollu comment |     %\addcontentsline{toc}{chapter}{\listtablename}
-%%%% | bollu comment |     \hbox to \textwidth{{{Table \hfill Page}}}
-%%%% | bollu comment |     \begin{spacing}{\lotspacing}
-%%%% | bollu comment |     \@starttoc{lot}%
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \if@restonecol\twocolumn\fi
-%%%% | bollu comment |     }
-%%%% | bollu comment | 
-%%%% | bollu comment | \renewcommand\listoffigures{%
-%%%% | bollu comment |     \if@twocolumn
-%%%% | bollu comment |       \@restonecoltrue\onecolumn
-%%%% | bollu comment |     \else
-%%%% | bollu comment |       \@restonecolfalse
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \chapter*{\listfigurename
-%%%% | bollu comment |       \@mkboth{\uppercase{\listfigurename}}%
-%%%% | bollu comment |               {\uppercase{\listfigurename}}}%
-%%%% | bollu comment |     %\addcontentsline{toc}{chapter}{\listfigurename}
-%%%% | bollu comment |     \hbox to \textwidth{{{Figure \hfill Page}}}
-%%%% | bollu comment |     \begin{spacing}{\lofspacing}
-%%%% | bollu comment |        \@starttoc{lof}%
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \if@restonecol\twocolumn\fi
-%%%% | bollu comment |     }
-%%%% | bollu comment | 
-%%%% | bollu comment | \renewcommand\tableofcontents{%
-%%%% | bollu comment |     \if@twocolumn
-%%%% | bollu comment |       \@restonecoltrue\onecolumn
-%%%% | bollu comment |     \else
-%%%% | bollu comment |       \@restonecolfalse
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \chapter*{\contentsname
-%%%% | bollu comment |         \@mkboth{\uppercase{\contentsname}}{\uppercase{\contentsname}}}%
-%%%% | bollu comment |     \hbox to \textwidth{{{Chapter \hfill Page}}}
-%%%% | bollu comment |     \begin{spacing}{\tocspacing}
-%%%% | bollu comment |     \@starttoc{toc}%
-%%%% | bollu comment |     \end{spacing}
-%%%% | bollu comment |     \if@restonecol\twocolumn\fi
-%%%% | bollu comment |     }
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Command to print draft version of the thesis.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcommand{\thesisdraft}{
-%%%% | bollu comment |     \setlength{\topmargin}{0in}
-%%%% | bollu comment |     \setlength{\headheight}{0.2in}
-%%%% | bollu comment |     \setlength{\headsep}{0.25in}
-%%%% | bollu comment |     \renewcommand{\@textpagestyle}{myheadings}
-%%%% | bollu comment |     \def\ps@myheadings{%
-%%%% | bollu comment |      \let\@oddfoot\@empty\let\@evenfoot\@empty
-%%%% | bollu comment |      \def\@oddhead{\textsl{Draft of \timestamp}\hfil\thepage}%
-%%%% | bollu comment |      \let\@mkboth\@gobbletwo
-%%%% | bollu comment |      \let\chaptermark\@gobble
-%%%% | bollu comment |      \let\sectionmark\@gobble}
-%%%% | bollu comment |     }
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Code to compute current timestamp.  By Christopher Lott.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \newcount\hour \newcount\minute
-%%%% | bollu comment | \hour=\time  \divide \hour by 60
-%%%% | bollu comment | \minute=\time
-%%%% | bollu comment | \loop \ifnum \minute > 59 \advance \minute by -60 \repeat
-%%%% | bollu comment | \def\now{\ifnum \hour<13 \number\hour:%
-%%%% | bollu comment |                       \ifnum \minute<10 0\fi
-%%%% | bollu comment |                       \number\minute
-%%%% | bollu comment |                       \ifnum \hour<12 \ am\else \ pm\fi
-%%%% | bollu comment |          \else \advance \hour by -12 \number\hour:%
-%%%% | bollu comment |                       \ifnum \minute<10 0\fi
-%%%% | bollu comment |                       \number\minute \ pm\fi}
-%%%% | bollu comment | \newcount\wwwy
-%%%% | bollu comment | \newcount\wwwm
-%%%% | bollu comment | \newcount\wwwd
-%%%% | bollu comment | \newcount\wwwc
-%%%% | bollu comment | \newcount\wwwt
-%%%% | bollu comment | \newcount\wwws
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekday@{% suppress the blank before the day
-%%%% | bollu comment | \wwwc=\wwwy
-%%%% | bollu comment | \divide\wwwc100\relax
-%%%% | bollu comment | \wwwt=-\wwwc
-%%%% | bollu comment | \multiply\wwwt100\relax
-%%%% | bollu comment | \advance\wwwy\wwwt
-%%%% | bollu comment | \wwws=\wwwy
-%%%% | bollu comment | \multiply\wwws1461\relax
-%%%% | bollu comment | \divide\wwws4\relax
-%%%% | bollu comment | \wwwt=\wwwm
-%%%% | bollu comment | \multiply\wwwt764\relax
-%%%% | bollu comment | \divide\wwwt25\relax
-%%%% | bollu comment | \advance\wwws\wwwt
-%%%% | bollu comment | \advance\wwws\wwwd
-%%%% | bollu comment | \ifnum\wwwm>\tw@\advance\wwws\thr@@\else\weekday@@\fi
-%%%% | bollu comment | \wwwt=-\wwws
-%%%% | bollu comment | \divide\wwwt7\relax
-%%%% | bollu comment | \multiply\wwwt7\relax
-%%%% | bollu comment | \advance\wwws\wwwt
-%%%% | bollu comment | }
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekday@@{%
-%%%% | bollu comment | \wwwt=\wwwy
-%%%% | bollu comment | \divide\wwwt4\relax
-%%%% | bollu comment | \multiply\wwwt4\relax
-%%%% | bollu comment | \advance\wwwt-\wwwy
-%%%% | bollu comment | \ifnum\wwwt=\z@\advance\wwws4\else\advance\wwws5\if}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekdayenglish#1#2#3{% year, month 1--12, day 1--31
-%%%% | bollu comment | \wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
-%%%% | bollu comment | \ifcase\wwws Sunday\or Monday\or Tuesday\or Wednesday\or 
-%%%% | bollu comment | Thursday\or Friday\or Saturday\fi}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekdaygerman#1#2#3{% year, month 1--12, day 1--31
-%%%% | bollu comment | \wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
-%%%% | bollu comment | \ifcase\wwws Sonntag\or Montag\or Dienstag\or Mittwoch\or 
-%%%% | bollu comment | Donnerstag\or Freitag\or Samstag\fi}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekdayfrench#1#2#3{% year, month 1--12, day 1--31
-%%%% | bollu comment | \wwwy=#1\relax\wwwm=#2\relax\wwwd=#3\relax\weekday@
-%%%% | bollu comment | \ifcase\wwws dimanche\or lundi\or mardi\or mercredi\or 
-%%%% | bollu comment | jeudi\or vendredi\or samedi\fi}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\weekday#1#2#3{\weekdayenglish{#1}{#2}{#3}}
-%%%% | bollu comment | 
-%%%% | bollu comment | \def\timestamp{\now,\ \weekday{\year}{\month}{\day},\ \today}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Commands for spacing.  Some parts from spacing.sty by Stephen Page.
-%%%% | bollu comment | %%% 
-%%%% | bollu comment | \ifx\undefined\selectfont
-%%%% | bollu comment | \def\@setsize#1#2#3#4{\@nomath#1
-%%%% | bollu comment |    \let\@currsize#1\baselineskip
-%%%% | bollu comment |    #2\baselineskip\baselinestretch\baselineskip
-%%%% | bollu comment |    \parskip\baselinestretch\parskip
-%%%% | bollu comment |    \setbox\strutbox\hbox{\vrule height.7\baselineskip
-%%%% | bollu comment |       depth.3\baselineskip width\z@}
-%%%% | bollu comment |    \normalbaselineskip\baselineskip#3#4}
-%%%% | bollu comment | \else
-%%%% | bollu comment | \def\@newbaseline{%
-%%%% | bollu comment |     \ifx\undefined\setnew@baselineskip
-%%%% | bollu comment |       \baselineskip\f@baselineskip\relax
-%%%% | bollu comment |     \else
-%%%% | bollu comment |       \setnew@baselineskip
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \baselineskip\baselinestretch\baselineskip
-%%%% | bollu comment |     \setbox\strutbox\hbox{\vrule\@height.7\baselineskip
-%%%% | bollu comment |     \@depth.3\baselineskip \@width\z@}%
-%%%% | bollu comment |     \normalbaselineskip\baselineskip}
-%%%% | bollu comment | \fi
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Reset baselinestretch within footnotes and floats. Originally stolen
-%%%% | bollu comment | %%% from Stanford thesis style.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
-%%%% | bollu comment |    \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
-%%%% | bollu comment |       \@parmoderr\@floatpenalty\z@
-%%%% | bollu comment |     \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
-%%%% | bollu comment |        \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
-%%%% | bollu comment |        \@tfor \@tempa :=#2\do
-%%%% | bollu comment |                         {\if\@tempa h\advance\@tempcnta \@ne\fi
-%%%% | bollu comment |                          \if\@tempa t\advance\@tempcnta \tw@\fi
-%%%% | bollu comment |                          \if\@tempa b\advance\@tempcnta 4\relax\fi
-%%%% | bollu comment |                          \if\@tempa p\advance\@tempcnta 8\relax\fi
-%%%% | bollu comment |          }\global\count\@currbox\@tempcnta}\@fltovf\fi
-%%%% | bollu comment |     \global\setbox\@currbox\vbox\bgroup 
-%%%% | bollu comment |     \def\baselinestretch{1}
-%%%% | bollu comment |     \ifx\undefined\selectfont
-%%%% | bollu comment |     \small\normalsize
-%%%% | bollu comment |     \else
-%%%% | bollu comment |     \@newbaseline
-%%%% | bollu comment |     \fi
-%%%% | bollu comment |     \boxmaxdepth\z@
-%%%% | bollu comment |     \hsize\columnwidth \@parboxrestore}
-%%%% | bollu comment | \long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
-%%%% | bollu comment |     \interlinepenalty\interfootnotelinepenalty 
-%%%% | bollu comment |     \splittopskip\footnotesep
-%%%% | bollu comment |     \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
-%%%% | bollu comment |     \hsize\columnwidth \@parboxrestore
-%%%% | bollu comment |    \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
-%%%% | bollu comment |     {\rule{\z@}{\footnotesep}\ignorespaces
-%%%% | bollu comment |       #1\strut}}}
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% Stolen from MIT.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | \def\spacing#1{\par%
-%%%% | bollu comment |  \begingroup
-%%%% | bollu comment |  \def\baselinestretch{#1}
-%%%% | bollu comment |  \ifx\undefined\selectfont
-%%%% | bollu comment |  \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi
-%%%% | bollu comment |  \else
-%%%% | bollu comment |  \@newbaseline
-%%%% | bollu comment |  \fi}
-%%%% | bollu comment | \def\endspacing{\par
-%%%% | bollu comment |  \vskip \parskip
-%%%% | bollu comment |  \vskip \baselineskip
-%%%% | bollu comment |  \endgroup
-%%%% | bollu comment |  \vskip -\parskip
-%%%% | bollu comment |  \vskip -\baselineskip}
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% The following commands are for LaTeX compatibility mode.
-%%%% | bollu comment | %%% This does not work as yet without ugly hacks; if you know of an
-%%%% | bollu comment | %%% elegant solution, please send me email.
-%%%% | bollu comment | %%%
-%%%% | bollu comment | %%% \newif\if@openbib%
-%%%% | bollu comment | %%% \@openbibfalse%
-%%%% | bollu comment | %%% \@ifundefined{LaTeXe}{%
-%%%% | bollu comment | %%%     \newcommand{\textbf}[1]{{\bf #1}}%
-%%%% | bollu comment | %%%     \newcommand{\textsl}[1]{{\sl #1}}%
-%%%% | bollu comment | %%%     \newcommand{\textsc}[1]{{\sc #1}}%
-%%%% | bollu comment | %%%     \newcommand{\bfseries}{\bf}%
-%%%% | bollu comment | %%%     \newcommand{\slshape}{\sl}%
-%%%% | bollu comment | %%%     \newcommand{\newblock}{}
-%%%% | bollu comment | %%%     \def\spacing#1{\par%
-%%%% | bollu comment | %%%     \begingroup
-%%%% | bollu comment | %%%     \def\baselinestretch{#1}
-%%%% | bollu comment | %%%     \small\normalsize}
-%%%% | bollu comment | %%%     \def\endspacing{\par
-%%%% | bollu comment | %%%     \vskip \parskip
-%%%% | bollu comment | %%%     \vskip \baselineskip
-%%%% | bollu comment | %%%     \endgroup
-%%%% | bollu comment | %%%     \vskip -\parskip
-%%%% | bollu comment | %%%     \vskip -\baselineskip
-%%%% | bollu comment | %%%     \@base{\@defaultbaselinestretch}\small\normalsize}}{}
-%%%% | bollu comment | %%%
-%%%% | bollu comment | 
-%%%% | bollu comment | %%%%% My stuff
+%%% \newif\if@openbib%
+%%% \@openbibfalse%
+%%% \@ifundefined{LaTeXe}{%
+%%%     \newcommand{\textbf}[1]{{\bf #1}}%
+%%%     \newcommand{\textsl}[1]{{\sl #1}}%
+%%%     \newcommand{\textsc}[1]{{\sc #1}}%
+%%%     \newcommand{\bfseries}{\bf}%
+%%%     \newcommand{\slshape}{\sl}%
+%%%     \newcommand{\newblock}{}
+%%%     \def\spacing#1{\par%
+%%%     \begingroup
+%%%     \def\baselinestretch{#1}
+%%%     \small\normalsize}
+%%%     \def\endspacing{\par
+%%%     \vskip \parskip
+%%%     \vskip \baselineskip
+%%%     \endgroup
+%%%     \vskip -\parskip
+%%%     \vskip -\baselineskip
+%%%     \@base{\@defaultbaselinestretch}\small\normalsize}}{}
+%%%
+
+%%%%% My stuff
 
 
 
