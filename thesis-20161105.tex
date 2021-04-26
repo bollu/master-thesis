@@ -620,6 +620,11 @@ we know nothing. Let's explore the relationship between $\alpha$ and $\gamma$.
 What happens  when we consider the compositions $\alpha \circ \gamma$ (read as
 "$\alpha$ after $\gamma$") and $\gamma \circ alpha$?
 
+\begin{figure}[htb]
+\includegraphics[width=\textwidth]{./abstract-interpretation.pdf}
+\caption{TODO}
+\end{figure}
+
 This leads us to the following relations:
 
 \begin{align*}
@@ -896,7 +901,7 @@ rewrite a fuzzy set as an $n$-tuple $A' = ( \mu_{A'}(x), \forall x \in \Omega
 probability of the $i$th member of the tuple $A$. We define some common set
 operations in terms of this representation as follows.
 
-{\footnotesize \begin{align*} &(A \cap B)[i] \equiv  A[i] \times B[i] \quad
+\begin{align*} &(A \cap B)[i] \equiv  A[i] \times B[i] \quad
 \text{(set intersection)} \\ &(A \cup B)[i] \equiv  A[i] + B[i]  - A[i] \times
 B[i] \, \text{(set union)}\\ &(A \sqcup B)[i] \equiv  \max(1, \min(0, A[i] +
 B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
@@ -906,7 +911,7 @@ B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
 \Omega} \mu_A (i) \quad \text{(cardinality)} \\
     % &H(A) \equiv \sum_i -A[i] \ln(A[i]) - (1 - A[i]) \ln(1 - A[i]) \;
     % \text{(entropy)}
-\end{align*} }
+\end{align*}
 
 The notion of entropy in fuzzy sets is an extrapolation of Shannon entropy from
 a single variable on the entire set. Formally, the fuzzy entropy of a set $S$
@@ -916,9 +921,9 @@ $X_i^S$ which is $true$ with probability $(p_i^S)$ and $false$ with probability
 $(1-p^S_i)$. Therefore, $X_i^S$ is a Bernoulli random variable. In order to
 compute the entropy of a fuzzy set, we sum the entropy values of each $X_i^S$:
 
-{\footnotesize \begin{align*} H(A) &\equiv \sum_i H(X^A_i) \\ &\equiv \sum_i
+\begin{align*} H(A) &\equiv \sum_i H(X^A_i) \\ &\equiv \sum_i
 -p_i^A \ln p_i^A - (1 - p_i^A) \ln (1 - p_i^A) \\ &\equiv  \sum_i -A[i] \ln
-A[i] - (1 - A[i]) \ln (1 - A[i]) \end{align*} }
+A[i] - (1 - A[i]) \ln (1 - A[i]) \end{align*}
 
 This formulation will be useful in section \ref{ssec: similarity math} where we
 discuss two asymmetric measures of similarity, cross-entropy and K-L
@@ -948,9 +953,9 @@ word vector to a tuple of features by first exponentiating the projection of
 each vector along each direction, then averaging it over that feature for the
 entire vocabulary size, i.e. column-wise.
 
-{\footnotesize \begin{align*} & v_{exp}[i] \equiv \exp \vec v[i] \\ & \hat v[i]
+\begin{align*} & v_{exp}[i] \equiv \exp \vec v[i] \\ & \hat v[i]
 \equiv \frac{v_{\text{exp}}[i]}{\sum_{w \in \text{VOCAB}} \exp
-w_{\text{exp}}[i]} \end{align*} }
+w_{\text{exp}}[i]} \end{align*}
 
 This normalization then produces a tuple of probabilities associated with each
 feature (corresponding to the dimensions of $\mathbb{R}^n$).
@@ -1057,7 +1062,6 @@ analogous to vector difference.
     \label{tab: intersection}
 \end{table}
 
-{\tiny
 \begin{table}[t]
     \centering
     {\small
@@ -1087,7 +1091,6 @@ analogous to vector difference.
     cross-entropy-similarity for our vectors.}
     \label{tab: difference}
 \end{table}
-}
 
 \paragraph{Feature Inclusion} Feature inclusion is based on the subset relation
 of fuzzy sets. We aim to capture feature inclusion by determining if there
@@ -1123,20 +1126,16 @@ function word list} provides the top 15 function words by entropy, and the
 correspodingly ranked words by frequency. We see that frequency is clearly not
 a good enough measure to identify function words.
 
-{\tiny
 \begin{table*}[t]
     \centering
-    {\small
     \begin{tabular}{l r | l r | l r | l r | l r}
     and		& the   &   in		&   one         &   which	    &   to          &   however	&   \emph{two}  &   for	    &   \emph{eight}  \\
     this    & of    &   of	    &   in          &   the		    &   \emph{zero} &   to		&   is          &   a	    &   for \\
     as	    & and   &   only	&   a           &   also	    &   \emph{nine} &   it		&   as          &   but	    &   \emph{s}
     \end{tabular}
-    }
     \caption{On the left: Top 15 words with highest entropy with frequency $\geq 100$ (note that all of them are function words). On the right: Top 15 words with the highest frequency. The non-function words have been emphasized for comparison.}
     \label{tab: function word list}
 \end{table*}
-}
 
 \subsection{Similarity Measures} \label{ssec: similarity math} One of the most
 important notions in presenting a distributional word representation is its
@@ -1175,22 +1174,18 @@ that the data $d$ follows distribution $Q$ is the K-L divergence between the
 distributions $P$ and $Q$. In the fuzzy case, we can compute the KL divergence
 as:
 
-{\footnotesize
 \begin{equation*}
      \infdiv{S}{T} \equiv \infdiv[\bigg]{X^S_i}{X^T_i} =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right)
 \end{equation*}
-}
 
 \begin{table}[]
     \centering
-    {\small
     \begin{tabular}{clr}
         \multirow{2}{*}{Example 1} & $\infdiv{ganges}{delta}$ & $6.3105$  \\
                                    & $\infdiv{delta}{ganges}$ & $6.3040$  \\
         \multirow{2}{*}{Example 2} & $\infdiv{north \cap korea}{china}$ & $1.02923$ \\
                                    & $\infdiv{china}{north \cap korea}$ & $10.60665$
     \end{tabular}
-    }
     \caption{Examples of KL-divergence as an asymmetric measure of similarity. Lower is closer. We see here that the evaluation of North Korea as a concept being closer to China than vice versa can be observed by the use of K-L Divergence on column-wise normalization.1}
     \label{tab: k-l divergence}
 \end{table}
@@ -1217,11 +1212,9 @@ us a general sense of the information theoretic difference between the concepts
 of $P$ and $Q$. We use a generalized version of cross-entropy to fuzzy sets
 \citep{li2015fuzzy}, which is:
 
-{\footnotesize
 \begin{equation*}
    H(S, T) \equiv \sum_i H(X^S_i) + \infdiv{X^S_i}{X^T_i}
 \end{equation*}
-}
 
 Feature representations which on comparison provide high cross entropy imply a
 more distributed feature space. Therefore, provided the right words to compute
@@ -1238,10 +1231,9 @@ combination of words from many senses, which provides some perspective into its
 distribution, . Indeed, it has an entropy value of $6.2765$\footnote{For
 reference, the word \texttt{the} has an entropy of $6.2934$.}.
 
- {\tiny
+ % {\tiny
  \begin{table}[]
      \centering
-     {\small
      \begin{tabular}{l l l l l}
          $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
          nobility    & metal     & bad       & fusible               & good                      \\
@@ -1256,11 +1248,10 @@ reference, the word \texttt{the} has an entropy of $6.2934$.}.
          eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
          vojt        & alloying  & gracious  & rhodium               & hedonist
      \end{tabular}
-     }
      \caption{Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}. \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$. We also provide the word2vec analogues of the same.}
      \label{tab: polysemy}
  \end{table}
- }
+ % }
 
 \subsection{Constructing Analogy}
 \label{ssec: analogy math}
@@ -1305,7 +1296,6 @@ Some examples of word analogy based are presented in table \ref{tab: analogy}.
 
 \begin{table}[]
     \centering
-    {\tiny
     \begin{tabular}{ccc|c|c}
         \bf Word 1  & \bf Word 2    & \bf Word 3    & \bf word2vec  & \bf Our representation    \\ \hline
         bacteria    & tuberculosis  & virus         & polio         & hiv                       \\
@@ -1313,7 +1303,6 @@ Some examples of word analogy based are presented in table \ref{tab: analogy}.
         ds          & nintendo      & dreamcast     & playstation   & sega                      \\
         pool        & billiards     & karate        & taekwondo     & judo                      \\
     \end{tabular}
-    }
     \caption{Examples of analogy compared to the analogy in word2vec. We see here that the comparisons constructed by feature representations are similar to those given by the standard word vectors.}
     \label{tab: analogy}
 \end{table}
@@ -1348,7 +1337,6 @@ covariances and standard deviations of the inputs being compared.
 
 \begin{table}[]
     \centering
-    {\small
     \begin{tabular}{c|c|cc}
         \multirow{2}{*}{\bf Dims.}   & \multirow{2}{*}{\bf word2vec} & \multicolumn{2}{c}{\bf Our Representation} \\ \cline{3-4}
                             &                               & K-L Divergence & Cross-Entropy \\\hline
@@ -1357,7 +1345,6 @@ covariances and standard deviations of the inputs being compared.
         100 &   0.2960   & 0.3124 & \bf 0.3206    \\
         200 &   0.3259   & 0.3253 & \bf 0.3298
     \end{tabular}
-    }
     \caption{Similarity scores on the SimLex-999 dataset \citep{hill2015simlex}, for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.}
     \label{tab: similarity scores}
 \end{table}
@@ -1373,7 +1360,6 @@ dimension vectors (features).
 \subsubsection{Analogy}
 
 \begin{table}[]
-    {\tiny
     \centering
     \begin{tabular}{ll|rr|rr}
         \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
@@ -1411,7 +1397,6 @@ dimension vectors (features).
                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
                                             & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
     \end{tabular}
-    }
     \caption{Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.). For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure). For all the others, we present, syntactic, semantic and overall accuracy as well. We see here that we outperform word2vec on every single metric.}
     \label{tab: analogy scores}
 \end{table}
@@ -1445,14 +1430,12 @@ compare it to the top $n$ words ordered by frequency from word2vec; $n$ being
 
 \begin{table}[]
     \centering
-    {\small
     \begin{tabular}{c|cc}
         top $n$ words & \bf word2vec & \bf Our Representation  \\ \hline
         15  & 10 & \bf 15 \\
         30  & 21 & \bf 30 \\
         50  & 39 & \bf 47  \\
     \end{tabular}
-    }
     \caption{Function word detection using entropy (in our representation) and by frequency in word2vec. We see that we consistently detect more function words than word2vec, based on the 176 function word list released by \citet{nation2016making}. The metric is \emph{number of words}, i.e. the number of words chosen by frequency for word2vec and entropy for our representation}
     \label{tab: function word eval}
 \end{table}
@@ -1480,7 +1463,6 @@ report performance on two metrics, the Spearman correlation
 
 \begin{table}[]
     \centering
-    {\small
     \begin{tabular}{c|c|cc}
         \bf Dims.               & \bf Metric& \bf word2vec  & \bf Our Representation    \\ \hline
         \multirow{2}{*}{50}     & Spearman  & 0.3946    & \bf 0.4117            \\
@@ -1490,7 +1472,6 @@ report performance on two metrics, the Spearman correlation
         \multirow{2}{*}{200}    & Spearman  & 0.4479    & \bf 0.4549            \\
                                 & Pearson   & \bf 0.4163& 0.4091                \\
     \end{tabular}
-    }
     \caption{Results for compositionality of word embeddings for nominal compounds for various dimensions (Dims.). We see that almost across the board, we perform better, however, for the Pearson correlation metric, at 200 dimensions, we find that word2vec has a better representation of rank by frequency for nominal compounds.}
     \label{tab: compositionality}
 \end{table}
@@ -1627,7 +1608,10 @@ This distinction \emph{does} make a difference for more complicated spaces.
 In particular, we choose to examine the example of a sphere versus the plane
 $\mathbb R^2$:
 
-TODO: add picture.
+\begin{figure}[htb]
+\includegraphics[width=\textwidth]{figures/sphere-shortest-path.png}
+\caption{TODO}
+\end{figure}
 
 \section{Generalizing \wtov: Distinction with differences}
 
@@ -1675,6 +1659,11 @@ even though the circle is itself two-dimensional. The gradient of a function at 
 vector which lives in the tangent space a point.
 
 TODO: add tangent space example.
+
+\begin{figure}[htb]
+\includegraphics{./lie-group.pdf}
+\caption{FOO}
+\end{figure}
 
 \subsection{Lie groups}
 A lie group is a Riemannian manifold $M$ which is also a group, whose group
@@ -1752,6 +1741,11 @@ How one performs the gradient update is explained in detail in the \label{sectio
 since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
 along the gradient vector (which will take us out of the manifold), and finally ``retract back'' into the
 manifold, which gives us a gradient step, starting from a point in the manifold, ending at a point in the manifold.
+
+\begin{figure}[htb]
+\includegraphics{./gradient-manifold.pdf}
+\caption{TODO}
+\end{figure}
 
 \subsubsection{Similarity} We compute similarity between two words by computing the dot product between
 the vectors which represent the words.
@@ -1863,7 +1857,9 @@ the humble \texttt{word2vec}.
 % \input{relatedPapers.tex}
 
 
-Word Embeddings as Tuples of Feature Probabilities: \textbf{Siddharth Bhat}, Alok Debnath, Souvik Banerjee, Manish Shrivastava - Proceedings of the 5th Workshop on Representation Learning for NLP, 2020
+Word Embeddings as Tuples of Feature Probabilities: \textbf{Siddharth Bhat},
+Alok Debnath, Souvik Banerjee, Manish Shrivastava - Proceedings of the 5th
+Workshop on Representation Learning for NLP, 2020
 
 
 %--------------------------------------------------------
