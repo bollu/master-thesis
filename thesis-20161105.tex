@@ -275,7 +275,8 @@ far beyond its original setting. Concretely, we tackle the following questions:
 
 
 
-\chapter{A deep dive into \wtov}
+\chapter{Background}
+\section{A deep dive into \wtov}
 \label{chapter:deep-dive-wtov}
 
 \epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
@@ -292,7 +293,7 @@ theory of abstract interpretation and connect this to montague semantics in
 \autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
 set representations in \autoref{chapter:abstract-interpretation}.
 
-\section{\wtov in the literature}
+\subsection{\wtov in the literature}
 
 \begin{figure}[htb]
 \begin{minted}[linenos]{cpp}
@@ -332,7 +333,7 @@ implementation, which is \emph{transliterated} from the C source to the extent
 that the variables names are the same as that of the C implementation. Hence, we shall read the source code to
 better understand the training scheme of \texttt{word2vec}.
 
-\section{\wtov in the sources}
+\subsection{\wtov in the sources}
 
 We analyze the original C implementation of \texttt{word2vec}, to point out
 salient features, curious implementation decisions and bugs in the
@@ -473,7 +474,7 @@ def train(corpus):
 \label{fig:w2v-py-pseudocode}
 \end{figure}
 
-\subsection{Bugs}
+\subsubsection{Bugs}
 
 In this subsection, we list bugs that were discovered by us in the \texttt{word2vec}
 codebase. While these do not impact training significantly, they do point out
@@ -501,7 +502,7 @@ upon reaching the end of file. The code at line \circled{5} ought to have been p
 but is missing. Thus, the final fragment of text is trained for only a single
 epoch, which causes the word vectors to miss data about the last section of the document.
 
-\subsection{Initialization choices}
+\subsubsection{Initialization choices}
 
 We conjecture that since the negative samples come from all over the text and
 are not really weighed by frequency, you can wind up picking \emph{any word},
@@ -515,8 +516,7 @@ choice of having a separate vector for the negative context --- they re-used
 accounting for different aspects of co-occurence.
 
 
-
-\section{Conclusion}
+\subsubsection{Conclusions on \texttt{word2vec}}
 
 The output of the training regime are popularly interpreted as vectors.
 However, we augment this discussion by bringing in nuance. In particular, we
@@ -546,7 +546,7 @@ to build fuzzy set representations in
 version of the \texttt{word2vec} training algorithm on any choice of Lie group
 in \autoref{chapter:geometrization}.
 
-\chapter{Abstract Interpretation}
+\section{Abstract Interpretation}
 \label{chapter:abstract-interpretation}
 \epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
@@ -576,7 +576,7 @@ as a \emph{Galois connection} \cite{cousout1992comparing}. We will show how the 
 connection provides a good notion of "approximation of meaning", and how this
 directly relates to Montague's ideas of representing semantics as subsets.
 
-\section{Abstracting away even-ness}
+\subsection{Abstracting away even-ness}
 
 Consider a notion of "odd" and even", and how we can generalize this notion to
 arbitrary subsets of the integers.  Let us consider two lattices, $L \equiv
@@ -633,7 +633,7 @@ creates a loss of information. This captures the intuition that the abstraction
 is lossy. The second equation tells us that if we start with an abstract object
 $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
 it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
-\section{Interval domain}
+\subsubsection{Interval domain}
 
 
 A second example is that of the interval domain, where we map subsets of the
@@ -681,7 +681,7 @@ abstracting notions of union and intersection. This is exploited when building
 fuzzy set representations to provide notions of union and intersection for
 fuzzy sets.
 
-\section{The formal viewpoint}
+\subsection{The formal viewpoint}
 
 A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
 \times L$ which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b
@@ -704,7 +704,7 @@ a \leq F(G(a)); \quad b \leq G(f(b))
 $$
 
 
-\section{Montague semantics}
+\subsection{Montague semantics}
 
 Montague grammar is an approach to natural language semantics pioneered by
 Richard Montague. The Montague grammar is based on mathematical logic.
@@ -1588,7 +1588,7 @@ challenges with this assumption of word to vector have been based around
 resolving polysemy and the treatment of function words, to which the classical
 answer has been extracting and using contextual information.
 
-\subsection{The blessing and curse of $\mathbb{R}^n$}
+\section{The blessing and curse of $\mathbb{R}^n$}
 
 The fundamental operations performed with \wtov during training are
 (1a) computing dot products between the focus and context vector, and (1b)
@@ -1628,7 +1628,7 @@ $\mathbb R^2$:
 
 TODO: add picture.
 
-\subsection{Generalizing \wtov: Distinction with differences}
+\section{Generalizing \wtov: Distinction with differences}
 
 In light of the discussion above, we reformulate the informally discussed notions of
 points, displacement, and moving along a displacement. We will first describe training, and then
