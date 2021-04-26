@@ -160,9 +160,8 @@
 % ACKNOWLEDGEMENTS PAGE
 \chapter*{Acknowledgments}
 \label{ch:ack}
-\texttt{\#harmless}, \texttt{\#math}, ness, celina, mona, dad, mum, ciel, bob,
-arjun, nitin, alok, projit, tushant, sahiti, kannan, manish, venkatesh,
-harmless, davean, topos, z-module, drazak, dalcde, bgamari, antonfire, PlanckWalk, Millennial, sure, Vyn, GodotMisog,  Uday, Arnaud, Tobias, Animesh, Mahathi, Bharti, Bharath, Athreya, Shaanjeet, auro, saumya, lata, ameya, aman, tal, timo, greg, matthias, simione, anastasia, theory group, luca, senpai.
+to \texttt{\#harmless} and \texttt{\#math}, for teaching me so much more than I could possibly have learnt
+on my own; To \texttt{davean} for the uninvited talk. To \texttt{topos} for all the category theory. To \texttt{ekmett} for \texttt{\#harmless}. To \texttt{Z-module} to showing me the beauty of groups, to \texttt{drazak} for teaching me orbit-stabilizer, to \texttt{dalcde} for correcting my definition of compactness, to \texttt{antonfire} for yelling at me when I didn't understand the totient, to \texttt{bgamari} for infinite patience with dropped projects, to \texttt{PlanckWalk} for the patient explanation of an elliptic PDE, to \texttt{Millennial} for a description of the langlands, to \texttt{sure} for what a sheaf is, to all of you for making a corner of the internet feel like home. To mona, for SpaG, britpick, coffee, and tech support. To adlucem, for dubious frog chasing. To Superty, nitin, and our goddess, for what is lost may be found again. ParticleMania and Itihas, thanks for the many obtuse conversations that shaped what I thought. To Kannan and Manish, and Venkatesh, for giving me the levity to pursue what I wanted. To Uday, for the math, warmth, and opportunities. To Arnaud, for the many conversations. To Tobias, for being a way better advisor than I  ever deserved. To \texttt{Vyn} and \texttt{GodotMisogi}, for Math-Utopia. To \texttt{Luca}, \texttt{Senpai}, and \texttt{LLLB} for bake and pancakes. To \texttt{codelegend}, for going along with my incorrect explanations. To panda, for marx, coffee, and the baked potato recipe. To Goose, for all the physics. To Ameya, Animesh, Aman,Athreya, Auro, Shaanjeet, and all the rest of theory group for our shared love. To  Timo for mate, Tal for the coffee, Greg for the cherry vodka. To all the folks at IISc, Tweag,  ETH, and theory group for the great times. To Alok, for beginning this project in the first place. To mum, for the cats and tea. To dad, for teaching me squeak.
 
 
 %% ABSTRACT PAGE
@@ -215,7 +214,7 @@ supervision. To perform such unsupervised learning, many models
 have been built, based off of the ``Distributional Hypothesis'', which states
 that words that occur in the same contexts tend to have similar meanings
 (Harris, 1954). The underlying idea that ``a word is characterized by the
-company it keeps'' was popularized by Firth. 
+company it keeps'' was popularized by Firth.
 
 An early technique which exploited distributional semantics was Latent Semantic
 analysis (LSA)\cite{landauer1998introduction}. LSA analyzes relationships by
@@ -226,7 +225,7 @@ is constructed from a large piece of text and  singular value decomposition
 (SVD) is used to reduce the number of rows while preserving the similarity
 structure among columns. Documents are then compared by taking the cosine of
 the angle between the two vectors, where angles close to $1$ represent very
-similar documents, and angles close to $0$ represent dis-similar documents. 
+similar documents, and angles close to $0$ represent dis-similar documents.
 
 \texttt{Word2vec} is a recent technique to create unsupervised word embeddings
 for NLP from unstructured data, whose informal correctness is based on the
@@ -234,14 +233,14 @@ distributional hypothesis. The \emph{word2vec} algorithm uses a neural network
 model to learn word associations from a large corpus of text. Once trained,
 such a model can detect synonymous words or suggest additional words for a
 partial sentence.  As befitting the name, \texttt{word2vec} represents each
-distinct word with a vector. The training mechanism yields vectors such that 
+distinct word with a vector. The training mechanism yields vectors such that
 the cosine of the angle between the vectors reflects the the level of semantic
 similarity between the words represented by those vectors.
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
 is as successful as it is. In comparison to LSA, which has theoretical guarantees
 since it is based on linear-algebraic ideas such as SVD, the correctness of
-\texttt{word2vec} is far less clear. In this thesis, we attempt to provide a 
+\texttt{word2vec} is far less clear. In this thesis, we attempt to provide a
 \emph{linguistically} as well as \emph{mathematically} motivated explanation
 for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
 implementation. Following this, we chase a \emph{linguistic} theory of meaning,
@@ -257,7 +256,7 @@ far beyond its original setting. Concretely, we tackle the following questions:
     \item How does \texttt{word2vec} \emph{really} work, including an
         investigation of all the tricks that are used in its reference C
         implementation and the bearings they have on the quality of the
-        generated word vectors. This is answered in \autoref{chapter:deep-dive-wtov}, 
+        generated word vectors. This is answered in \autoref{chapter:deep-dive-wtov},
         where we analyze the \texttt{word2vec} sources and extract insights from this process.
     \item What is a general theory of meaning that can be adapted to
         statistical machine learning? Why is abstract interpretation a
@@ -281,7 +280,7 @@ far beyond its original setting. Concretely, we tackle the following questions:
 
 \epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
 
-\textinit{T}he popular opinion in the NLP literature 
+\textinit{T}he popular opinion in the NLP literature
 is that that systems such as \texttt{word2vec} learn
 vector representations. Hence, this forms as the launching point for our study. We will
 first describe the popular description of the algorithm as found online, describe
@@ -338,7 +337,7 @@ better understand the training scheme of \texttt{word2vec}.
 We analyze the original C implementation of \texttt{word2vec}, to point out
 salient features, curious implementation decisions and bugs in the
 implementation
-\footnote{sources taken from \url{https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c}}. 
+\footnote{sources taken from \url{https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c}}.
 This necessitates interleaving high level explanations with direct snippets of  C source code;
 We do not apologize for this. We view this as a feature of this thesis, not a bug, since we deal
 with details such as the initialization and gradient calculations.  The core
@@ -384,7 +383,7 @@ the positive and negative sample training. The gradients of the focus vector
 are accumulated in a buffer, and are applied to the focus word
 \emph{after} it has been affected by both positive and negative samples.
 Line number \circled{4} decides whether we are picking a positive sample (\texttt{d = 0})
-or a negative sample (\texttt{d > 0}). If we are picking a positive sample, then we expect 
+or a negative sample (\texttt{d > 0}). If we are picking a positive sample, then we expect
 at \circled{5} to find the dot-product with the \texttt{word} to be \texttt{1}.
 On the other hand, if we are picking a negative sample, then we expect at \circled{10} to pick
 a random word, and at \circled{13} for the dot-product to be zero. \circled{20} computes
@@ -571,9 +570,7 @@ an \emph{adjunction}, a mathematical structure which captures a notion of
 "approximate inverses". It will be too much of a detour to explore the vast
 land of categories and adjunctions. Suffice to say that many of the deep ideas
 of mathematics arise out of adjunctions. The relationship between algebra and
-geometry arises out of adjunctions such as Hilbert's Nullstellensatz (%TODO:
-cite MathOverflow where nullstellensatz is adjunction) .
-
+geometry arises out of adjunctions such as Hilbert's Nullstellensatz.
 Here, we shall focus on the special case of an adjunction for lattices, known
 as a \emph{Galois connection} \cite{cousout1992comparing}. We will show how the notion of a Galois
 connection provides a good notion of "approximation of meaning", and how this
@@ -1649,7 +1646,7 @@ $(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \the
 TODO: circle; TODO: sphere.
 
 Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
-Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$ 
+Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$
 is a subset $M \subseteq \R^N$ such that for each $p \in M$,
 there exists an open set $C \subseteq R^k$ (of parameters), and an
 an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
@@ -1665,7 +1662,7 @@ local region of the manifold which looks like $\R^N$. For example, the Earth in
 total is curved, since it is a sphere. However, around each of us, it is
 approximated by a plane, since the Earth appears flat around a small region.
 Thus, we can continue to use the differential calculus that we know and love to
-compute gradients on a Riemannian manifold, which we will use to perform gradient 
+compute gradients on a Riemannian manifold, which we will use to perform gradient
 descent on curved spaces.
 
 \subsection{Tangent space}
@@ -1673,14 +1670,14 @@ On every manifold, at each point, we have a \emph{tangent space}, which
 represents the space of possible directions we can move on the space at that
 point. For example, at each point on a circle, we can define a velocity that is
 tangential to the circle. See that this space that is tangential is \emph{one dimensional},
-even though the circle is itself two-dimensional. The gradient of a function at a point is a 
+even though the circle is itself two-dimensional. The gradient of a function at a point is a
 vector which lives in the tangent space a point.
 
 TODO: add tangent space example.
 
 \subsection{Lie groups}
 A lie group is a Riemannian manifold $M$ which is also a group, whose group
-structure is compatible with the manifold structure. This means that we have 
+structure is compatible with the manifold structure. This means that we have
 an associative \emph{group operation} $*: M \times M \rightarrow M$, which comes with an
 inverse $(\cdot)^{-1} : M \rightarrow M$, and an identity $e \in M$ such that the group operation $*$
 and the inverse $(\cdot)^{-1}$ are continuous with respect to the inherited
@@ -1694,7 +1691,7 @@ lie group operations to perform analogy.
 
 \subsection{Lie algebra}
 The Lie algebra of a Lie group is the \emph{tangent space} of the Lie group
-\emph{at} the identity element. Informally, the idea is that while the Lie group is a 
+\emph{at} the identity element. Informally, the idea is that while the Lie group is a
 ``non-linear'' object, the tangent space represents tangents / ``linearlizations'' of the group.
 Moreover, in a group, given a tangent vector at the identity, we can \emph{exponentiate} this
 tangent vector to get a Lie group element.
@@ -1727,7 +1724,7 @@ we must compute $\log(SO(3)) = \{ \log(O): \log(O O^T) = \log(I) \}$. This leads
 Thus, the tangent space of $SO(3)$ is the space $\skewsym$ of skew-symmetric matrices. Notice that skew symmetric
 matrices form a vector space, since the sum of two skew symmetric matrices is skew-symmetric, and skew-symmetric
 matrices are closed under scaling by the real numbers. On the other hand, $SO(3)$ is not a vector space; For example,
-the element $I \in SO(3)$ as $I I^T = I$. On the other hand, consider $J \equiv 2I$. We have 
+the element $I \in SO(3)$ as $I I^T = I$. On the other hand, consider $J \equiv 2I$. We have
 $J J^T = 4I \neq I$. Thus $SO(3)$ is not closed under scaling by reals, and is thus not a vector space. Hence,
 we see that even in this case, the Lie group is not a vector space, while the Lie algebra is a vector space.
 Philosophically, skew-symmetric matrcies correspond to angular momenta, which are indeed the ``velocities''
@@ -1801,8 +1798,8 @@ whose orthogonal complement we derive the projection of the tangent space.
 The final piece that we require is a retraction $R: \mathbb R^n \rightarrow \overline M \subseteq \mathbb R^n$. This allows
 us to project elements of the ambient space that are not on the manifold. The
 retraction must obey the property $R(p \in \overline M) = p$.
-(TODO: is this correct? Do we need $R(\overline M) = \overline M$ or is this pointwise?)
-(what are the other conditions on the retraction? smoothness?)
+% (TODO: is this correct? Do we need $R(\overline M) = \overline M$ or is this pointwise?)
+% (what are the other conditions on the retraction? smoothness?)
 
 Given all of this machinery, the algorithm is indeed quite simple.
 
@@ -1869,10 +1866,10 @@ Word Embeddings as Tuples of Feature Probabilities: \textbf{Siddharth Bhat}, Alo
 
 
 %--------------------------------------------------------
-
+\nocite{*}
 \bibliographystyle{latex8}
 %\bibliography{References,Introduction/References} % To include one or more reference.bib files
-\nocite{*}
+% \bibliography{references}
 \bibliography{references}
 
 \end{document}
