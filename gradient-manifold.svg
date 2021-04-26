@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="172.52592mm"
+   height="179.74695mm"
+   viewBox="0 0 172.52592 179.74695"
    version="1.1"
    id="svg3396"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
@@ -19,43 +19,43 @@
     <marker
        style="overflow:visible"
        id="Arrow2Sstart"
-       refX="0.0"
-       refY="0.0"
+       refX="0"
+       refY="0"
        orient="auto"
        inkscape:stockid="Arrow2Sstart"
        inkscape:isstock="true">
       <path
-         transform="scale(0.3) translate(-2.3,0)"
-         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
-         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="matrix(0.3,0,0,0.3,-0.69,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
          id="path4157" />
     </marker>
     <marker
        style="overflow:visible"
        id="marker4545"
-       refX="0.0"
-       refY="0.0"
+       refX="0"
+       refY="0"
        orient="auto"
        inkscape:stockid="Arrow1Sstart"
        inkscape:isstock="true">
       <path
-         transform="scale(0.2) translate(6,0)"
-         style="fill-rule:evenodd;stroke:#9e9e9e;stroke-width:1pt;stroke-opacity:1;fill:#9e9e9e;fill-opacity:1"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         transform="matrix(0.2,0,0,0.2,1.2,0)"
+         style="fill:#9e9e9e;fill-opacity:1;fill-rule:evenodd;stroke:#9e9e9e;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
          id="path4543" />
     </marker>
     <marker
        style="overflow:visible"
        id="Arrow1Sstart"
-       refX="0.0"
-       refY="0.0"
+       refX="0"
+       refY="0"
        orient="auto"
        inkscape:stockid="Arrow1Sstart"
        inkscape:isstock="true">
       <path
-         transform="scale(0.2) translate(6,0)"
-         style="fill-rule:evenodd;stroke:#9e9e9e;stroke-width:1pt;stroke-opacity:1;fill:#9e9e9e;fill-opacity:1"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         transform="matrix(0.2,0,0,0.2,1.2,0)"
+         style="fill:#9e9e9e;fill-opacity:1;fill-rule:evenodd;stroke:#9e9e9e;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
          id="path4139" />
     </marker>
     <marker
@@ -82,8 +82,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.78854481"
-     inkscape:cx="389.9968"
-     inkscape:cy="398.26489"
+     inkscape:cx="356.50449"
+     inkscape:cy="317.00563"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -92,7 +92,11 @@
      inkscape:window-height="1006"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata3393">
     <rdf:RDF>
@@ -108,7 +112,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-8.8615061,-16.720349)">
     <circle
        style="fill:none;fill-opacity:1;stroke:#607d8b;stroke-width:2.25778;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path11804"
@@ -213,7 +218,7 @@
        transform="rotate(59.999999)" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.38667px;line-height:0%;font-family:'Anonymous Pro for Powerline';-inkscape-font-specification:'Anonymous Pro for Powerline, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.38667px;line-height:0%;font-family:'Anonymous Pro for Powerline';-inkscape-font-specification:'Anonymous Pro for Powerline, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.282222px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="81.188103"
        y="50.08255"
        id="text11812-3-9"><tspan
@@ -221,6 +226,6 @@
          x="81.188103"
          y="50.08255"
          id="tspan11816-7-2"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:100%;font-family:'Meslo LG L DZ for Powerline';-inkscape-font-specification:'Meslo LG L DZ for Powerline';fill:#000000;fill-opacity:1;stroke-width:0.282222px;">δp</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:100%;font-family:'Meslo LG L DZ for Powerline';-inkscape-font-specification:'Meslo LG L DZ for Powerline';fill:#000000;fill-opacity:1;stroke-width:0.282222px">δp</tspan></text>
   </g>
 </svg>
