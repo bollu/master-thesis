@@ -212,9 +212,9 @@ provide insight into the mathematical structure of word representations.
 techniques to extract semantic information from raw corpora with little to no
 supervision. To perform such unsupervised learning, many models
 have been built, based off of the ``Distributional Hypothesis'', which states
-that words that occur in the same contexts tend to have similar meanings
-(Harris, 1954). The underlying idea that ``a word is characterized by the
-company it keeps'' was popularized by Firth.
+that words that occur in the same contexts tend to have similar meanings. The
+underlying idea that ``a word is characterized by the company it keeps'' was
+popularized by Firth \citep{firth1957synopsis}.  .
 
 An early technique which exploited distributional semantics was Latent Semantic
 analysis (LSA)\cite{landauer1998introduction}. LSA analyzes relationships by
@@ -1361,6 +1361,7 @@ dimension vectors (features).
 
 \begin{table}[]
     \centering
+    {\footnotesize
     \begin{tabular}{ll|rr|rr}
         \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
         \multicolumn{2}{l|}{}                           & 50        & 100       & 50        & 100               \\\hline
@@ -1397,6 +1398,7 @@ dimension vectors (features).
                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
                                             & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
     \end{tabular}
+    }
     \caption{Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.). For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure). For all the others, we present, syntactic, semantic and overall accuracy as well. We see here that we outperform word2vec on every single metric.}
     \label{tab: analogy scores}
 \end{table}
