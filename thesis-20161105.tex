@@ -29,6 +29,7 @@
 \usepackage{mathtools}
 \usepackage{booktabs}
 \usepackage{epigraph}
+\usepackage{todonotes}
 % \usepackage{natbib}
 % \bibliographystyle{unsrtnat}
 
@@ -208,16 +209,19 @@ provide insight into the mathematical structure of word representations.
 \epigraph{The sky is the limit, so lets build rockets!}{Anonymous}
 
 
-\textinit{N}atural language processing has, since its inception, required
+% \textinit{N}atural language processing has, since its inception, required
+Natural language processing has, since its inception, required
 techniques to extract semantic information from raw corpora with little to no
 supervision. To perform such unsupervised learning, many models
 have been built, based off of the ``Distributional Hypothesis'', which states
-that words that occur in the same contexts tend to have similar meanings. The
+that words that occur in the same contexts tend to have similar meanings.
+\todo{Harris 1954 is also a citation here}
+The
 underlying idea that ``a word is characterized by the company it keeps'' was
-popularized by Firth \citep{firth1957synopsis}.  .
+popularized by Firth \citep{firth1957synopsis}.
 
 An early technique which exploited distributional semantics was Latent Semantic
-analysis (LSA)\cite{landauer1998introduction}. LSA analyzes relationships by
+Analysis (LSA) \cite{landauer1998introduction}. LSA analyzes relationships by
 assuming that words that are close in meaning will occur in similar pieces of
 text (the distributional hypothesis), and thus matrix containing word counts
 per document (rows represent unique words and columns represent each document)
@@ -229,18 +233,24 @@ similar documents, and angles close to $0$ represent dis-similar documents.
 
 \texttt{Word2vec} is a recent technique to create unsupervised word embeddings
 for NLP from unstructured data, whose informal correctness is based on the
-distributional hypothesis. The \emph{word2vec} algorithm uses a neural network
+distributional hypothesis. \todo{citations on both word2vec and correctness}
+The \texttt{word2vec} algorithm uses a neural network \todo{neural network?}
 model to learn word associations from a large corpus of text. Once trained,
 such a model can detect synonymous words or suggest additional words for a
 partial sentence.  As befitting the name, \texttt{word2vec} represents each
-distinct word with a vector. The training mechanism yields vectors such that
+distinct word with a vector. \todo{Nitpick: it is every surface form which is a
+  vector, because I would argue bank and bank are different words.}
+The training mechanism yields vectors such that
 the cosine of the angle between the vectors reflects the the level of semantic
 similarity between the words represented by those vectors.
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
-is as successful as it is. In comparison to LSA, which has theoretical guarantees
+is as successful as it is. \todo{citation}
+In comparison to LSA, which has theoretical guarantees
 since it is based on linear-algebraic ideas such as SVD, the correctness of
-\texttt{word2vec} is far less clear. In this thesis, we attempt to provide a
+\texttt{word2vec} is far less clear. In this thesis, we \todo{I've been told we
+  write `I' in theses, as technically you're the only one writing it.}
+attempt to provide a
 \emph{linguistically} as well as \emph{mathematically} motivated explanation
 for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
 implementation. Following this, we chase a \emph{linguistic} theory of meaning,
@@ -253,7 +263,7 @@ performance of our proposed system. Finally, we generalize \texttt{word2vec}
 far beyond its original setting. Concretely, we tackle the following questions:
 
 \begin{enumerate}
-    \item How does \texttt{word2vec} \emph{really} work, including an
+    \item How \texttt{word2vec} \emph{really} works, including an
         investigation of all the tricks that are used in its reference C
         implementation and the bearings they have on the quality of the
         generated word vectors. This is answered in \autoref{chapter:deep-dive-wtov},
@@ -281,17 +291,21 @@ far beyond its original setting. Concretely, we tackle the following questions:
 
 \epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
 
-\textinit{T}he popular opinion in the NLP literature
+% \textinit{T}he popular opinion in the NLP literature
+The popular opinion in the NLP literature
 is that that systems such as \texttt{word2vec} learn
-vector representations. Hence, this forms as the launching point for our study. We will
+vector representations. \todo{citations of some eval papers. Some further
+  sophistry needed here.}
+Hence, this forms as the launching point for our study. We will
 first describe the popular description of the algorithm as found online, describe
 gaps in both the online descriptions and in the original paper. Next, we dissect the
-source code of \texttt{word2vec}.Armed with detailed knowledge of the real
+source code of \texttt{word2vec}. Armed with detailed knowledge of the real
 training mechanism, we lay out the list of open questions in the design of
 \texttt{word2vec}. To answer these questions, we explain the mathematical
 theory of abstract interpretation and connect this to montague semantics in
 \autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
-set representations in \autoref{chapter:abstract-interpretation}.
+set representations in \autoref{chapter:abstract-interpretation}. \todo{is the
+  building happening in abstract interpretation or the fuzzy set chapter?}
 
 \subsection{\wtov in the literature}
 
@@ -307,8 +321,8 @@ while(1) {
   train such that (vf . vneg = 0)
 }
 \end{minted}
-\caption{word2vec:  high-level\emph{incorrect} pseudocode. This is the popular
-    explanation of available on Wikipedia  and the tensorflow page.}
+\caption{word2vec:  high-level \emph{incorrect} pseudocode. This is the popular
+    explanation of available on Wikipedia and the TensorFlow page.}
 \label{fig:wrong-w2v-pseudocode}
 \end{figure}
 
@@ -327,17 +341,19 @@ explanations available on \href{https://en.wikipedia.org/wiki/Word2vec#Training_
 and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{TensorFlow} re-implementation.
 
 The original \wtov \texttt{C} implementation does not do what is explained above.
-serious users of word embeddingseither (a) directly invoke the original C
+serious users of word embeddings either (a) directly invoke the original C
 implementation of \texttt{word2vec}, or (b) invoke the \texttt{gensim}
 implementation, which is \emph{transliterated} from the C source to the extent
-that the variables names are the same as that of the C implementation. Hence, we shall read the source code to
+that the variables names are the same as that of the C implementation.
+\todo{gensim implementation links}
+Hence, we shall read the source code to
 better understand the training scheme of \texttt{word2vec}.
 
 \subsection{\wtov in the sources}
 
 We analyze the original C implementation of \texttt{word2vec}, to point out
 salient features, curious implementation decisions and bugs in the
-implementation
+implementation \todo{why not the master branch directly?}
 \footnote{sources taken from \url{https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c}}.
 This necessitates interleaving high level explanations with direct snippets of  C source code;
 We do not apologize for this. We view this as a feature of this thesis, not a bug, since we deal
@@ -351,7 +367,8 @@ implementation of \texttt{word2vec}.
 The \texttt{C} implementation in fact maintains \emph{two vectors for each word}, one where
 it appears as a focus word, and one where it appears as a context word.
 (Is this sounding familiar? Indeed, it appears that GloVe actually took this
-idea from `word2vec`, which has never mentioned this fact!)
+idea from `word2vec`, which has never mentioned this fact!) \todo{MAKE MORE FORMAL,
+  citation, code link in footnotes}
 
 \subsubsection{Initialization}
 (a) An array called `syn0` holds the vector embedding of a word when it occurs
@@ -474,13 +491,12 @@ def train(corpus):
 \label{fig:w2v-py-pseudocode}
 \end{figure}
 
-\subsubsection{Bugs}
+\subsection{Bugs}
 
 In this subsection, we list bugs that were discovered by us in the \texttt{word2vec}
 codebase. While these do not impact training significantly, they do point out
 the dangers of using C as programming language, as well as provides justification
 for reading the original sources.
-
 
 \subsubsection{Epoch resetting}
 
@@ -515,6 +531,9 @@ choice of having a separate vector for the negative context --- they re-used
 \wtov's  scheme, re-interpreting the negative vector and positive vector as
 accounting for different aspects of co-occurence.
 
+\todo{Nothing on the threading issues? The fact that changing the number of
+  threads actually either crashed the training or didn't train a certain
+  arbitrary group of words iirc?}
 
 \subsubsection{Conclusions on \texttt{word2vec}}
 
@@ -534,7 +553,9 @@ We learn that the \texttt{word2vec} training regime creates two sets of vectors,
 referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors
 \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are
 the ones that are left at the end. The training regime \emph{does not use}
-gradient descent. Rather, a style of perceptron based update is used.  Thus,
+gradient descent. Rather, a style of perceptron-based update is used.
+\todo{perceptron-based \textit{batch} update?}
+Thus,
 this leaves the question open as to what is really being learnt by
 \texttt{word2vec}. We answer this question by hypothesizing that the
 representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets
@@ -550,12 +571,17 @@ in \autoref{chapter:geometrization}.
 \label{chapter:abstract-interpretation}
 \epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
-\textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
+% \textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
+Abstract interpretation is a mathematical theory of approximation of meaning.
 It was created by Cousout and Cousout to unify many disparate program analysis
 techniques that had been developed until then. The broad idea is to consider
 two worlds: a concrete world, which contains "all the meaning", yet which is
-hopeless non-computable. In parallel, we consider an abstract world, one that
-is but a mere approximation to the concrete. This loss of information allows
+hopelessly non-computable. In parallel, we consider an abstract world, one that
+is but a mere approximation to the concrete. \todo{For the love of God, explain
+  what concrete and abstract meanings are BEFORE you go into the computability
+  detailing. I'd suggest starting with the example and then go towards the
+  definition.}
+This loss of information allows
 the abstract domain be \emph{computable}, thereby providing the ability to
 approximate concrete meaning. These two worlds are enriched with the structure
 of a \emph{lattice}, which allows the conjunction and disjunction of meaning;
@@ -571,6 +597,7 @@ an \emph{adjunction}, a mathematical structure which captures a notion of
 land of categories and adjunctions. Suffice to say that many of the deep ideas
 of mathematics arise out of adjunctions. The relationship between algebra and
 geometry arises out of adjunctions such as Hilbert's Nullstellensatz.
+\todo{relevance?}
 Here, we shall focus on the special case of an adjunction for lattices, known
 as a \emph{Galois connection} \cite{cousout1992comparing}. We will show how the notion of a Galois
 connection provides a good notion of "approximation of meaning", and how this
@@ -684,7 +711,7 @@ This shows that the theory of abstract interpretation is compatible with set
 operations. In particular, the theory of abstract interpretation is capable of
 abstracting notions of union and intersection. This is exploited when building
 fuzzy set representations to provide notions of union and intersection for
-fuzzy sets.
+fuzzy sets. \todo{needs polishing}
 
 \subsection{The formal viewpoint}
 
@@ -712,11 +739,10 @@ $$
 \subsection{Montague semantics}
 
 Montague grammar is an approach to natural language semantics pioneered by
-Richard Montague. The Montague grammar is based on mathematical logic.
+Richard Montague. \todo{citation} The Montague grammar is based on mathematical logic.
 Montague held the view that natural language was a formal language very much in
 the same sense as predicate logic was a formal language. As such, in Montague’s
 view, the study of natural language belonged to mathematics. To quote:
-
 
 \begin{quote}
 There is in my opinion no important theoretical difference between natural
@@ -732,7 +758,7 @@ sentence $l \equiv (\forall x \in \Z, x < 2)$ is given meaning by constructing
 the set $S_l \equiv \{ x \in \Z : x < 2 \} = \{1, 0, -1, \dots \}$. A false
 proposition, such that $l' \equiv \forall x \in \Z, x > x + 1$ is given meaning
 by the \emph{empty set} $S_{l'} \equiv \{ x \in \Z: x > x + 1 \} = \emptyset$.
-As a linguistic example, the meaning of walk, or sing is  defined as the set of
+As a linguistic example, the meaning of walk, or sing is defined as the set of
 individuals who share respectively the property of walking or the property of
 singining.  By appealing to the principle of compositionality, if there is a
 rule that combines these two expressions to the verb phrase walk and sing,
@@ -749,11 +775,12 @@ the union of \emph{both sets of meanings}. To resolve ambiguity given more
 context, we intersect the union of both sets of meaning with the correct context.
 
 
-We see that compositionality arises naturally from set-theoretic semantics; It
+We see that compositionality arises naturally from set-theoretic semantics; it
 is one of the cruxes of Montague's ``theory of meaning'', which was expanded
 upon by the denotational semantics school of thought, where syntax and
-semantics are algebra, and denotation, or meaning is a morphism between them.
+semantics are algebra, and denotation, or meaning, is a morphism between them.
 In our work, we exploit Montague semantics as the bridge to connect \texttt{word2vec} with
+\todo{In my work, I ... <all the way through>}
 abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec}
 computes a sequence of abstract interpretations, first from the uncomputable
 semantics of natural language that of the uncomputable montagueian semantics.
@@ -767,7 +794,8 @@ come up non-empty-handed.
 
 \epigraph{And if we tamper with our inheritance, so what? What is more ours to tamper with?}{Ian M Banks}
 
-\textinit{W}e provide an alternate perspective on word representations, by
+% \textinit{W}e provide an alternate perspective on word representations, by
+We provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
 collection of features. In this reinterpretation, every component of the word
 vector is normalized against all the word vectors in the vocabulary. This idea
@@ -797,7 +825,7 @@ products when normalized. Some of the most common methods of intrinsic
 evaluation of word embeddings include similarity, analogy and compositionality.
 While similarity is computed using the notion of dot product, analogy and
 compositionality use vector addition.
-
+\todo{not needed, already used in introduction}
 However, distributional representations of words over vector spaces have an
 inherent lack of interpretablity \citep{goldberg2014word2vec}. Furthermore, due
 to the symmetric nature of the vector space operations for similarity and
@@ -1536,8 +1564,6 @@ representations can be adapted for basic neural models, allowing the use of
 feature based representations at lower dimensions for downstream tasks.
 
 
-
-
 \chapter{Geometry of Word Representations}
 \label{chapter:geometrization}
 
@@ -1549,10 +1575,24 @@ felt that the twilight abysses around him were those of the fourth dimension.}{H
 % https://www.manopt.org/reference/manopt/manifolds/grassmann/grassmannfactory.html#_sub7
 % https://arxiv.org/pdf/1205.5935.pdf
 
-\textinit{E}mbedding words in vector spaces has become the norm for
-distributional lexical semantic representations. While esoteric literature has
-attempted to change the underlying embedding space, the resultant word
-embeddings are specific to a given task or linguistic property. In this paper,
+% \textinit{E}mbedding words in vector spaces has become the norm for
+Embedding words in vector spaces has become the norm for
+word representation. The
+terms \emph{word vectors} and \emph{word embeddings} synonymous to one another,
+due to the success of vector based models such as word2vec, GloVe and FastText.
+While esoteric literature has
+attempted to change the underlying embedding space of distributional lexical semantic representations,
+the resultant word
+embeddings are specific to a given task or linguistic property.
+
+Even with the introduction of contextualized word representations, the
+underlying structure of word representations has remained the same, mapping a
+word to a single vector in a continuous vector space. Some of the known
+challenges with this assumption of word to vector are based around
+resolving polysemy and the treatment of function words, to which the classical
+answer has been extracting and using contextual information.
+
+In this chapter,
 we hypothesize that word representations need not change the embedding space,
 rather the object they are embedded as. We address the notion of a context
 vector introduced in the skip-gram, CBOW and GloVe models, and introduce a
@@ -1561,23 +1601,13 @@ demonstrate this approach, we embed words into symplectic space, where each
 word is represented by a \emph{tuple} of words, and similarity and analogy are
 computed based on tuples of dot products.
 
-Word representation is a central challenge in natural language processing. The
-terms \emph{word vectors} and \emph{word embeddings} synonymous to one another,
-due to the success of vector based models such as word2vec, GloVe and FastText.
-Even with the introduction of contextualized word representations, the
-underlying structure of word representations has remained the same, mapping a
-word to a single vector in a continuous vector space. Some of the known
-challenges with this assumption of word to vector have been based around
-resolving polysemy and the treatment of function words, to which the classical
-answer has been extracting and using contextual information.
-
 % \section{The blessing and curse of $\mathbb{R}^n$}
 \section{The blessing and curse of $\mathbb{R}^n$}
 
 The fundamental operations performed with \wtov during training are
 (1a) computing dot products between the focus and context vector, and (1b)
 performing gradient descent to choose a new focus and context vector. The fundamental
-operations during testing are (2a) \emph{Similarity}, which is
+operations during evaluation are (2a) \emph{Similarity}, which is
 expressed as a dot product between the two word vectors, and (2b) \emph{Analogy},
 which when given three words representing a sense of analogy \texttt{(king : man :: woman)},
 finds the unknown word \texttt{x} which represents the analogy \texttt{king :
@@ -1588,12 +1618,13 @@ the vectorial addition and subtraction operations for analogy, the \emph{inner p
 structure is used to compute the dot-product, and the \emph{Riemannian} structure is used to perform
 gradient descent. We break these structures down, and then write down the most
 general version of the algorithm which can still honestly be called the \texttt{word2vec} algorithm.
+\todo{need to rewrite being less dense.}
 
 Towards capturing these distinctions mathematically,
 we rewrite the analogy as $(\texttt{man} - \texttt{king}) + \texttt{woman}$.
 This is suggestive: it suggests that an analogy is comprised of two operations. First,
 a subtraction of vectors $(\texttt{man}-\texttt{king})$, which gives us the \emph{displacement}
-\emph{from} king \emph{to} man. This is followed by ``shifting'' this displacement to be
+\emph{from} king \emph{to} man. This is followed by ``shifting''; this displacement to be
 located at the basepoint \texttt{woman}. This gives us the combined effect of analogy, where
 we consider the displacement from king to man, and then reconsider this displacement, starting
 at the location of woman. Hence, the distinction between points such as \texttt{woman}
@@ -1605,6 +1636,8 @@ are no longer interchangeable.
 
 % TODO: add circle example.
 
+\todo{talk about other spaces in which embedding has happened? Poincare ball,
+  sphere, the geometry of polysemy?}
 
 This distinction \emph{does} make a difference for more complicated spaces.
 In particular, we choose to examine the example of a sphere versus the plane
@@ -1723,6 +1756,8 @@ we see that even in this case, the Lie group is not a vector space, while the Li
 Philosophically, skew-symmetric matrcies correspond to angular momenta, which are indeed the ``velocities''
 of a rotation.
 
+\todo{For each section, also add linguistic corollaries. This will make it a bit
+  easier to digest the transition from dense math topic to dense math topic}
 
 \subsubsection{Setting} We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
 they are points in some \emph{subspace} of $\mathbb R^n$, where this subspace can be curved in shape.
@@ -1750,17 +1785,26 @@ manifold, which gives us a gradient step, starting from a point in the manifold,
 \caption{gradient descent on a manifold.}
 \end{figure}
 
+\todo{Differentiate sections into math basics, training, and evaluation.}
+
 \subsubsection{Similarity} We compute similarity between two words by computing the dot product between
 the vectors which represent the words.
+
+\todo{Pls detail xD}
 
 \subsubsection{Displacement} To compute the displacement from one word $v$ to another word $w$, we compute the element $d \equiv (v \cdot w^{-1})$.
 See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
 
+\todo{revisit minorly the difference v. displacement argument}
+
 \subsubsection{Moving along displacement} To perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$.
 
+\todo{elaboration}
 
 \section{Optimisation on Riemannian Manifolds}
 \label{section:optim-on-riem}.
+
+\todo{introduce the need: ML algorithms and all that}
 
 We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
