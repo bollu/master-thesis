@@ -279,12 +279,17 @@ attempt to provide a
 for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
 implementation. Following this, we chase a \emph{linguistic} theory of meaning,
 by considering \emph{Montague semantics}. Developing on this idea, we borrow the tools of
-\emph{Abstract Interpretation} \cite{cousout1996abstract}, a technique development in computer science for
-program analysis, which is used to approximate the (formal) meaning/semantics
-of a program. Using abstract interpretation, we propose a scheme to extract
-\emph{Montagueian semantics} from \texttt{word2vec}, and evaluate the
-performance of our proposed system. Finally, we generalize \texttt{word2vec}
-far beyond its original setting. Concretely, we tackle the following questions:
+\emph{Abstract Interpretation} \cite{cousout1996abstract}, a general framework enabling the construction
+and the soundness proof of approximated semantics of programs. We
+recall here its core features, which is used to approximate the (formal)
+meaning/semantics of a program.  A core principle in the Abstract
+Interpretation theory is that all kinds of semantics can be expressed within
+the framework of fixpoints of monotonic operators in partially ordered structures.
+In this thesis, we use ideas from abstract interpretation to propose a scheme
+to extract \emph{Montagueian semantics} from \texttt{word2vec}, and evaluate
+the performance of our proposed system. Finally, we generalize
+\texttt{word2vec} far beyond its original setting. Concretely, we tackle the
+following questions:
 
 \begin{enumerate}
     \item How \texttt{word2vec} \emph{really} works, including an
@@ -673,30 +678,10 @@ that best represent them. This is given by:
 
 That is, $\gamma$ maps $E$ to the even numbers, $O$ to the set of all odd
 numbers, $\bot$ to the empty set, and $\top$ to the set of all numbers, since
-we know nothing. Let's explore the relationship between $\alpha$ and $\gamma$.
-What happens  when we consider the compositions $\alpha \circ \gamma$ (read as
-"$\alpha$ after $\gamma$") and $\gamma \circ alpha$?
+we know nothing.
 
-\begin{figure}[htb]
-\includegraphics[width=\textwidth]{./abstract-interpretation.pdf}
-\caption{Abstract interpretation of the Odd/Even lattice.}
-\end{figure}
 
-This leads us to the following relations:
-
-\begin{align*}
-	&C \subseteq (\gamma\circ \alpha)(C) \\
-	&a = (\alpha \circ \gamma)(a) \\
-\end{align*}
-
-These first equation tell us that abstracting a concrete idea $C$ into
-$\alpha(C)$ and then concretizing the abstract idea using $\gamma(\alpha(C))$
-creates a loss of information. This captures the intuition that the abstraction
-is lossy. The second equation tells us that if we start with an abstract object
-$a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
-it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
-\subsubsection{Interval domain}
-
+\subsection{Interval domain}
 
 A second example is that of the interval domain, where we map subsets of the
 integers $2^\Z$ to \emph{intervals} of the integers. The interval domain is a
@@ -715,11 +700,16 @@ as $\{1, 2, 3, 4, 5\}$. To make this formal, we define the concretization
 function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x
 \in \mathbb Z : l \leq x \leq r \}$.
 
+\includegraphics[width=\textwidth]{./alpha-gamma-intervals.pdf}
+
+
+\subsubsection{Unions in the Interval domain}
 
 To define \emph{union} and \emph{intersection} of our intervals, we intuitively
 want toe \emph{union} of two intervals to be the smallest interval that \emph{contains} them.
 Similarly, we want the \emph{intersection} of two intervals to be the \emph{largest} interval
 \emph{contained} in both of them. These are given by the definitions:
+
 
 % https://scicomp.stackexchange.com/a/26260/31940
 \begin{align*}
@@ -735,13 +725,36 @@ Given two subsets $S, T \subseteq 2^\Z$, $\alpha(S \cap T)$ is the largest inter
 containing elements of both $S$ and $T$. $\alpha(S) \sqcap^\sharp \alpha(T)$ is the
 intersection of intervals containing $S$ and $T$, which is also the largest interval
 containing both $S$ and $T$. Similarly, for union, we have the equation
-$\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$
+$\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$.
+
+\includegraphics[width=\textwidth]{./union.pdf}
 
 This shows that the theory of abstract interpretation is compatible with set
 operations. In particular, the theory of abstract interpretation is capable of
 abstracting notions of union and intersection, since the union and intersection
 of the sets of integers is approximated by joins and meets in the abstract even-odd
 lattice.
+
+
+\subsection{Galois connection}
+
+TODO: write more about the galois connection here.
+
+We are ledt to the following relations:
+
+\begin{align*}
+	&C \subseteq (\gamma\circ \alpha)(C) \\
+	&a = (\alpha \circ \gamma)(a) \\
+\end{align*}
+
+These first equation tell us that abstracting a concrete idea $C$ into
+$\alpha(C)$ and then concretizing the abstract idea using $\gamma(\alpha(C))$
+creates a loss of information. This captures the intuition that the abstraction
+is lossy. The second equation tells us that if we start with an abstract object
+$a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
+it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
+\subsubsection{Interval domain}
+
 
 
 \subsection{The formal viewpoint}

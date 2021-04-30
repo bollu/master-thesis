@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="907.71313"
-   height="395.10364"
-   viewBox="0 0 240.16578 104.53784"
+   width="900.45007"
+   height="209.34917"
+   viewBox="0 0 238.24409 55.390302"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
@@ -24,8 +24,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="545.3843"
-     inkscape:cy="349.80998"
+     inkscape:cx="445.82102"
+     inkscape:cy="305.39017"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -42,7 +42,7 @@
      fit-margin-right="10"
      fit-margin-bottom="10">
     <sodipodi:guide
-       position="10.781938,139.81126"
+       position="9.9009219,95.690809"
        orientation="0,-1"
        id="guide1506" />
   </sodipodi:namedview>
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -62,7 +62,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-0.44338338,0.00615661)">
+     transform="translate(-1.3243994,-5.0209316)">
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
@@ -77,13 +77,13 @@
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
-       x="54.67223"
-       y="96.439415"
+       x="54.535896"
+       y="54.745037"
        id="text1404"><tspan
          sodipodi:role="line"
          id="tspan1402"
-         x="54.67223"
-         y="96.439415"
+         x="54.535896"
+         y="54.745037"
          style="font-size:10.5833px;stroke-width:0.264583">∅</tspan></text>
     <text
        xml:space="preserve"
@@ -99,127 +99,127 @@
     <text
        xml:space="preserve"
        style="font-size:7.9375px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#ef6c00;fill-opacity:1;stroke-width:0.264583"
-       x="43.492023"
-       y="49.521595"
+       x="43.35569"
+       y="34.285202"
        id="text1432-7-6"><tspan
          sodipodi:role="line"
          id="tspan1430-5-2"
-         x="43.492023"
-         y="49.521595"
+         x="43.35569"
+         y="34.285202"
          style="font-size:7.9375px;fill:#ef6c00;fill-opacity:1;stroke-width:0.264583">{1, 2}</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:7.9375px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#0288d1;fill-opacity:1;stroke-width:0.264583"
        x="3.2881038"
-       y="32.872444"
+       y="24.141186"
        id="text1432-7"><tspan
          sodipodi:role="line"
          id="tspan1430-5"
          x="3.2881038"
-         y="32.872444"
+         y="24.141186"
          style="font-size:7.9375px;fill:#0288d1;fill-opacity:1;stroke-width:0.264583">{x:x%2=0}</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:7.9375px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#0288d1;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
-       x="6.1349525"
-       y="77.271606"
+       x="9.7027845"
+       y="45.101959"
        id="text1432-7-6-9"><tspan
          sodipodi:role="line"
          id="tspan1430-5-2-1"
-         x="6.1349525"
-         y="77.271606"
+         x="9.7027845"
+         y="45.101959"
          style="font-size:7.9375px;fill:#0288d1;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none">{0, 2}</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:7.9375px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#e91e63;fill-opacity:1;stroke-width:0.264583"
        x="75.360245"
-       y="32.872387"
+       y="24.141129"
        id="text1432-7-3"><tspan
          sodipodi:role="line"
          id="tspan1430-5-5"
          x="75.360245"
-         y="32.872387"
+         y="24.141129"
          style="font-size:7.9375px;fill:#e91e63;fill-opacity:1;stroke-width:0.264583">{x:x%2=1}</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:7.9375px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#e91e63;fill-opacity:1;stroke-width:0.264583"
-       x="63.587608"
-       y="77.271439"
+       x="69.801201"
+       y="45.101791"
        id="text1432-7-6-9-2"><tspan
          sodipodi:role="line"
          id="tspan1430-5-2-1-7"
-         x="63.587608"
-         y="77.271439"
+         x="69.801201"
+         y="45.101791"
          style="font-size:7.9375px;fill:#e91e63;fill-opacity:1;stroke-width:0.264583">{3, 5}</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#0288d1;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
-       x="200.4481"
-       y="73.746269"
+       x="200.31177"
+       y="41.576572"
        id="text1404-0"><tspan
          sodipodi:role="line"
          id="tspan1402-9"
-         x="200.4481"
-         y="73.746269"
+         x="200.31177"
+         y="41.576572"
          style="font-size:10.5833px;fill:#0288d1;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none">E</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#e91e63;fill-opacity:1;stroke-width:0.264583"
-       x="231.29192"
-       y="73.526215"
+       x="231.15558"
+       y="41.356514"
        id="text1404-0-3"><tspan
          sodipodi:role="line"
          id="tspan1402-9-6"
-         x="231.29192"
-         y="73.526215"
+         x="231.15558"
+         y="41.356514"
          style="font-size:10.5833px;fill:#e91e63;fill-opacity:1;stroke-width:0.264583">O</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
-       x="214.53159"
-       y="95.420181"
+       x="214.39525"
+       y="53.725788"
        id="text1404-0-0"><tspan
          sodipodi:role="line"
          id="tspan1402-9-62"
-         x="214.53159"
-         y="95.420181"
+         x="214.39525"
+         y="53.725788"
          style="font-size:10.5833px;stroke:#000000;stroke-width:0.264583;stroke-opacity:1">⊥</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#ef6c00;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1"
-       x="216.7175"
-       y="15.313276"
+       x="215.12997"
+       y="15.57786"
        id="text1404-0-0-6"><tspan
          sodipodi:role="line"
          id="tspan1402-9-62-1"
-         x="216.7175"
-         y="15.313276"
+         x="215.12997"
+         y="15.57786"
          style="font-size:10.5833px;fill:#ef6c00;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1">T</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
-       x="145.02763"
-       y="99.330429"
+       x="144.8913"
+       y="57.636089"
        id="text1746"><tspan
          sodipodi:role="line"
          id="tspan1744"
-         x="145.02763"
-         y="99.330429"
+         x="144.8913"
+         y="57.636089"
          style="font-size:10.5833px;stroke-width:0.264583">-α→</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:10.5833px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
        x="146.10455"
-       y="8.4274187"
+       y="13.454507"
        id="text1746-8"><tspan
          sodipodi:role="line"
          id="tspan1744-7"
          x="146.10455"
-         y="8.4274187"
+         y="13.454507"
          style="font-size:10.5833px;stroke-width:0.264583">←γ-</tspan><tspan
          sodipodi:role="line"
          x="146.10455"
-         y="21.656544"
+         y="26.683632"
          style="font-size:10.5833px;stroke-width:0.264583"
          id="tspan1772" /></text>
   </g>

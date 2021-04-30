@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="168.81068mm"
+   height="80.723694mm"
+   viewBox="0 0 168.81068 80.723694"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="union.svg">
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker2282"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutM"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.4)"
+         style="fill:#263238;fill-opacity:1;fill-rule:evenodd;stroke:#263238;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path2280" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleInM"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleInM"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.4)"
+         style="fill:#455a64;fill-opacity:1;fill-rule:evenodd;stroke:#455a64;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path997" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleInS"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleInS"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.2)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1000" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path885" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1315"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutM"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.4)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1313" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutM"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutM"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="scale(0.4)"
+         style="fill:#455a64;fill-opacity:1;fill-rule:evenodd;stroke:#455a64;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1006" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="EmptyTriangleInM"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="EmptyTriangleInM"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,1.8,0)"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1015" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Send"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Send"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path894" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lstart"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(1.1,0,0,1.1,1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path879" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path882" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleInM-9"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleInM"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.4)"
+         style="fill:#455a64;fill-opacity:1;fill-rule:evenodd;stroke:#455a64;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path997-1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker2282-3"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutM"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.4)"
+         style="fill:#263238;fill-opacity:1;fill-rule:evenodd;stroke:#263238;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path2280-6" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="242.2777"
+     inkscape:cy="246.36173"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1006"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-1.5553681,-3.3905499)">
+    <rect
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:0.3;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+       id="rect2178-7"
+       width="28.307289"
+       height="27.682537"
+       x="30.895384"
+       y="27.940191" />
+    <rect
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:0.3;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.5"
+       id="rect2178"
+       width="23.606436"
+       height="31.347069"
+       x="21.12151"
+       y="35.508659" />
+    <path
+       style="fill:none;stroke:#455a64;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="M 2.7843518,77.918563 H 84.565918"
+       id="path839" />
+    <path
+       style="fill:none;stroke:#455a64;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#TriangleInM)"
+       d="M 10.031027,14.537909 V 82.669727"
+       id="path839-3" />
+    <path
+       style="fill:none;stroke:#4caf50;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 20.91205,15.982424 V 84.114242"
+       id="path839-3-2" />
+    <path
+       style="fill:none;stroke:#4caf50;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 59.218891,15.960408 V 84.092226"
+       id="path839-3-2-7" />
+    <path
+       style="fill:none;stroke:#4caf50;stroke-width:1.058;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 69.923549,67.281744 H 1.7917306"
+       id="path839-3-2-3" />
+    <path
+       style="fill:none;stroke:#4caf50;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 69.687187,27.615831 H 1.5553681"
+       id="path839-3-2-3-6" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="22.386229"
+       y="83.382141"
+       id="text2104"><tspan
+         sodipodi:role="line"
+         id="tspan2102"
+         x="22.386229"
+         y="83.382141"
+         style="stroke-width:0.264583">2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="61.141861"
+       y="83.21106"
+       id="text2104-0"><tspan
+         sodipodi:role="line"
+         id="tspan2102-6"
+         x="61.141861"
+         y="83.21106"
+         style="stroke-width:0.264583">99</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="4.8652587"
+       y="72.725029"
+       id="text2104-0-2"><tspan
+         sodipodi:role="line"
+         id="tspan2102-6-6"
+         x="4.8652587"
+         y="72.725029"
+         style="stroke-width:0.264583">3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="2.5581772"
+       y="25.767456"
+       id="text2104-0-2-1"><tspan
+         sodipodi:role="line"
+         id="tspan2102-6-6-8"
+         x="2.5581772"
+         y="25.767456"
+         style="stroke-width:0.264583">50</tspan></text>
+    <path
+       style="fill:none;fill-opacity:0.2;stroke:#263238;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker2282)"
+       d="M 75.621546,31.40873 93.345952,31.00556"
+       id="path2180" />
+    <circle
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186"
+       cx="28.231897"
+       cy="35.583298"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-7"
+       cx="31.47168"
+       cy="55.064465"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-9"
+       cx="44.793137"
+       cy="35.210892"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-2"
+       cx="40.357697"
+       cy="45.569454"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-0"
+       cx="44.500378"
+       cy="58.93293"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-23"
+       cx="35.291046"
+       cy="67.290138"
+       r="1.311132"
+       inkscape:transform-center-x="-5.6023259"
+       inkscape:transform-center-y="-2.8599259" />
+    <circle
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-75"
+       cx="59.231663"
+       cy="52.150276"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#e91e63;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-92"
+       cx="21.035076"
+       cy="44.34481"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-28"
+       cx="35.189823"
+       cy="27.47772"
+       r="1.311132" />
+    <circle
+       style="opacity:0.998484;fill:#4fc3f7;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2186-97"
+       cx="50.024548"
+       cy="31.723274"
+       r="1.311132" />
+    <path
+       style="fill:none;fill-opacity:0.2;stroke:#263238;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker2282-3)"
+       d="M 95.281376,57.546428 77.55697,57.949598"
+       id="path2180-1" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="83.84903"
+       y="29.340992"
+       id="text2582"><tspan
+         sodipodi:role="line"
+         id="tspan2580"
+         x="83.84903"
+         y="29.340992"
+         style="stroke-width:0.264583">α</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';fill:#263238;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none"
+       x="82.888893"
+       y="55.168934"
+       id="text2582-2"><tspan
+         sodipodi:role="line"
+         id="tspan2580-9"
+         x="82.888893"
+         y="55.168934"
+         style="fill:#263238;fill-opacity:1;stroke-width:0.265;stroke-miterlimit:4;stroke-dasharray:none">γ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="96.463135"
+       y="32.271152"
+       id="text2640"><tspan
+         sodipodi:role="line"
+         id="tspan2638"
+         x="96.463135"
+         y="32.271152"
+         style="fill:#e91e63;fill-opacity:1;stroke-width:0.264583">{ [2 , 70] x [3 , 40] }</tspan><tspan
+         sodipodi:role="line"
+         x="96.463135"
+         y="38.885738"
+         style="fill:#4fc3f7;fill-opacity:1;stroke-width:0.264583"
+         id="tspan2978">{ [30, 99] x [10, 50] }</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="97.786034"
+       y="59.174088"
+       id="text2640-3"><tspan
+         sodipodi:role="line"
+         id="tspan2638-1"
+         x="97.786034"
+         y="59.174088"
+         style="stroke-width:0.264583">{ <tspan
+   style="fill:#4caf50;fill-opacity:1;stroke:none;stroke-opacity:1"
+   id="tspan2984">[2, 99] x [3, 50]</tspan> }</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="15.185898"
+       y="8.4860573"
+       id="text2752"><tspan
+         sodipodi:role="line"
+         id="tspan2750"
+         x="15.185898"
+         y="8.4860573"
+         style="stroke-width:0.264583">Concrete domain</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="109.41701"
+       y="7.4109788"
+       id="text2752-9"><tspan
+         sodipodi:role="line"
+         id="tspan2750-4"
+         x="109.41701"
+         y="7.4109788"
+         style="stroke-width:0.264583">Abstract domain</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="43.337563"
+       y="73.372383"
+       id="text2104-8"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4"
+         x="43.337563"
+         y="73.372383"
+         style="stroke-width:0.264583">70</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="105.43286"
+       y="65.802483"
+       id="text2982"><tspan
+         sodipodi:role="line"
+         id="tspan2980"
+         x="105.43286"
+         y="65.802483"
+         style="stroke-width:0.264583">union of intervals</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="2.4022765"
+       y="37.444767"
+       id="text2104-8-5-3"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-0-6"
+         x="2.4022765"
+         y="37.444767"
+         style="stroke-width:0.264583">40</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="13.900532"
+       y="37.335865"
+       id="text2104-8-5-3-1"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-0-6-0"
+         x="13.900532"
+         y="37.335865"
+         style="stroke-width:0.264583">40</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="2.8603687"
+       y="57.762794"
+       id="text2104-8-5-3-6"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-0-6-3"
+         x="2.8603687"
+         y="57.762794"
+         style="stroke-width:0.264583">10</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="60.922359"
+       y="57.750103"
+       id="text2104-8-5-3-6-2"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-0-6-3-0"
+         x="60.922359"
+         y="57.750103"
+         style="stroke-width:0.264583">10</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="44.222626"
+       y="82.852013"
+       id="text2104-8-6"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-1"
+         x="44.222626"
+         y="82.852013"
+         style="stroke-width:0.264583">70</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="31.412172"
+       y="83.21067"
+       id="text2104-8-6-5"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-1-5"
+         x="31.412172"
+         y="83.21067"
+         style="stroke-width:0.264583">30</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:5.29167px;line-height:1.25;font-family:'Meslo LG S DZ for Powerline';-inkscape-font-specification:'Meslo LG S DZ for Powerline';stroke-width:0.264583"
+       x="28.116152"
+       y="25.16416"
+       id="text2104-8-6-5-4"><tspan
+         sodipodi:role="line"
+         id="tspan2102-4-1-5-7"
+         x="28.116152"
+         y="25.16416"
+         style="stroke-width:0.264583">30</tspan></text>
+  </g>
+</svg>
