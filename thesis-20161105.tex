@@ -161,8 +161,32 @@
 % ACKNOWLEDGEMENTS PAGE
 \chapter*{Acknowledgments}
 \label{ch:ack}
-to \texttt{\#harmless} and \texttt{\#math}, for teaching me so much more than I could possibly have learnt
-on my own; To \texttt{davean} for the uninvited talk. To \texttt{topos} for all the category theory. To \texttt{ekmett} for \texttt{\#harmless}. To \texttt{Z-module} to showing me the beauty of groups, to \texttt{drazak} for teaching me orbit-stabilizer, to \texttt{dalcde} for correcting my definition of compactness, to \texttt{antonfire} for yelling at me when I didn't understand the totient, to \texttt{bgamari} for infinite patience with dropped projects, to \texttt{PlanckWalk} for the patient explanation of an elliptic PDE, to \texttt{Millennial} for a description of the langlands, to \texttt{sure} for what a sheaf is, to all of you for making a corner of the internet feel like home. To mona, for SpaG, britpick, coffee, and tech support. To adlucem, for dubious frog chasing. To Superty, nitin, and our goddess, for what is lost may be found again. ParticleMania and Itihas, thanks for the many obtuse conversations that shaped what I thought. To Kannan and Manish, and Venkatesh, for giving me the levity to pursue what I wanted. To Uday, for the math, warmth, and opportunities. To Arnaud, for the many conversations. To Tobias, for being a way better advisor than I  ever deserved. To \texttt{Vyn} and \texttt{GodotMisogi}, for Math-Utopia. To \texttt{Luca}, \texttt{Senpai}, and \texttt{LLLB} for bake and pancakes. To \texttt{codelegend}, for going along with my incorrect explanations. To panda, for marx, coffee, and the baked potato recipe. To Goose, for all the physics. To Ameya, Animesh, Aman,Athreya, Auro, Shaanjeet, and all the rest of theory group for our shared love. To  Timo for mate, Tal for the coffee, Greg for the cherry vodka. To all the folks at IISc, Tweag,  ETH, and theory group for the great times. To Alok, for beginning this project in the first place. To mum, for the cats and tea. To dad, for teaching me squeak.
+to \texttt{\#harmless} and \texttt{\#math}, for teaching me so much more than I
+could possibly have learnt on my own; To \texttt{davean} for the uninvited
+talk. To \texttt{topos} for all the category theory. To \texttt{ekmett} for
+\texttt{\#harmless}. To \texttt{Z-module} to showing me the beauty of groups,
+to \texttt{drazak} for teaching me orbit-stabilizer, to \texttt{dalcde} for
+correcting my definition of compactness, to \texttt{antonfire} for yelling at
+me when I didn't understand the totient, to \texttt{bgamari} for infinite
+patience with dropped projects, to \texttt{PlanckWalk} for the patient
+explanation of an elliptic PDE, to \texttt{Millennial} for a description of the
+langlands, to \texttt{sure} for what a sheaf is, to all of you for making a
+corner of the internet feel like home. To mona, for SpaG, britpick, coffee, and
+tech support. To adlucem, for dubious frog chasing. To Superty, nitin, and our
+goddess, for what is lost may be found again. ParticleMania and Itihas, thanks
+for the many obtuse conversations that shaped what I thought. To Kannan and
+Manish, and Venkatesh, for giving me the levity to pursue what I wanted. To
+Uday, for the math, warmth, and opportunities. To Arnaud, for the many
+conversations. To Tobias, for being a way better advisor than I  ever deserved.
+To \texttt{Vyn} and \texttt{GodotMisogi}, for Math-Utopia. To \texttt{Luca},
+\texttt{Senpai}, and \texttt{LLLB} for bake and pancakes. To
+\texttt{codelegend}, for going along with my incorrect explanations. To panda,
+for marx, coffee, and the baked potato recipe. To Goose, for all the physics.
+To Ameya, Animesh, Aman,Athreya, Auro, Shaanjeet, and all the rest of theory
+group for our shared love. To  Timo for mate, Tal for the coffee, Greg for the
+cherry vodka. To all the folks at IISc, Tweag,  ETH, and theory group for the
+great times. To Alok, for beginning this project in the first place. To mum,
+for the cats and tea. To dad, for teaching me squeak.
 
 
 %% ABSTRACT PAGE
@@ -294,7 +318,7 @@ far beyond its original setting. Concretely, we tackle the following questions:
 % \textinit{T}he popular opinion in the NLP literature
 The popular opinion in the NLP literature
 is that that systems such as \texttt{word2vec} learn
-vector representations. \todo{citations of some eval papers. Some further
+vector representations \cite{levy2014neural}, \cite{pennington2014glove}. \todo{citations of some eval papers. Some further
   sophistry needed here.}
 Hence, this forms as the launching point for our study. We will
 first describe the popular description of the algorithm as found online, describe
@@ -304,8 +328,7 @@ training mechanism, we lay out the list of open questions in the design of
 \texttt{word2vec}. To answer these questions, we explain the mathematical
 theory of abstract interpretation and connect this to montague semantics in
 \autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
-set representations in \autoref{chapter:abstract-interpretation}. \todo{is the
-  building happening in abstract interpretation or the fuzzy set chapter?}
+set representations in \autoref{chapter:fuzzy-set-representation}.
 
 \subsection{\wtov in the literature}
 
@@ -343,7 +366,7 @@ and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{Tens
 The original \wtov \texttt{C} implementation does not do what is explained above.
 serious users of word embeddings either (a) directly invoke the original C
 implementation of \texttt{word2vec}, or (b) invoke the \texttt{gensim}
-implementation, which is \emph{transliterated} from the C source to the extent
+implementation \cite{vrehuuvrek2011gensim}, which is \emph{transliterated} from the C source to the extent
 that the variables names are the same as that of the C implementation.
 \todo{gensim implementation links}
 Hence, we shall read the source code to
