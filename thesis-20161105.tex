@@ -791,7 +791,6 @@ multiple meanings: (a) Every man loves the \emph{same} woman (say, Lilith), or
 the union of \emph{both sets of meanings}. To resolve ambiguity given more
 context, we intersect the union of both sets of meaning with the correct context.
 
-
 We see that compositionality arises naturally from set-theoretic semantics; it
 is one of the cruxes of Montague's ``theory of meaning'', which was expanded
 upon by the denotational semantics school of thought, where syntax and
@@ -1593,14 +1592,12 @@ felt that the twilight abysses around him were those of the fourth dimension.}{H
 % https://arxiv.org/pdf/1205.5935.pdf
 
 % \textinit{E}mbedding words in vector spaces has become the norm for
-Embedding words in vector spaces has become the norm for
-word representation. The
-terms \emph{word vectors} and \emph{word embeddings} synonymous to one another,
-due to the success of vector based models such as word2vec, GloVe and FastText.
-While esoteric literature has
-attempted to change the underlying embedding space of distributional lexical semantic representations,
-the resultant word
-embeddings are specific to a given task or linguistic property.
+Embedding words in vector spaces has become the norm for word representation.
+The terms \emph{word vectors} and \emph{word embeddings} synonymous to one
+another, due to the success of vector based models such as word2vec, GloVe and
+FastText.  While esoteric literature has attempted to change the underlying
+embedding space of distributional lexical semantic representations, the
+resultant word embeddings are specific to a given task or linguistic property.
 
 Even with the introduction of contextualized word representations, the
 underlying structure of word representations has remained the same, mapping a
@@ -1609,18 +1606,20 @@ challenges with this assumption of word to vector are based around
 resolving polysemy and the treatment of function words, to which the classical
 answer has been extracting and using contextual information.
 
-In this chapter,
-we hypothesize that word representations need not change the embedding space,
-rather the object they are embedded as. We address the notion of a context
-vector introduced in the skip-gram, CBOW and GloVe models, and introduce a
-generalization based on embedding words in an arbitrary Lie group. To
-demonstrate this approach, we embed words into symplectic space, where each
-word is represented by a \emph{tuple} of words, and similarity and analogy are
-computed based on tuples of dot products.
+We first survey why we use vectors as the object that is embedded. We focus
+on the \texttt{word2vec} training and testing mechanism. We will see that this process
+uses many fundamentally different structures that is posessed by real n-dimensional space $\R^n$.
+We then disentangle these different structures for mathematical cleaniness. Once this is performed,
+we isolate the mathematical structures that are present, allow us to introduce a 
+generalization based on embedding words into an arbitrary Lie group. We show how
+specializing this to the case of $\R^n$ yields us back fuzzy set representations, and we
+conjecture that this applied to richer spaces would yield embeddings with 
+hithertho unexplored properties.
 
-% \section{The blessing and curse of $\mathbb{R}^n$}
 \section{The blessing and curse of $\mathbb{R}^n$}
 
+In this section, we recall the training regime of \texttt{word2vec},
+and then disentangle the various structures of 
 The fundamental operations performed with \wtov during training are
 (1a) computing dot products between the focus and context vector, and (1b)
 performing gradient descent to choose a new focus and context vector. The fundamental
