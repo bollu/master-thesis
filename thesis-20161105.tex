@@ -318,14 +318,28 @@ far beyond its original setting. Concretely, we tackle the following questions:
 % \textinit{T}he popular opinion in the NLP literature
 The popular opinion in the NLP literature
 is that that systems such as \texttt{word2vec} learn
-vector representations \cite{levy2014neural}, \cite{pennington2014glove}. \todo{citations of some eval papers. Some further
-  sophistry needed here.}
+vector representations \cite{levy2014neural}, \cite{pennington2014glove}.  A word
+embedding learned as a vector, where words with a similar meaning can be given
+similar vectors. More specifically, the aim of providing vector representations
+to words is to understand that words that occur in \textit{similar contexts}
+should be given ``similar'' vectors. While \wtov was not the first mechanism to
+think of embedding words in a vector space
+\cite{baroni2010distributional,bruni2012distributional}. However, it is the
+first which achieved an efficient regime for training and the requisite
+reduction in dimensionality for storing and evalution, thereby making it a
+benchmark for modern natural language processing. However, few in-depth analyses
+of the model and \textit{why} it is accurate in downstream tasks and efficient
+to train made it an important development in the field.
+
+
 Hence, this forms as the launching point for our study. We will
 first describe the popular description of the algorithm as found online, describe
 gaps in both the online descriptions and in the original paper. Next, we dissect the
 source code of \texttt{word2vec}. Armed with detailed knowledge of the real
 training mechanism, we lay out the list of open questions in the design of
-\texttt{word2vec}. To answer these questions, we explain the mathematical
+\texttt{word2vec}. \todo{talk about evaluation, not just training, because fuzzy
+  had insight into asymmetric eval metrics as well}
+To answer these questions, we explain the mathematical
 theory of abstract interpretation and connect this to montague semantics in
 \autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
 set representations in \autoref{chapter:fuzzy-set-representation}.
