@@ -703,6 +703,18 @@ function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x
 \includegraphics[width=\textwidth]{./alpha-gamma-intervals.pdf}
 
 
+
+\subsubsection{Monotonicity in the Interval domain}
+
+The process of abstraction is monotonic. If we have a larger collection of points, then we necessarily
+get an equal or larger interval which bounds these points. The property where more information
+in the input yields more information in the output is called as \emph{monotonicity}. Formally speaking,
+given $x \leq x$, we are guaranteed that the abstraction $\alpha$ maintains that $\alpha(x) \leq \alpha(x')$.
+
+\includegraphics[width=\textwidth]{./monotone.pdf}
+
+TODO: add picture.
+
 \subsubsection{Unions in the Interval domain}
 
 To define \emph{union} and \emph{intersection} of our intervals, we intuitively
@@ -721,11 +733,12 @@ Similarly, we want the \emph{intersection} of two intervals to be the \emph{larg
     &\sqcup^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcup (l', r') \equiv (\min(l, l'), \max(r, r'))
 \end{align*}
 
-Given two subsets $S, T \subseteq 2^\Z$, $\alpha(S \cap T)$ is the largest interval
-containing elements of both $S$ and $T$. $\alpha(S) \sqcap^\sharp \alpha(T)$ is the
-intersection of intervals containing $S$ and $T$, which is also the largest interval
-containing both $S$ and $T$. Similarly, for union, we have the equation
-$\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$.
+Given two subsets $S, T \subseteq 2^\Z$, $\alpha(S \cup T)$ is the largest interval
+containing elements of both $S$ and $T$. $\alpha(S) \sqcup^\sharp \alpha(T)$ is the
+smallest interval which contains  both $S$ and $T$. We can either first take
+the bounding boxes separately and then union them, or we can take the bounding box
+of the whole collection. This is given by the equation $\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$.
+\todo{Explain the terms here}.
 
 \includegraphics[width=\textwidth]{./union.pdf}
 
