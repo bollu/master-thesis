@@ -387,11 +387,6 @@ given word, called as the positive and negative representation. At a high
 level, the python pseudocode at \autoref{fig:w2v-py-pseudocode} explains the
 implementation of \texttt{word2vec}.
 
-The \texttt{C} implementation in fact maintains \emph{two vectors for each word}, one where
-it appears as a focus word, and one where it appears as a context word.
-(Is this sounding familiar? Indeed, it appears that GloVe actually took this
-idea from `word2vec`, which has never mentioned this fact!) \todo{MAKE MORE FORMAL,
-  citation, code link in footnotes}
 
 \subsubsection{Initialization}
 (a) An array called `syn0` holds the vector embedding of a word when it occurs
@@ -540,6 +535,7 @@ the final chunk of text does not reset its \texttt{eof} (end-of-file) state
 upon reaching the end of file. The code at line \circled{5} ought to have been present,
 but is missing. Thus, the final fragment of text is trained for only a single
 epoch, which causes the word vectors to miss data about the last section of the document.
+This causes the overall accuracy  to be lowered than the potential optima.
 
 \subsubsection{Initialization choices}
 
@@ -557,6 +553,15 @@ accounting for different aspects of co-occurence.
 \todo{Nothing on the threading issues? The fact that changing the number of
   threads actually either crashed the training or didn't train a certain
   arbitrary group of words iirc?}
+
+\subsubsection{Relationship to GloVe}
+
+The \texttt{C} implementation in fact maintains \emph{two vectors for each word}, one where
+it appears as a focus word, and one where it appears as a context word.
+(Is this sounding familiar? Indeed, it appears that GloVe actually took this
+idea from `word2vec`, which has never mentioned this fact!) \todo{MAKE MORE FORMAL,
+  citation, code link in footnotes}
+
 
 \subsubsection{Conclusions on \texttt{word2vec}}
 
@@ -576,8 +581,8 @@ We learn that the \texttt{word2vec} training regime creates two sets of vectors,
 referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors
 \texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are
 the ones that are left at the end. The training regime \emph{does not use}
-gradient descent. Rather, a style of perceptron-based update is used.
-\todo{perceptron-based \textit{batch} update?}
+gradient descent. Rather, a style of perceptron-based \textit{batch} update is used.
+
 Thus,
 this leaves the question open as to what is really being learnt by
 \texttt{word2vec}. We answer this question by hypothesizing that the
@@ -597,34 +602,22 @@ in \autoref{chapter:geometrization}.
 % \textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
 Abstract interpretation is a mathematical theory of approximation of meaning.
 It was created by Cousout and Cousout to unify many disparate program analysis
-techniques that had been developed until then. The broad idea is to consider
-two worlds: a concrete world, which contains "all the meaning", yet which is
-hopelessly non-computable. In parallel, we consider an abstract world, one that
-is but a mere approximation to the concrete. \todo{For the love of God, explain
-  what concrete and abstract meanings are BEFORE you go into the computability
-  detailing. I'd suggest starting with the example and then go towards the
-  definition.}
-This loss of information allows
-the abstract domain be \emph{computable}, thereby providing the ability to
-approximate concrete meaning. These two worlds are enriched with the structure
-of a \emph{lattice}, which allows the conjunction and disjunction of meaning;
-Disjunction to combine facts from disparate sources, such as the \texttt{then}
-and the \texttt{else} branch of an \texttt{if-then-else}, and conjunction to
-combine facts, such as the statement \texttt{assert(x == "cat" || x == "dog" )}
-and \texttt{assert(x != "cat")} allowing one to deduce \texttt{x = "dog"}.
-
+techniques, such as dataflow analysis \emph{khedker2017data} and type checking
+\cite{file199abstract}. The broad idea is to approximate the uncomputable,
+real semantics of a program into an approximate, computable semantics.
+The loss of information suffered during te process of abstraction is the price
+one pays to allow the abstract domain be \emph{computable}, thereby providing
+the ability to approximate concrete meaning. 
 
 In the most general setting, an abstract interpretation is a manifestation of
 an \emph{adjunction}, a mathematical structure which captures a notion of
 "approximate inverses". It will be too much of a detour to explore the vast
 land of categories and adjunctions. Suffice to say that many of the deep ideas
-of mathematics arise out of adjunctions. The relationship between algebra and
-geometry arises out of adjunctions such as Hilbert's Nullstellensatz.
-\todo{relevance?}
-Here, we shall focus on the special case of an adjunction for lattices, known
-as a \emph{Galois connection} \cite{cousout1992comparing}. We will show how the notion of a Galois
-connection provides a good notion of "approximation of meaning", and how this
-directly relates to Montague's ideas of representing semantics as subsets.
+of mathematics arise out of adjunctions. Here, we shall focus on the special
+case of an adjunction for lattices, known as a \emph{Galois connection}
+\cite{cousout1992comparing}. We will show how the notion of a Galois connection
+provides a good notion of "approximation of meaning", and how this directly
+relates to Montague's ideas of representing semantics as subsets.
 
 \subsection{Abstracting away even-ness}
 
@@ -732,9 +725,10 @@ $\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$
 
 This shows that the theory of abstract interpretation is compatible with set
 operations. In particular, the theory of abstract interpretation is capable of
-abstracting notions of union and intersection. This is exploited when building
-fuzzy set representations to provide notions of union and intersection for
-fuzzy sets. \todo{needs polishing}
+abstracting notions of union and intersection, since the union and intersection
+of the sets of integers is approximated by joins and meets in the abstract even-odd
+lattice.
+
 
 \subsection{The formal viewpoint}
 
