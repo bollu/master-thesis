@@ -152,7 +152,7 @@
 %%% DEDICATION PAGE
 \newpage
 \thispagestyle{empty}
-\renewcommand{\thesisdedication}{\large To \texttt{\#math} \&\texttt{\#harmless}}
+\renewcommand{\thesisdedication}{\large To \texttt{\#math}, \texttt{\#haskell}, and \texttt{\#harmless}}
 \thesisdedicationpage
 
 \mastersthesis
@@ -161,32 +161,33 @@
 % ACKNOWLEDGEMENTS PAGE
 \chapter*{Acknowledgments}
 \label{ch:ack}
-to \texttt{\#harmless} and \texttt{\#math}, for teaching me so much more than I
-could possibly have learnt on my own; To \texttt{davean} for the uninvited
-talk. To \texttt{topos} for all the category theory. To \texttt{ekmett} for
-\texttt{\#harmless}. To \texttt{Z-module} to showing me the beauty of groups,
-to \texttt{drazak} for teaching me orbit-stabilizer, to \texttt{dalcde} for
-correcting my definition of compactness, to \texttt{antonfire} for yelling at
-me when I didn't understand the totient, to \texttt{bgamari} for infinite
-patience with dropped projects, to \texttt{PlanckWalk} for the patient
-explanation of an elliptic PDE, to \texttt{Millennial} for a description of the
-langlands, to \texttt{sure} for what a sheaf is, to all of you for making a
-corner of the internet feel like home. To mona, for SpaG, britpick, coffee, and
-tech support. To adlucem, for dubious frog chasing. To Superty, nitin, and our
-goddess, for what is lost may be found again. ParticleMania and Itihas, thanks
-for the many obtuse conversations that shaped what I thought. To Kannan and
-Manish, and Venkatesh, for giving me the levity to pursue what I wanted. To
-Uday, for the math, warmth, and opportunities. To Arnaud, for the many
-conversations. To Tobias, for being a way better advisor than I  ever deserved.
-To \texttt{Vyn} and \texttt{GodotMisogi}, for Math-Utopia. To \texttt{Luca},
-\texttt{Senpai}, and \texttt{LLLB} for bake and pancakes. To
-\texttt{codelegend}, for going along with my incorrect explanations. To panda,
-for marx, coffee, and the baked potato recipe. To Goose, for all the physics.
-To Ameya, Animesh, Aman,Athreya, Auro, Shaanjeet, and all the rest of theory
-group for our shared love. To  Timo for mate, Tal for the coffee, Greg for the
-cherry vodka. To all the folks at IISc, Tweag,  ETH, and theory group for the
-great times. To Alok, for beginning this project in the first place. To mum,
-for the cats and tea. To dad, for teaching me squeak.
+To \texttt{\#haskell}, \texttt{\#harmless} and \texttt{\#math}, for teaching me
+so much more than I could possibly have learnt on my own; To \texttt{davean}
+for the uninvited talk. To \texttt{topos} for all the category theory. To
+\texttt{ekmett} for \texttt{\#harmless}. To \texttt{Z-module} to showing me the
+beauty of groups, to \texttt{drazak} for teaching me orbit-stabilizer, to
+\texttt{dalcde} for correcting my definition of compactness, to
+\texttt{antonfire} for yelling at me when I didn't understand the totient, to
+\texttt{bgamari} for infinite patience with dropped projects, to
+\texttt{PlanckWalk} for the patient explanation of an elliptic PDE, to
+\texttt{Millennial} for a description of the langlands, to \texttt{sure} for
+what a sheaf is, to all of you for making a corner of the internet feel like
+home. To mona, for SpaG, britpick, coffee, and tech support. To adlucem, for
+dubious frog chasing. To Superty, nitin, and our goddess, for what is lost may
+be found again. ParticleMania and Itihas, thanks for the many obtuse
+conversations that shaped what I thought. To Kannan and Manish, and Venkatesh,
+for giving me the levity to pursue what I wanted. To Uday, for the math,
+warmth, and opportunities. To Arnaud, for the many conversations. To Tobias,
+for being a way better advisor than I  ever deserved.  To \texttt{Vyn} and
+\texttt{GodotMisogi}, for Math-Utopia. To \texttt{Luca}, \texttt{Senpai}, and
+\texttt{LLLB} for bake and pancakes. To \texttt{codelegend}, for going along
+with my incorrect explanations. To panda, for marx, coffee, and the baked
+potato recipe. To Goose, for all the physics.  To Ameya, Animesh, Aman,Athreya,
+Auro, Shaanjeet, and all the rest of theory group for our shared love. To  Timo
+for mate, Tal for the coffee, Greg for the cherry vodka. To all the folks at
+IISc, Tweag,  ETH, and theory group for the great times. To Alok, for beginning
+this project in the first place. To mum, for the cats and tea. To dad, for
+teaching me Squeak.
 
 
 %% ABSTRACT PAGE
@@ -575,12 +576,34 @@ accounting for different aspects of co-occurence.
 
 \subsubsection{Relationship to GloVe}
 
-The \texttt{C} implementation in fact maintains \emph{two vectors for each word}, one where
-it appears as a focus word, and one where it appears as a context word.
-(Is this sounding familiar? Indeed, it appears that GloVe actually took this
-idea from `word2vec`, which has never mentioned this fact!) \todo{MAKE MORE FORMAL,
-  citation, code link in footnotes}
+Global Vectors (GloVe) \cite{pennington2014glove} is a \texttt{word2vec}
+inspired  unsupervised learning algorithm for obtaining vector representations
+for words. Training is performed on global word-word co-occurrence statistics
+from a corpus, and the resulting representations containlinear substructures of
+the word vector space. 
 
+
+The innovation in \texttt{GloVe} to have the
+training objective of GloVe to learn 
+vectors such that their dot product equals the logarithm of the words'
+probability of co-occurrence. Since the logarithm of a ratio
+equals the difference of logarithms, this objective associates the logarithm
+of ratios of co-occurrence probabilities with vector differences in the word
+vector space. Because these ratios can encode meaning, this
+information gets encoded as vector differences as well. During training,
+the GloVe implementation uses\emph{two vectors for each word}, one where it
+appears as a focus word, and one where it appears as a context word, much as
+\texttt{word2vec} does. The source code snippet is taken from the file \texttt{src/glove.c} at 
+the Github repository \texttt{stanfordnlp/glove}.
+\footnote{\url{https://github.com/stanfordnlp/GloVe/blob/f921427257e6a1e601bff425ec10048b7eacd98d/src/glove.c\#L190-L193}}
+
+\begin{minted}{cpp}
+/* Calculate cost, save diff for gradients */
+diff = 0;
+for (b = 0; b < vector_size; b++) diff += W[b + l1] * W[b + l2]; // dot product of word and context word vector
+diff += W[vector_size + l1] + W[vector_size + l2]; // add separate bias for each word
+diff = diff - log(cr.val); // target: log(cr.val)
+\end{minted}
 
 \subsubsection{Conclusions on \texttt{word2vec}}
 
