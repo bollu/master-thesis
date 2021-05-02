@@ -1740,6 +1740,17 @@ Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ an
 at the azimuth $\phi$, and can be mapped into 3D via the map
 $(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
 
+\begin{figure}[htb]
+\includegraphics[width=0.8\textwidth]{./lie-group.pdf}
+\caption{A depiction of how to imagine the Lie group $SO(3)$, the group of rotations of 3 dimensional space. The group's
+elements are abstractly the gray circle. The identity rotation $I$ is denoted in pink. The tangent space at the identity $I$ is
+denoted by blue; It consists of all skew symmetric matrices $S$ such that $S + S^T = 0$.  $s$ is one such skew-symmetric matrix,
+which lives in the tangent space of the identity. Finally, the exponential map, which map from the lie algebra (the tangent space at the identity $I$)
+to the lie group $G$ is shown as the light blue arc. The Lie group element $J \in SO(3) $ (in purple) is the exponential of the 
+Lie algebra element $s \in T_I(SO(3))$.}
+\end{figure}
+
+
 % TODO: circle; TODO: sphere.
 
 Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
@@ -1786,10 +1797,6 @@ vectors, (2)  $(v)^{-1} \simeq -v$ to invert a vector, and (3) $v \cdot w^{-1} \
 to subtract vectors. This allows us to generalize analogy to curved spaces, by using
 lie group operations to perform analogy.
 
-\begin{figure}[htb]
-\includegraphics[width=\textwidth]{./lie-group.pdf}
-\caption{Lie group}
-\end{figure}
 
 
 \subsection{Lie Algberas}
