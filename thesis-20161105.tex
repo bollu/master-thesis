@@ -1854,10 +1854,14 @@ and vice versa for the $\exp$ map.
 
 \subsection{Overview}
 
-TODO
+Following the discussion in the preceding section, we provide a compact discussion of the \texttt{word2vec}
+training algorithm, indicating how to substitute the original \texttt{word2vec} algorithm with
+its Lie Group counterpart, as well as discussing potential linguistic ramifications of this replacement.
 
 \subsection{Training}
 
+For the purposes of training, we need to describe how to perform the dot-product to calculate the loss,
+as well as how to perform gradient descent to improve the loss. 
 
 \subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
 them, and then take the dot product of their logarithms, which lives in the Lie algebra.
@@ -1877,28 +1881,51 @@ manifold, which gives us a gradient step, starting from a point in the manifold,
 \caption{gradient descent on a manifold.}
 \end{figure}
 
-\todo{Differentiate sections into math basics, training, and evaluation.}
-
+% \todo{Differentiate sections into math basics, training, and evaluation.}
 
 \subsection{Evaluation}
+
+To perform evaluation, given the trained mapping from words to Lie Group
+elements as inputs, we must be able to perform similarity and analogy to reach
+the baseline of \texttt{word2vec}'s usefulness. We indicate other potential
+uses of the richer structure posessed by Lie Groups after describing the bare
+minimum structure.
+
 \subsubsection{Similarity} We compute similarity between two words by computing the dot product between
-the vectors which represent the words.
+the logarithm of the lie group elements which represent the words. 
 
 \todo{Pls detail xD}
 
-\subsubsection{Displacement} To compute the displacement from one word $v$ to another word $w$, we compute the element $d \equiv (v \cdot w^{-1})$.
+\subsubsection{Analogy} To compute the analogy $v:w::p:?$, we first compute the element $d \equiv (v \cdot w^{-1})$.
 See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
+Next, to perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$. In total,
+we perform $p \cdot (v \cdot w^{-1})$.
 
-\todo{revisit minorly the difference v. displacement argument}
+\subsection{Sense difference}
 
-\subsubsection{Moving along displacement} To perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$.
+Recall that for an arbitrary Lie group, the group operation \emph{need not be commutative}. This is
+in start contrast to the \texttt{word2vec} case, where $a + b = b + a$ holds for all vectors. This
+non-commutativity allows one to define the \emph{commutator} of two elements, $[a, b] \equiv aba^{-1}b^{-1}$,
+which measures how much $a$ and $b$ fail to commute. If the commutator is the identity element of the group,
+that is, if $[a, b] = 0$, then the two elements commute, since $[a, b] = aba^{-1}b^{-1} = baa^{-1}b^{-1} = bb^{-1} = e$.
+On the other hand, if $a$ and $b$ do not commute, then the commutator $[a, b]$ is a non-trivial element of
+the group. Linguistically speaking, the commutator of two words $[v, w]$ gives us a new word which measures
+by how much the senses of $v$ and $w$ fail to commute.
+
 
 \todo{elaboration}
 
 \section{Optimisation on Riemannian Manifolds}
 \label{section:optim-on-riem}.
 
-\todo{introduce the need: ML algorithms and all that. @Alok: can you do this? I'm not sure what I ought to write...}
+% \todo{introduce the need: ML algorithms and all that. @Alok: can you do this? I'm not sure what I ought to write...}
+
+The eventual goal of the \texttt{word2vec} training regime is to minimise the loss function which attempts
+to align word vectors of words occuring in similar contexts, as per the distribution hypothesis. Classical \texttt{word2vec}
+uses gradient descent to mimise this loss function, as it is computationally cheap, and has good theoretical
+guarantees of being able to find local minima. Hence, we propose to use \emph{Riemannian gradient descent}, an analogue
+of gradient descent which enables the minimization of a loss function
+for arbitrary Riemannian manifolds, and in particular, for loss functions over Lie Groups.
 
 We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
