@@ -680,38 +680,47 @@ multiple meanings: (a) Every man loves the \emph{same} woman (say, Lilith), or
 the union of \emph{both sets of meanings}. To resolve ambiguity given more
 context, we intersect the union of both sets of meaning with the correct context.
 
-We see that compositionality arises naturally from set-theoretic semantics; it
-is one of the cruxes of Montague's ``theory of meaning'', which was expanded
-upon by the denotational semantics school of thought, where syntax and
-semantics are algebra, and denotation, or meaning, is a morphism between them.
-In our work, we exploit Montague semantics as the bridge to connect \texttt{word2vec} with
-abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec}
-computes a sequence of abstract interpretations, first from the uncomputable
-semantics of natural language that of the uncomputable montagueian semantics.
-We conjecture that systems such as \texttt{word2vec} themselves compute another
-layer of abstract interpretation. We attempt to extract evidence for this, and
-come up non-empty-handed.
+In general, we see that to associate \emph{syntax},our strings of text with
+\emph{semantics}, we \emph{define semantics} to be sets of object which satisfy the word.
+This is very reminiscent of what happens in logic. For example, in propositional calculus,
+we can associate the syntactic string
+$(x \lor y)$, where $x$ and $y$ are variables is associated to \emph{all assignments} of $x$ and $y$ which make
+the expression true. Hence, we have that the semantics of $x \lor y$ is $\{ (x=T, y=T), (x=F, y=T), (x=T, y=F) \}$.
+See that this is really carrying the semantics of $(x \lor y)$, for if we change
+the syntactic string $(x \lor y)$ to another semantically equivalent string such
+as $(x \lor y \lor y)$, the set of values which makes $(x \lor y \lor y)$ true is
+the same as the set of values which make $(x \lor y)$ true. Thus, it is indeed the case
+that this notion of meaning is semantic.
 
+A general theory of such associations between syntax and semantics 
+was developed by the programming languages community, who had to assign semantic
+meaning to the syntactic notion of strings in order to analyze and optimize 
+computer programs. Towards this goal, they developed a powerful framework
+called \emph{Abstract Interpretation} \cite{cousout1977abstract} to not
+only capture the notion of approximating meaning, but also capture the notion of
+creating hieararchies of approximations of meaning. This allows one to
+begin from the entire meaning of a program, which is uncomputable ue to the Halting Program,
+and create a lossy, approximate, but computable semantics of the program.
 
-% \textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
+In our work, we exploit Montague semantics as the bridge to connect the
+distributional laature of \texttt{word2vec} with the set-theoretic nature of
+fuzzy sets. We conjecture that \texttt{word2vec} computes a sequence of
+abstract interpretations, first from the uncomputable semantics of natural
+language that of the Montagueian semantics, which we extract by exploiting fuzzy
+set theory. We garner evidence towards this conjecture.
+
+\section{Abstract Interpretation}
+
+% \textinit{A}bstract interpretation is a mathematical framework of approximation of meaning.
 Abstract interpretation is a mathematical theory of approximation of meaning.
-It was created by Cousout and Cousout to unify many disparate program analysis
-techniques, such as dataflow analysis \emph{khedker2017data} and type checking
-\cite{file199abstract}. The broad idea is to approximate the uncomputable,
-real semantics of a program into an approximate, computable semantics.
-The loss of information suffered during te process of abstraction is the price
-one pays to allow the abstract domain be \emph{computable}, thereby providing
-the ability to approximate concrete meaning. 
-
-In the most general setting, an abstract interpretation is a manifestation of
-an \emph{adjunction}, a mathematical structure which captures a notion of
-"approximate inverses". It will be too much of a detour to explore the vast
-land of categories and adjunctions. Suffice to say that many of the deep ideas
-of mathematics arise out of adjunctions. Here, we shall focus on the special
-case of an adjunction for lattices, known as a \emph{Galois connection}
-\cite{cousout1992comparing}. We will show how the notion of a Galois connection
-provides a good notion of "approximation of meaning", and how this directly
-relates to Montague's ideas of representing semantics as subsets.
+It was created by to unify many disparate program analysis techniques, such as
+dataflow analysis \emph{khedker2017data} and type checking \cite{file199abstract}. 
+The object that lies at the heart of Abstract Interpretation is the \emph{Galois connection} 
+\cite{cousout1992comparing}, which is a way to relate two partial orders, such
+that one of them is an approximation of the other. We will show how the notion
+of a Galois connection provides a good notion of "approximation of meaning",
+and how this directly relates to Montague's ideas of representing semantics as
+subsets.
 
 \subsection{Abstracting away even-ness}
 
