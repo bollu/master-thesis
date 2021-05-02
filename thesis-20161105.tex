@@ -738,8 +738,6 @@ given $x \leq x$, we are guaranteed that the abstraction $\alpha$ maintains that
 
 \includegraphics[width=\textwidth]{./monotone.pdf}
 
-TODO: add picture.
-
 \subsubsection{Unions in the Interval domain}
 
 To define \emph{union} and \emph{intersection} of our intervals, we intuitively
@@ -776,18 +774,16 @@ lattice.
 
 \subsection{Galois connection}
 
-TODO: write more about the galois connection here.
-
-We are ledt to the following relations:
+The abstract and the concrete world are linked by the properties:
 
 \begin{align*}
-	&C \subseteq (\gamma\circ \alpha)(C) \\
-	&a = (\alpha \circ \gamma)(a) \\
+    &(1) \quad C \subseteq (\gamma\circ \alpha)(C) \\
+    &(2) \quad a = (\alpha \circ \gamma)(a) \\
 \end{align*}
 
 These first equation tell us that abstracting a concrete idea $C$ into
 $\alpha(C)$ and then concretizing the abstract idea using $\gamma(\alpha(C))$
-creates a loss of information. This captures the intuition that the abstraction
+might lead to a loss of information. This captures the intuition that the abstraction
 is lossy. The second equation tells us that if we start with an abstract object
 $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
 it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
@@ -1684,58 +1680,58 @@ hithertho unexplored properties.
 \section{The blessing and curse of $\mathbb{R}^n$}
 
 In this section, we recall the training regime of \texttt{word2vec},
-and then disentangle the various structures of 
-The fundamental operations performed with \wtov during training are
-(1a) computing dot products between the focus and context vector, and (1b)
-performing gradient descent to choose a new focus and context vector. The fundamental
-operations during evaluation are (2a) \emph{Similarity}, which is
-expressed as a dot product between the two word vectors, and (2b) \emph{Analogy},
-which when given three words representing a sense of analogy \texttt{(king : man :: woman)},
-finds the unknown word \texttt{x} which represents the analogy \texttt{king :
-man :: woman : x}. This is computed as $x \equiv \texttt{man} - \texttt{king} +
-\texttt{woman}$. Mathematically speaking, these operations all use
-different facets of $\R^n$; The \emph{vector space} is used to compute
-the vectorial addition and subtraction operations for analogy, the \emph{inner product}
-structure is used to compute the dot-product, and the \emph{Riemannian} structure is used to perform
-gradient descent. We break these structures down, and then write down the most
-general version of the algorithm which can still honestly be called the \texttt{word2vec} algorithm.
-\todo{need to rewrite being less dense.}
+and then disentangle the various structures of $\mathbb{R}^n$ that are
+used during training and evaluation. The fundamental operations performed in
+\wtov during training is to first pick a focus word, and then performing gradient descent
+with all the words around the focus word to have dot product $+1$ (positive samples),
+and performing gtadient descent with random words in the corpus away from the focus word
+to have dot product $0$ (negative samples). We see that to perform this step,
+we need to know (1a) How to perform dot-products (a measure of similarity), and (1b)
+How to perform gradient descent (a method of function optimisation).
 
-Towards capturing these distinctions mathematically,
-we rewrite the analogy as $(\texttt{man} - \texttt{king}) + \texttt{woman}$.
-This is suggestive: it suggests that an analogy is comprised of two operations. First,
-a subtraction of vectors $(\texttt{man}-\texttt{king})$, which gives us the \emph{displacement}
-\emph{from} king \emph{to} man. This is followed by ``shifting''; this displacement to be
-located at the basepoint \texttt{woman}. This gives us the combined effect of analogy, where
-we consider the displacement from king to man, and then reconsider this displacement, starting
-at the location of woman. Hence, the distinction between points such as \texttt{woman}
-and displacements such as $(\texttt{man} - \texttt{king})$
-is a distinction without a (pun intended) difference, since both the point \texttt{woman}
-and the displacement $(\texttt{man} - \texttt{king})$ are vectors. However, in spaces
-that are \emph{not like} $\R^n$, this distinction is sharpened, and displacements and points
-are no longer interchangeable.
+Next, during evaluation, to check for \emph{similarity} between the two words,
+we once again use the dot-product of the vectors representing the two words.
+\emph{Analogy} is more complex;
+Given two words representing a sense of analogy (\texttt{king : man}), and a third
+word representing the first half on an unknown analogy (\texttt{woman:?}), we 
+are to find the unknown word \texttt{?} which solves the analogical task
+\texttt{king:man::woman:?}. Recall that this is computed as $? \equiv \texttt{man} - \texttt{king} + \texttt{woman}$.
+The above equation relies on being able to perform (2) addition ($+$) and subtraction ($-$).
 
-% TODO: add circle example.
 
-\todo{talk about other spaces in which embedding has happened? Poincare ball,
-  sphere, the geometry of polysemy?}
+These are all different facets of $\R^n$. (1a) The \emph{inner product}
+structure is used to compute the dot-product. (1b) The \emph{Riemannian} structure is used to perform
+gradient descent, and (2) The \emph{group} structure of vectors under vector addition is used to compute
+the addition and subtraction operations for analogy. With this disentanglement, we elaborate
+on what these mathematical structures are, after which we write down the
+general version of the algorithm which can still honestly be called the
+\texttt{word2vec} algorithm. We describe the structures in \texttt{word2vec}
+and their generalization is \autoref{fig:table-structures-word2vec-vs-ours}.
 
-This distinction \emph{does} make a difference for more complicated spaces.
-In particular, we choose to examine the example of a sphere versus the plane
-$\mathbb R^2$:
 
-\begin{figure}[htb]
-\includegraphics[width=\textwidth]{figures/sphere-shortest-path.png}
-\caption{Shortest path on a sphre is a curved path.}
+
+\section{Spaces for \wtov}
+
+In light of the discussion above, we reformulate the informally discussed
+notions into the language of \emph{Lie groups}, which are mathematical structures
+that are equipped with addition, subtraction, and gradient descent operations.
+The astute reader will notice that a dot product structure is missing. Fear not, for
+every Lie group is associated with a corresponding \emph{Lie algebra}, which possesses
+a dot-product structure, and a method to transport data back and forth from the Lie group
+to the Lie algebra.
+
+\begin{figure}
+\label{fig:table-structures-word2vec-vs-ours}
+\begin{tabular}{lll}
+& \texttt{word2vec} & Ours \\
+Space & $\mathbb R^n$ & Lie group $(G, \cdot)$ \\
+Similarity \texttt{sim(a, b)}&  Dot product on $\mathbb R^n$ & Dot product in the Lie algebra $\mathfrak g$ \\
+Analogy \texttt{a:b::c:?} & Vector space structure on $\mathbb R^n$: $(b - a + c)$ & Group operation $b\cdot a^{1}\cdot c$ \\
+Optimisation & Gradient descent & Riemannian gradient descent 
+\end{tabular}
+\caption{Operations in \texttt{word2vec} and their generalization}
 \end{figure}
 
-\section{Generalizing \wtov: Distinction with differences}
-
-In light of the discussion above, we reformulate the informally discussed notions of
-points, displacement, and moving along a displacement. We will first describe training, and then
-testing where we perform operations such as similarity and analogy.
-
-\subsection{Riemannian Manifolds}
 A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
 dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
 been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
@@ -1796,7 +1792,7 @@ lie group operations to perform analogy.
 \end{figure}
 
 
-\subsection{Lie algebra}
+\subsection{Lie Algberas}
 The Lie algebra of a Lie group is the \emph{tangent space} of the Lie group
 \emph{at} the identity element. Informally, the idea is that while the Lie group is a
 ``non-linear'' object, the tangent space represents tangents / ``linearlizations'' of the group.
@@ -1840,12 +1836,20 @@ of a rotation.
 \todo{For each section, also add linguistic corollaries. This will make it a bit
   easier to digest the transition from dense math topic to dense math topic}
 
-\subsubsection{Setting} We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
+\section{The general \texttt{word2vec} algorithm}
+We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
 they are points in some \emph{subspace} of $\mathbb R^n$, where this subspace can be curved in shape.
 Also, the elements are equipped with the notion of a logarithm; That is, they come equipped with a
 function $\log : G \rightarrow \mathfrak g$, and $\exp: \mathfrak g \rightarrow G$,
 where $\log$ maps from the lie group (a group) to its lie algebra (a vector space),
 and vice versa for the $\exp$ map.
+
+
+\subsection{Overview}
+
+TODO
+
+\subsection{Training}
 
 
 \subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
@@ -1868,6 +1872,8 @@ manifold, which gives us a gradient step, starting from a point in the manifold,
 
 \todo{Differentiate sections into math basics, training, and evaluation.}
 
+
+\subsection{Evaluation}
 \subsubsection{Similarity} We compute similarity between two words by computing the dot product between
 the vectors which represent the words.
 
@@ -1885,7 +1891,7 @@ See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ f
 \section{Optimisation on Riemannian Manifolds}
 \label{section:optim-on-riem}.
 
-\todo{introduce the need: ML algorithms and all that}
+\todo{introduce the need: ML algorithms and all that. @Alok: can you do this? I'm not sure what I ought to write...}
 
 We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
