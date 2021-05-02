@@ -207,7 +207,7 @@ model learns --- beginning from the high level description of learning a
 ``vector'', to the low level details of implementations of these algorithms,
 including initialization and gradient calculation. We build a theory of
 knowledge representations for word embeddings, inspired by two seemingly
-unrelated ideas (a) Montague semantics, a linguistic theory of meaning which
+unrelated ideas (a) Montague semantics \cite{sep-montague-semantics}, a linguistic theory of meaning which
 ascribes set-theoretic meaning to language, and (b) abstract interpretation, a
 mathematical theory of creating computable approximations to uncomputable
 semantics of programs. We find that syntheszing these ideas provide a way to
@@ -281,7 +281,7 @@ attempt to provide a
 \emph{linguistically} as well as \emph{mathematically} motivated explanation
 for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
 implementation. Following this, we chase a \emph{linguistic} theory of meaning,
-by considering \emph{Montague semantics}. Developing on this idea, we borrow the tools of
+by considering \emph{Montague semantics} \cite{sep-montague-semantics}. Developing on this idea, we borrow the tools of
 \emph{Abstract Interpretation} \cite{cousout1996abstract}, a general framework enabling the construction
 and the soundness proof of approximated semantics of programs. We
 recall here its core features, which is used to approximate the (formal)
@@ -643,6 +643,56 @@ in \autoref{chapter:geometrization}.
 \label{chapter:abstract-interpretation}
 \epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
+
+Montague grammar is an approach to natural language semantics pioneered by
+Richard Montague \cite{sep-montague-semantics}. The Montague grammar is based
+on mathematical logic.  Montague held the view that natural language was a
+formal language very much in the same sense as predicate logic was a formal
+language. As such, in Montague’s view, the study of natural language belonged
+to mathematics. To quote:
+
+\begin{quote} There is in my opinion no important theoretical difference
+    between natural languages and the artificial languages of logicians; indeed
+    I consider it possible to comprehend the syntax and semantics of both kinds
+    of languages with a single natural and mathematically precise theory.
+\end{quote}
+
+Montague semantics is used to describe the semantic properties of language.
+Broadly speaking, a sentence is given meaning by constructing the set of all
+possible worlds where that sentence is true. For a mathematical example, the
+sentence $l \equiv (\forall x \in \Z, x < 2)$ is given meaning by constructing
+the set $S_l \equiv \{ x \in \Z : x < 2 \} = \{1, 0, -1, \dots \}$. A false
+proposition, such that $l' \equiv \forall x \in \Z, x > x + 1$ is given meaning
+by the \emph{empty set} $S_{l'} \equiv \{ x \in \Z: x > x + 1 \} = \emptyset$.
+As a linguistic example, the meaning of walk, or sing is defined as the set of
+individuals who share respectively the property of walking or the property of
+singining.  By appealing to the principle of compositionality, if there is a
+rule that combines these two expressions to the verb phrase walk and sing,
+there must be a corresponding rule that determines the meaning of that verb
+phrase. In this case, the resulting meaning will be the \emph{intersection} of
+the two sets.  Thus, the meaning of walk and sing is a subset of the meaning of
+walk.
+
+Ambiguity is dealt with by constructing sets which capture \emph{all possible
+meanings}.  For example, the sentence ``Every man loves a woman'' can be ascribed
+multiple meanings: (a) Every man loves the \emph{same} woman (say, Lilith), or
+(b) every man loves a \emph{different} woman. This is dealt with by considering
+the union of \emph{both sets of meanings}. To resolve ambiguity given more
+context, we intersect the union of both sets of meaning with the correct context.
+
+We see that compositionality arises naturally from set-theoretic semantics; it
+is one of the cruxes of Montague's ``theory of meaning'', which was expanded
+upon by the denotational semantics school of thought, where syntax and
+semantics are algebra, and denotation, or meaning, is a morphism between them.
+In our work, we exploit Montague semantics as the bridge to connect \texttt{word2vec} with
+abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec}
+computes a sequence of abstract interpretations, first from the uncomputable
+semantics of natural language that of the uncomputable montagueian semantics.
+We conjecture that systems such as \texttt{word2vec} themselves compute another
+layer of abstract interpretation. We attempt to extract evidence for this, and
+come up non-empty-handed.
+
+
 % \textinit{A}bstract interpretation is a mathematical theory of approximation of meaning.
 Abstract interpretation is a mathematical theory of approximation of meaning.
 It was created by Cousout and Cousout to unify many disparate program analysis
@@ -813,57 +863,6 @@ $$
 a \leq F(G(a)); \quad b \leq G(f(b))
 $$
 
-
-\subsection{Montague semantics}
-
-Montague grammar is an approach to natural language semantics pioneered by
-Richard Montague. \todo{citation} The Montague grammar is based on mathematical logic.
-Montague held the view that natural language was a formal language very much in
-the same sense as predicate logic was a formal language. As such, in Montague’s
-view, the study of natural language belonged to mathematics. To quote:
-
-\begin{quote}
-There is in my opinion no important theoretical difference between natural
-languages and the artificial languages of logicians; indeed I consider it
-possible to comprehend the syntax and semantics of both kinds of languages
-with a single natural and mathematically precise theory.
-\end{quote}
-
-Montague semantics is used to describe the semantic properties of language.
-Broadly speaking, a sentence is given meaning by constructing the set of all
-possible worlds where that sentence is true. For a mathematical example, the
-sentence $l \equiv (\forall x \in \Z, x < 2)$ is given meaning by constructing
-the set $S_l \equiv \{ x \in \Z : x < 2 \} = \{1, 0, -1, \dots \}$. A false
-proposition, such that $l' \equiv \forall x \in \Z, x > x + 1$ is given meaning
-by the \emph{empty set} $S_{l'} \equiv \{ x \in \Z: x > x + 1 \} = \emptyset$.
-As a linguistic example, the meaning of walk, or sing is defined as the set of
-individuals who share respectively the property of walking or the property of
-singining.  By appealing to the principle of compositionality, if there is a
-rule that combines these two expressions to the verb phrase walk and sing,
-there must be a corresponding rule that determines the meaning of that verb
-phrase. In this case, the resulting meaning will be the \emph{intersection} of
-the two sets.  Thus, the meaning of walk and sing is a subset of the meaning of
-walk.
-
-Ambiguity is dealt with by constructing sets which capture \emph{all possible
-meanings}.  For example, the sentence ``Every man loves a woman'' can be ascribed
-multiple meanings: (a) Every man loves the \emph{same} woman (say, Lilith), or
-(b) every man loves a \emph{different} woman. This is dealt with by considering
-the union of \emph{both sets of meanings}. To resolve ambiguity given more
-context, we intersect the union of both sets of meaning with the correct context.
-
-We see that compositionality arises naturally from set-theoretic semantics; it
-is one of the cruxes of Montague's ``theory of meaning'', which was expanded
-upon by the denotational semantics school of thought, where syntax and
-semantics are algebra, and denotation, or meaning, is a morphism between them.
-In our work, we exploit Montague semantics as the bridge to connect \texttt{word2vec} with
-\todo{In my work, I ... <all the way through>}
-abstract interpretation and fuzzy sets. We conjecture that \texttt{word2vec}
-computes a sequence of abstract interpretations, first from the uncomputable
-semantics of natural language that of the uncomputable montagueian semantics.
-We conjecture that systems such as \texttt{word2vec} themselves compute another
-layer of abstract interpretation. We attempt to extract evidence for this, and
-come up non-empty-handed.
 
 
 \chapter{Fuzzy set representations}
