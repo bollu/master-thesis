@@ -321,7 +321,9 @@ following questions:
 \section{A deep dive into \wtov}
 \label{chapter:deep-dive-wtov}
 
-\epigraph{He turned back to face them. ‘I do make sense to you, don’t I? I’m not just imagining that communication is taking place?'}{Greg Egan}
+\epigraph{Understanding an idea meant entangling it so thoroughly with all the
+other symbols in your mind that it changed the way you thought about
+everything.}{Greg Egan}
 
 % \textinit{T}he popular opinion in the NLP literature
 The popular opinion in the NLP literature
@@ -411,7 +413,7 @@ implementation of \texttt{word2vec}.
 
 
 \subsubsection{Initialization}
-(a) An array called `syn0` holds the vector embedding of a word when it occurs
+(a) An array called \texttt{syn0} holds the vector embedding of a word when it occurs
 as a \emph{focus word}. This is random initialized.
 
 \begin{minted}{cpp}
@@ -498,38 +500,65 @@ for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 
 We outline what we have learnt from delving into the C sources
 of \wtov to provide high-level pseudocode of the algorithm.
-
-\begin{figure}[htb]
 \begin{minted}{python}
 def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
-  out :float, target: float):
-  # gradient descent on loss (target - out)^2 where
+  target: float):
+  """
+  gradient descent on 
+  loss = (target - dot(l, r))^2 where
+  l = larr[lix]; r = rarr[rix]
+  """
+  dot = np.dot(larr[lix], rarr[rix])
   gloss = 2 * (target - out)
-  pass
+  #dloss/dl = 2 * (target - dot(l, r)) r
+  #dloss/dr = 2 * (target - dot(l, r)) l
+  lgrad =  EPSILON * gloss * rarr[rix]
+  rgrad =  EPSILON * gloss * rarr[rix]
+  # l -= eps * dloss/dl; r -= eps * dloss/dr
+  larr[lix] += EPSILON * gloss * rarr[rix]
+  rarr[rix] += EPSILON * gloss * larr[lix]
 
-def train(corpus):
-  poss = np.array((VOCABSIZE, DIMSIZE))
-  negs = np.array((VOCABSIZE, DIMSIZE))
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE 
+  on the given corpus, which is a list of words
+  from the source corpus.
+  Example:
+  train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
 
+  # vocabulary is set of words in corpus
+  vocab = set(corpus) 
+  VOCABSIZE = len(vocab)
+  # map each unique word to an index
+  # for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+  # positive and negative sample vectors.
+  # positive vectors are random initialized
+  poss = np.rand((VOCABSIZE, DIMSIZE))
+  # negative vectors are zero initialized
+  negs = np.zeros((VOCABSIZE, DIMSIZE))
+
+  # for every location in the corpus
   for wix in range(len(corpus)):
-    w = poss[corpus[wix]]
+    # find word at location, 
+    w = vocab2ix[corpus[wix]]
     l = max(wix-WINDOWSIZE, 0)
     r = min(wix+WINDOWSIZE, len(corpus)-1)
 
-    for xix in range(l, r+1):
-        x = poss[xix]
-        out = np.dot(x, w)
-        learn(lix=wix, rix=xix, larr=poss, rarr=poss, out=out, target=1.0)
+    # for every positive sample, ie, word in the range [l, r]
+    for w2ix in range(l, r+1):
+        w2 = vocab2ix[corpus[w2ix]]
+        # learn the positive sample.
+        learn(lix=w, rix=w2, larr=poss, rarr=poss, target=1.0)
 
+    # learn negative samples for the word.
     for _ in range(NNEGSAMPLES)
-        xix = random.randint(0, len(corpus)-1)
-        x = negs[xix]
-        out = np.dot(x, w)
-        learn(lix=wix, rix=xix, larr=poss, rarr=negs, out=out, target=0.0)
+        # pick a random word.
+        w2ix = random.randint(0, len(corpus)-1)
+        w2 = vocab2ix[corpus[w2ix]]
+        learn(lix=w, rix=w2, larr=poss, rarr=negs, out=out, target=0.0)
 \end{minted}
-\caption{\texttt{word2vec} pseudocode, explaining the core training algorithm}.
-\label{fig:w2v-py-pseudocode}
-\end{figure}
 
 \subsection{Bugs}
 
@@ -722,67 +751,64 @@ of a Galois connection provides a good notion of "approximation of meaning",
 and how this directly relates to Montague's ideas of representing semantics as
 subsets.
 
-\subsection{Abstracting away even-ness}
 
-Consider a notion of "odd" and even", and how we can generalize this notion to
-arbitrary subsets of the integers.  Let us consider two lattices, $L \equiv
-2^\Z$, the set of subsets of the integers, and $L^\sharp \equiv \{\bot, O, E,
-\top\}$, the odd-even lattice. We define two functions, the abstract function
-$\alpha: L \rightarrow L^\sharp$ which abstracts away information about subsets
-of the integers into \texttt{even} and \texttt{odd}, and the concretization
-function $\gamma: L^\sharp \rightarrow L$ which concretizes the idea of
-even-ness and odd-ness into subsets of the integers. The abstraction function
-maps the empty subset to $\bot$, since we know nothing about an empty set. It
-maps sets of integers that are all even to $E$, since such a set is "even".
-Similarly, it maps set of integers that are all odd to  $O$, since such a set
-is "odd". For sets that contain a mixture of both even and odd, it maps these
-top $\top$ to indicate "failure".
+\subsection{Abstracting Size}
 
-\[
-	\alpha: 2^\Z\rightarrow L^\sharp; \quad
-	\alpha(S) \equiv
-	\begin{cases}
-		\bot & S = \emptyset \\
-		E & \text{$S$ contains only even numbers} \\
-		O & \text{$S$ contains only odd numbers} \\
-		\top & \text{otherwise}
-	\end{cases}
-\]
+Let us consider the concept of size in the framework of montague semantics.  A
+word is associate to all concepts that are attached to it. In particular, if a
+word carries a connotation of being \texttt{large}, its semantics will contain
+all concepts of being long. For example, the word ``sun'' will contain 
+concepts such as \texttt{\{hot, fire, huge, astronomical \}} where words such as 
+\texttt{huge} and \texttt{astronomical} are to do with the concept of being large.
+Similarly, for a word which denotes something that
+is \texttt{small}, its semantics will contain all concepts related to being small. For example,
+the word \texttt{hair} will contain concepts such as \texttt{silky, strand, small, filament, thin},
+where concepts such as \texttt{small} and \texttt{thin} refer to size.
+For some word that represents \emph{both} large and small, such as \texttt{moderate},
+the semantics will contain concepts of \emph{both} large and small.
+Finally, for a word that represents neither, such as \texttt{Tea}, the semantics of the word
+will contain \emph{neither} largeness nor smallness. Thus, amongst all possible
+concepts, we can focus on the small collection of four possible choices of
+having a notion of size: (1) being large, (2) being small, (3) being both, and
+being neither.
 
-The concretization function attempts to make the idea of \emph{even} and
-\emph{odd} concrete, by sending the concepts $\bot, E, O, \top$ to the sets
-that best represent them. This is given by:
+To encode this formally, we first consider the collection of all semantics.
+This is going to be the collection of all subsets of the set of all objects,
+since the semantics of a word is given by the set of all  objects that denote the word.
+For example, the word \texttt{large} is denoted by the set of objects which are large,
+such as \texttt{\{nile, train, rope, ... \}},
+while the word \texttt{small} is denoted by the set of objects which are small,
+such as \texttt{\{hair, hobbits, dots, ... \}}.
+\footnote{We avoid discussing concerns related 
+to Russell's paradox; These can be obviated by either arbitrarily limiting the sizes of all sets
+involved, or performing more sophisticated set theoretic constructions}.
 
-\begin{align*}
-&\gamma: L^\sharp \rightarrow 2^\Z \\
-&\gamma(\bot) \equiv \emptyset; \quad \gamma(\top) \equiv \Z; \\
-&\gamma(E) \equiv \{ 2 k : k \in \in \Z\}; \quad
-\gamma(O) \equiv \{ 2k + 1: k \in \Z \}
-\end{align*}
-
-That is, $\gamma$ maps $E$ to the even numbers, $O$ to the set of all odd
-numbers, $\bot$ to the empty set, and $\top$ to the set of all numbers, since
-we know nothing.
-
+The concretization function attempts to make the idea of \emph{long} and
+\emph{short} concrete, by sending the concepts $\bot, L, S, \top$ to the empty
+set, the set of meanings of the word \texttt{long}, the set of meanings of the word 
+\texttt{short}, and to the union of the two sets of meaning.
 
 \subsection{Interval domain}
 
-A second example is that of the interval domain, where we map subsets of the
-integers $2^\Z$ to \emph{intervals} of the integers. The interval domain is a
-less trivial domain that showcases conjunction and disjunction. For this
-purpose, we pursue this example as well.  Our abstract domain $I \equiv Z
-\times Z$ represents closed intervals. So an element $(1, 3) \in I$ is an
-abstract representation of the closed interval $[1, 3] = \{ 1, 2, 3 \}$.  Similarly,
-the element $(1, 0) \in I$ is an abstract representation of the interval $[1, 0] = \emptyset$,
-as there is no interval whose leftmost point is $1$ and rightmost point is $0$.
-In this case, the abstraction function $\alpha: L \rightarrow L^\sharp$ goes
-from a set of integers to the smallest interval containing these numbers. For
-example, $\alpha(\{1, 2, 3\}) = (1, 3)$, and $\alpha(\{1, 5\}) = (1, 3, 5)$.
-See that the latter is an approximation: we are representing the triple of
-numbers $1, 3$ and $5$ by the \emph{whole interval} $(1, 5)$, which we think of
-as $\{1, 2, 3, 4, 5\}$. To make this formal, we define the concretization
-function $\gamma: L^\sharp \rightarrow L$, where $\gamma((l, r)) \equiv \{ x
-\in \mathbb Z : l \leq x \leq r \}$.
+A more mathematical, second example is that of the interval domain, where we map
+subsets of the plane to rectangles whose axes are aligned with the x and y axes.
+These can be represented as a pair of intervals, and hence this is known as the
+\emph{interval domain}. The interval domain allows us to show a mathematical example
+of abstraction, as well as allowing us to show how to perform abstract interpretations
+of union and intersection, which is important to develop a compositional theory of meaning.
+
+domain $I \equiv Z \times Z$ represents closed intervals. So an element $(1, 3)
+\in I$ is an abstract representation of the closed interval $[1, 3] = \{ 1, 2,
+3 \}$.  Similarly, the element $(1, 0) \in I$ is an abstract representation of
+the interval $[1, 0] = \emptyset$, as there is no interval whose leftmost point
+is $1$ and rightmost point is $0$.  In this case, the abstraction function
+$\alpha: L \rightarrow L^\sharp$ goes from a set of integers to the smallest
+interval containing these numbers. For example, $\alpha(\{1, 2, 3\}) = (1, 3)$,
+and $\alpha(\{1, 5\}) = (1, 3, 5)$.  See that the latter is an approximation:
+we are representing the triple of numbers $1, 3$ and $5$ by the \emph{whole
+interval} $(1, 5)$, which we think of as $\{1, 2, 3, 4, 5\}$. To make this
+formal, we define the concretization function $\gamma: L^\sharp \rightarrow L$,
+where $\gamma((l, r)) \equiv \{ x \in \mathbb Z : l \leq x \leq r \}$.
 
 \includegraphics[width=\textwidth]{./alpha-gamma-intervals.pdf}
 
