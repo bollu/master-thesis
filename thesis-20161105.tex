@@ -725,31 +725,28 @@ A general theory of such associations between syntax and semantics
 was developed by the programming languages community, who had to assign semantic
 meaning to the syntactic notion of strings in order to analyze and optimize 
 computer programs. Towards this goal, they developed a powerful framework
-called \emph{Abstract Interpretation} \cite{cousout1977abstract} to not
+called \emph{Abstract Interpretation} \cite{cousot1977abstract} to not
 only capture the notion of approximating meaning, but also capture the notion of
 creating hieararchies of approximations of meaning. This allows one to
 begin from the entire meaning of a program, which is uncomputable ue to the Halting Program,
 and create a lossy, approximate, but computable semantics of the program.
-
-In our work, we exploit Montague semantics as the bridge to connect the
-distributional laature of \texttt{word2vec} with the set-theoretic nature of
-fuzzy sets. We conjecture that \texttt{word2vec} computes a sequence of
-abstract interpretations, first from the uncomputable semantics of natural
-language that of the Montagueian semantics, which we extract by exploiting fuzzy
-set theory. We garner evidence towards this conjecture.
-
-\section{Abstract Interpretation}
-
-% \textinit{A}bstract interpretation is a mathematical framework of approximation of meaning.
-Abstract interpretation is a mathematical theory of approximation of meaning.
-It was created by to unify many disparate program analysis techniques, such as
-dataflow analysis \emph{khedker2017data} and type checking \cite{file199abstract}. 
+It was used to unify many disparate program analysis techniques, such as
+dataflow analysis \cite{khedker2017data} and type checking \cite{file1991abstract}. 
 The object that lies at the heart of Abstract Interpretation is the \emph{Galois connection} 
-\cite{cousout1992comparing}, which is a way to relate two partial orders, such
-that one of them is an approximation of the other. We will show how the notion
-of a Galois connection provides a good notion of "approximation of meaning",
-and how this directly relates to Montague's ideas of representing semantics as
-subsets.
+\cite{cousot1992comparing}, which is a way to relate two partial orders, such
+that one of them is an approximation of the other. 
+
+
+We will show how the notion of a Galois connection provides a good notion of
+"approximation of meaning", and how this directly relates to Montague's ideas
+of representing semantics as subsets.  We exploit Montague semantics as the
+bridge to connect the distributional laature of \texttt{word2vec} with the
+set-theoretic nature of fuzzy sets. We conjecture that \texttt{word2vec}
+computes a sequence of abstract interpretations, first from the uncomputable
+semantics of natural language that of the Montagueian semantics, which we
+extract by exploiting fuzzy set theory. We garner evidence towards this
+conjecture.
+
 
 
 \subsection{Abstracting Size}
@@ -872,11 +869,8 @@ might lead to a loss of information. This captures the intuition that the abstra
 is lossy. The second equation tells us that if we start with an abstract object
 $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
 it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
-\subsubsection{Interval domain}
 
-
-
-\subsection{The formal viewpoint}
+\subsubsection{Formalism}
 
 A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
 \times L$ which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b
@@ -885,19 +879,14 @@ A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
 it is a function $f: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$ such that
 $a \leq b \implies f(a) \leq^\sharp f(b)$.  A galois connectio between two
 lattice $(L, \leq)$ and $(L^\sharp, \leq^\sharp)$ is a pair of monotone maps
-$F: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and
-$G: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ such that:
+$\alpha: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and
+$\gamma: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ which satisfy the
+galois connection property:
 
-$$
-a \leq F(b) \iff a \leq G(b)
-$$
-
-This is equivalent to the pair of conditions:
-
-$$
-a \leq F(G(a)); \quad b \leq G(f(b))
-$$
-
+\begin{align*}
+    &(1) \quad C \subseteq (\gamma\circ \alpha)(C) \\
+    &(2) \quad a = (\alpha \circ \gamma)(a) \\
+\end{align*}
 
 
 \chapter{Fuzzy set representations}
