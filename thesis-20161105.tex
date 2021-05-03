@@ -104,6 +104,7 @@
 
 \def\qed{$\Box$}
 \newtheorem{theorem}{Theorem}
+\newtheorem{slogan}{Slogan}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -496,7 +497,7 @@ for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 
 
 
-\subsubsection{Summary}
+\subsubsection{Pseudocode Implementation}
 
 We outline what we have learnt from delving into the C sources
 of \wtov to provide high-level pseudocode of the algorithm.
@@ -588,7 +589,7 @@ but is missing. Thus, the final fragment of text is trained for only a single
 epoch, which causes the word vectors to miss data about the last section of the document.
 This causes the overall accuracy  to be lowered than the potential optima.
 
-\subsubsection{Initialization choices}
+\subsection{Initialization choices}
 
 We conjecture that since the negative samples come from all over the text and
 are not really weighed by frequency, you can wind up picking \emph{any word},
@@ -605,7 +606,7 @@ accounting for different aspects of co-occurence.
   threads actually either crashed the training or didn't train a certain
   arbitrary group of words iirc?}
 
-\subsubsection{Relationship to GloVe}
+\subsection{Relationship to GloVe}
 
 Global Vectors (GloVe) \cite{pennington2014glove} is a \texttt{word2vec}
 inspired  unsupervised learning algorithm for obtaining vector representations
@@ -636,7 +637,7 @@ diff += W[vector_size + l1] + W[vector_size + l2]; // add separate bias for each
 diff = diff - log(cr.val); // target: log(cr.val)
 \end{minted}
 
-\subsubsection{Conclusions on \texttt{word2vec}}
+\subsection{Conclusion}
 
 The output of the training regime are popularly interpreted as vectors.
 However, we augment this discussion by bringing in nuance. In particular, we
@@ -650,14 +651,21 @@ note that:
 \end{itemize}
 
 
-We learn that the \texttt{word2vec} training regime creates two sets of vectors, henceforth
-referred to as \texttt{syn0} and \texttt{syn1neg}. The negative vectors
-\texttt{syn1neg} are thrown away, while the positive vectors \texttt{syn0} are
-the ones that are left at the end. The training regime \emph{does not use}
-gradient descent. Rather, a style of perceptron-based \textit{batch} update is used.
+We learn that the \texttt{word2vec} training regime creates two sets of
+vectors, henceforth referred to as \texttt{syn0} and \texttt{syn1neg}. Training proceeds
+by defining a loss function which attempts to bring similar vectors close together by trying
+to make the vectors point along the same direction (have dot-product 1),
+and attempts to push dissimilar vectors far away, by trying to make the vectors
+orthogonal (have dot product 0). At the end of the training regime, the
+negative vectors \texttt{syn1neg} are thrown away, while the positive vectors
+\texttt{syn0} are the ones that are saved. The training regime uses a
+variation of gradient descent. The trained vectors are un-normalized.
 
-Thus,
-this leaves the question open as to what is really being learnt by
+During evaluation, the vectors are first normalized by length. Next,
+similarity is performed by performing cosine similarity, while analogy 
+is performed by adding and subtracting vectors. 
+
+Thus, this leaves the question open as to what is really being learnt by
 \texttt{word2vec}. We answer this question by hypothesizing that the
 representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets
 of word senses}, which we extract from \texttt{word2vec} by using ideas of
@@ -668,7 +676,11 @@ to build fuzzy set representations in
 version of the \texttt{word2vec} training algorithm on any choice of Lie group
 in \autoref{chapter:geometrization}.
 
-\section{Abstract Interpretation}
+\begin{slogan}
+    word2vec = dot product + gradient descent + vector operations.
+\end{slogan}
+
+\chapter{Abstract Interpretation}
 \label{chapter:abstract-interpretation}
 \epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
@@ -825,25 +837,8 @@ given $x \leq x$, we are guaranteed that the abstraction $\alpha$ maintains that
 To define \emph{union} and \emph{intersection} of our intervals, we intuitively
 want toe \emph{union} of two intervals to be the smallest interval that \emph{contains} them.
 Similarly, we want the \emph{intersection} of two intervals to be the \emph{largest} interval
-\emph{contained} in both of them. These are given by the definitions:
+\emph{contained} in both of them.
 
-
-% https://scicomp.stackexchange.com/a/26260/31940
-\begin{align*}
-    &\sqcap^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcap (l', r') \equiv
-    \begin{cases}
-        (1, 0) & r < l' \lor r' < l \\
-        (\max (l, l'), \max (r, r')) & \text{otherwise}
-    \end{cases} \\
-    &\sqcup^\sharp: L^\sharp \times L^\sharp \rightarrow L \quad (l, r) \sqcup (l', r') \equiv (\min(l, l'), \max(r, r'))
-\end{align*}
-
-Given two subsets $S, T \subseteq 2^\Z$, $\alpha(S \cup T)$ is the largest interval
-containing elements of both $S$ and $T$. $\alpha(S) \sqcup^\sharp \alpha(T)$ is the
-smallest interval which contains  both $S$ and $T$. We can either first take
-the bounding boxes separately and then union them, or we can take the bounding box
-of the whole collection. This is given by the equation $\alpha(S \cup T) = \alpha(S) \sqcup^\sharp \alpha(T)$.
-\todo{Explain the terms here}.
 
 \includegraphics[width=\textwidth]{./union.pdf}
 
@@ -854,7 +849,7 @@ of the sets of integers is approximated by joins and meets in the abstract even-
 lattice.
 
 
-\subsection{Galois connection}
+\subsection{The Galois connection condition}
 
 The abstract and the concrete world are linked by the properties:
 
@@ -870,14 +865,23 @@ is lossy. The second equation tells us that if we start with an abstract object
 $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
 it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
 
-\subsubsection{Formalism}
+\subsection{Formalism}
 
+\begin{definition}j
 A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
-\times L$ which is (a) reflexive ($a \leq a$), (b) anti-symmetric $a \leq b
+\times L$ which is (a) reflexive: ($a \leq a$), (b) anti-symmetric: $a \leq b
 \land b \leq a \implies a = b$, and (c) transitive: $a \leq b \land b \leq c
-\implies a \leq c$.  A monotone map is a morphism of partial orders. Formally,
+\implies a \leq c$.
+\end{definition}
+
+\begin{definition}
+    A monotone map is a morphism of partial orders. Formally,
 it is a function $f: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$ such that
-$a \leq b \implies f(a) \leq^\sharp f(b)$.  A galois connectio between two
+$a \leq b \implies f(a) \leq^\sharp f(b)$.
+\end{definition}
+
+\begin{definition}
+A galois connectio between two
 lattice $(L, \leq)$ and $(L^\sharp, \leq^\sharp)$ is a pair of monotone maps
 $\alpha: (L, \leq) \rightarrow (L^\sharp, \leq^\sharp)$, and
 $\gamma: (L^\sharp, \leq^\sharp) \rightarrow  (L, \leq)$ which satisfy the
@@ -887,6 +891,21 @@ galois connection property:
     &(1) \quad C \subseteq (\gamma\circ \alpha)(C) \\
     &(2) \quad a = (\alpha \circ \gamma)(a) \\
 \end{align*}
+\end{definition}
+
+
+
+\subsection{Conclusion}
+
+We learnt that meaning can be (and often is) represented by Galois connections.
+In particular, the notion of Montague semantics is a Galois connection, which have been
+exploited by the computer science community to analyze and optimize programs.
+
+\begin{slogan}
+    All meaning is abstract interpretation. This, linguistic meaning better be.
+\end{slogan}
+
+
 
 
 \chapter{Fuzzy set representations}
@@ -1741,7 +1760,12 @@ that are equipped with addition, subtraction, and gradient descent operations.
 The astute reader will notice that a dot product structure is missing. Fear not, for
 every Lie group is associated with a corresponding \emph{Lie algebra}, which possesses
 a dot-product structure, and a method to transport data back and forth from the Lie group
-to the Lie algebra.
+to the Lie algebra. The definition of a Lie Group is first presented, followed by
+the definition of the Lie algebra and the exponential and logarithm maps. Later, to describe
+optimisation on matrix manifolds, the general definition of a Riemannian manifold, along with
+the connection to Lie Groups is presented.
+
+\subsection{Matrix Lie groups}
 
 \begin{figure}
 \label{fig:table-structures-word2vec-vs-ours}
@@ -1755,13 +1779,31 @@ Optimisation & Gradient descent & Riemannian gradient descent
 \caption{Operations in \texttt{word2vec} and their generalization}
 \end{figure}
 
-A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
-dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
-been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
-This can be embedded in 2D space $\mathbb R^2$ via the map $\theta \mapsto (\cos \theta, \sin \theta)$.
-Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ and the angle
-at the azimuth $\phi$, and can be mapped into 3D via the map
-$(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
+We first provide an accessible definition of Lie groups, sweeping
+technicalities into the footnotes. We direct the interested reader to \cite{hall2015lie}.
+
+\begin{slogan}
+A Matrix Lie group is a space of matrcies closed under multiplication and
+matrix inverse.
+\end{slogan}
+
+Intuitively, the idea is that we wish to generalize from vectors, where adding
+words is commutative (since $a + b = b + a$ for vectors), to the non-commutative
+regime of matrcies where $AB \neq BA$. Hence, we will replace the notion of analogy,
+$b - a + c$ with matrix multiplication of the form $BA^{-1}C$.
+
+\begin{example}
+$\mathbb C^\times \equiv \{ z \in \mathbb C : |z| = 1 \}$, the collection of complex numbers with magnitude $1$
+forms a Lie Group.
+\end{example}
+
+\begin{example}
+$GL(n, \R)$ is the collection of all \emph{real}, invertible $n \times n$ matrices.
+\end{example}
+
+\begin{example}
+$SO(n)$ is the collection of $n\times n$ real matrices with determinant $+1$
+\end{example}
 
 \begin{figure}[htb]
 \includegraphics[width=0.8\textwidth]{./lie-group.pdf}
@@ -1774,38 +1816,108 @@ Lie algebra element $s \in T_I(SO(3))$.}
 \end{figure}
 
 
-% TODO: circle; TODO: sphere.
 
-Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
-Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$
-is a subset $M \subseteq \R^N$ such that for each $p \in M$,
-there exists an open set $C \subseteq R^k$ (of parameters), and an
-an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
-and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
-(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
-\footnote{We provide the extrinsic definition of a Riemannian manifold as a
-subspace of $\mathbb R^n$.  A definition without reference to the embedding
-space is an intrinsic definition, which is provided in standard texts, such as
-Lee's introduction to smooth manifolds}
+\subsection{Dot products on the Lie Group?}
+We do not yet have a way to take dot-products of matrices. Naively, one might assume that given matrices
+$M, N$, we could define $\langle M | N \rangle$, the dot product of $M$ and $N$ as
+$\langle M | N \rangle \equiv \sum_{i, j} M[i, j] N[i, j]$. However, recall
+that a dot-product must be defined on a vector space, since the dot-product must be \emph{bilinear}. It must
+obey the axiom that $\langle \lambda M | N \rangle = \langle M | \lambda N \rangle = \lambda \langle M | N \rangle$
+for any scalar $\lambda \in \R$. However, a Lie Group does \emph{not} come with a notion of scaling.
+For example, the number $1 \in \mathbb C^\times$, but $2 \cdot 1 = 2 \not \in \mathbb C^\times$! More precisely,
+we are saying that the Lie Group $G$ is not a vector space, and thus it does not make sense to impose a dot-product (inner product)
+structure, since being a vector space pre-supposes the existence of a vector space structure on the Lie Group.
+This is where the \emph{Lie Algebra} enters into the picture. It gives us a way to get \emph{vectors} from 
+Lie Group elements, such that we can take dot-products of these vectors.
 
-Intuitively, a Riemannian manifold allows us to assign co-ordinates at each
-local region of the manifold which looks like $\R^N$. For example, the Earth in
-total is curved, since it is a sphere. However, around each of us, it is
-approximated by a plane, since the Earth appears flat around a small region.
-Thus, we can continue to use the differential calculus that we know and love to
-compute gradients on a Riemannian manifold, which we will use to perform gradient
-descent on curved spaces.
 
-\subsection{Tangent space}
-On every manifold, at each point, we have a \emph{tangent space}, which
-represents the space of possible directions we can move on the space at that
-point. For example, at each point on a circle, we can define a velocity that is
-tangential to the circle. See that this space that is tangential is \emph{one dimensional},
-even though the circle is itself two-dimensional. The gradient of a function at a point is a
-vector which lives in the tangent space a point.
+\subsection{Matrix Lie Algebras}
+A Matrix Lie Algebra is a way to convert group elements into vectors. Formally,
+we perform this by taking a \emph{logarithm} of the group elements, where the
+logarithm operation is defined by the \emph{matrix logarithm}.  It turns out to
+be the case that the logarithm of a Lie Group is always a Matrix vector space.
+For example, going back to the example of $\C^\times \equiv \{ z : |z| = 1 \}$,
+recall that we can write all such number as $e^{i \theta}$. Thus, when we take the logarithm,
+we get the set  $\{ i \theta : \theta \in \mathbb R \}$ which is indeed a vector space,
+because it is closed under addition and scalar multiplication.
 
-% TODO: add tangent space example.
+\section{The generalized \texttt{word2vec} training}
+We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
+they are points in some \emph{subspace} of $\mathbb R^n$, where this subspace can be curved in shape.
+Also, the elements are equipped with the notion of a logarithm; That is, they come equipped with a
+function $\log : G \rightarrow \mathfrak g$, and $\exp: \mathfrak g \rightarrow G$,
+where $\log$ maps from the lie group (a group) to its lie algebra (a vector space),
+and vice versa for the $\exp$ map.
 
+
+
+\subsection{Overview}
+
+Following the discussion in the preceding section, we provide a compact discussion of the \texttt{word2vec}
+training algorithm, indicating how to substitute the original \texttt{word2vec} algorithm with
+its Lie Group counterpart, as well as discussing potential linguistic ramifications of this replacement.
+
+\subsection{Training}
+
+For the purposes of training, we need to describe how to perform the dot-product to calculate the loss,
+as well as how to perform gradient descent to improve the loss. 
+
+\subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
+them, and then take the dot product of their logarithms, which lives in the Lie algebra.
+Hence, we define the dot product on the Lie group $\langle \cdot , \cdot \rangle$ as
+$\langle g, h \rangle \equiv \log(g) \cdot \log(h)$.
+
+
+\subsubsection{Gradients} Next, to perform gradient descent, we need
+a notion of a \emph{gradient} to decide in which direction to move, and a way to perform a gradient update.
+How one performs the gradient update is explained in detail in the \label{section:optim-on-riem}. Intuitively,
+since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
+along the gradient vector (which will take us out of the manifold), and finally ``retract back'' into the
+manifold, which gives us a gradient step, starting from a point in the manifold, ending at a point in the manifold.
+
+\begin{figure}[htb]
+\includegraphics[width=0.5\textwidth]{./gradient-manifold.pdf}
+\caption{gradient descent on a manifold.}
+\end{figure}
+
+% \todo{Differentiate sections into math basics, training, and evaluation.}
+
+\subsection{Evaluation}
+
+To perform evaluation, given the trained mapping from words to Lie Group
+elements as inputs, we must be able to perform similarity and analogy to reach
+the baseline of \texttt{word2vec}'s usefulness. We indicate other potential
+uses of the richer structure posessed by Lie Groups after describing the bare
+minimum structure.
+
+\subsubsection{Similarity} We compute similarity between two words by computing
+the dot product between the logarithm of the lie group elements which represent
+the words. Given two word-matrices $g, h$, we first map into their Lie Algebra
+via $\log(g), \log(h)$. This is now an inner product space $\mathfrak g$, so we then
+take the dot product $\log(g) \cdot \log(h)$.
+
+\todo{Pls detail xD}
+
+\subsubsection{Analogy} To compute the analogy $v:w::p:?$, we first compute the element $d \equiv (v \cdot w^{-1})$.
+See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
+Next, to perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$. In total,
+we perform $p \cdot (v \cdot w^{-1})$.
+
+\subsection{Sense difference}
+
+Recall that for an arbitrary Lie group, the group operation \emph{need not be commutative}. This is
+in start contrast to the \texttt{word2vec} case, where $a + b = b + a$ holds for all vectors. This
+non-commutativity allows one to define the \emph{commutator} of two elements, $[a, b] \equiv aba^{-1}b^{-1}$,
+which measures how much $a$ and $b$ fail to commute. If the commutator is the identity element of the group,
+that is, if $[a, b] = 0$, then the two elements commute, since $[a, b] = aba^{-1}b^{-1} = baa^{-1}b^{-1} = bb^{-1} = e$.
+On the other hand, if $a$ and $b$ do not commute, then the commutator $[a, b]$ is a non-trivial element of
+the group. Linguistically speaking, the commutator of two words $[v, w]$ gives us a new word which measures
+by how much the senses of $v$ and $w$ fail to commute.
+
+
+\todo{elaboration}
+
+\section{Formalisms}
 
 \subsection{Lie groups}
 A lie group is a Riemannian manifold $M$ which is also a group, whose group
@@ -1866,79 +1978,47 @@ of a rotation.
 \todo{For each section, also add linguistic corollaries. This will make it a bit
   easier to digest the transition from dense math topic to dense math topic}
 
-\section{The general \texttt{word2vec} algorithm}
-We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
-they are points in some \emph{subspace} of $\mathbb R^n$, where this subspace can be curved in shape.
-Also, the elements are equipped with the notion of a logarithm; That is, they come equipped with a
-function $\log : G \rightarrow \mathfrak g$, and $\exp: \mathfrak g \rightarrow G$,
-where $\log$ maps from the lie group (a group) to its lie algebra (a vector space),
-and vice versa for the $\exp$ map.
+
+\subsection{Riemannian Manifold}
+
+A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
+dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
+been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
+This can be embedded in 2D space $\mathbb R^2$ via the map $\theta \mapsto (\cos \theta, \sin \theta)$.
+Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ and the angle
+at the azimuth $\phi$, and can be mapped into 3D via the map
+$(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
+
+Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
+Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$
+is a subset $M \subseteq \R^N$ such that for each $p \in M$,
+there exists an open set $C \subseteq R^k$ (of parameters), and an
+an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
+and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
+(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
+\footnote{We provide the extrinsic definition of a Riemannian manifold as a
+subspace of $\mathbb R^n$.  A definition without reference to the embedding
+space is an intrinsic definition, which is provided in standard texts, such as
+Lee's introduction to smooth manifolds}
+
+Intuitively, a Riemannian manifold allows us to assign co-ordinates at each
+local region of the manifold which looks like $\R^N$. For example, the Earth in
+total is curved, since it is a sphere. However, around each of us, it is
+approximated by a plane, since the Earth appears flat around a small region.
+Thus, we can continue to use the differential calculus that we know and love to
+compute gradients on a Riemannian manifold, which we will use to perform gradient
+descent on curved spaces.
+
+\subsection{Tangent space}
+On every manifold, at each point, we have a \emph{tangent space}, which
+represents the space of possible directions we can move on the space at that
+point. For example, at each point on a circle, we can define a velocity that is
+tangential to the circle. See that this space that is tangential is \emph{one dimensional},
+even though the circle is itself two-dimensional. The gradient of a function at a point is a
+vector which lives in the tangent space a point.
 
 
-\subsection{Overview}
-
-Following the discussion in the preceding section, we provide a compact discussion of the \texttt{word2vec}
-training algorithm, indicating how to substitute the original \texttt{word2vec} algorithm with
-its Lie Group counterpart, as well as discussing potential linguistic ramifications of this replacement.
-
-\subsection{Training}
-
-For the purposes of training, we need to describe how to perform the dot-product to calculate the loss,
-as well as how to perform gradient descent to improve the loss. 
-
-\subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
-them, and then take the dot product of their logarithms, which lives in the Lie algebra.
-Hence, we define the dot product on the Lie group $\langle \cdot , \cdot \rangle$ as
-$\langle g, h \rangle \equiv \log(g) \cdot \log(h)$.
-
-
-\subsubsection{Gradients} Next, to perform gradient descent, we need
-a notion of a \emph{gradient} to decide in which direction to move, and a way to perform a gradient update.
-How one performs the gradient update is explained in detail in the \label{section:optim-on-riem}. Intuitively,
-since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
-along the gradient vector (which will take us out of the manifold), and finally ``retract back'' into the
-manifold, which gives us a gradient step, starting from a point in the manifold, ending at a point in the manifold.
-
-\begin{figure}[htb]
-\includegraphics[width=0.5\textwidth]{./gradient-manifold.pdf}
-\caption{gradient descent on a manifold.}
-\end{figure}
-
-% \todo{Differentiate sections into math basics, training, and evaluation.}
-
-\subsection{Evaluation}
-
-To perform evaluation, given the trained mapping from words to Lie Group
-elements as inputs, we must be able to perform similarity and analogy to reach
-the baseline of \texttt{word2vec}'s usefulness. We indicate other potential
-uses of the richer structure posessed by Lie Groups after describing the bare
-minimum structure.
-
-\subsubsection{Similarity} We compute similarity between two words by computing the dot product between
-the logarithm of the lie group elements which represent the words. 
-
-\todo{Pls detail xD}
-
-\subsubsection{Analogy} To compute the analogy $v:w::p:?$, we first compute the element $d \equiv (v \cdot w^{-1})$.
-See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
-Next, to perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$. In total,
-we perform $p \cdot (v \cdot w^{-1})$.
-
-\subsection{Sense difference}
-
-Recall that for an arbitrary Lie group, the group operation \emph{need not be commutative}. This is
-in start contrast to the \texttt{word2vec} case, where $a + b = b + a$ holds for all vectors. This
-non-commutativity allows one to define the \emph{commutator} of two elements, $[a, b] \equiv aba^{-1}b^{-1}$,
-which measures how much $a$ and $b$ fail to commute. If the commutator is the identity element of the group,
-that is, if $[a, b] = 0$, then the two elements commute, since $[a, b] = aba^{-1}b^{-1} = baa^{-1}b^{-1} = bb^{-1} = e$.
-On the other hand, if $a$ and $b$ do not commute, then the commutator $[a, b]$ is a non-trivial element of
-the group. Linguistically speaking, the commutator of two words $[v, w]$ gives us a new word which measures
-by how much the senses of $v$ and $w$ fail to commute.
-
-
-\todo{elaboration}
-
-\section{Optimisation on Riemannian Manifolds}
+\subsection{Optimisation on Riemannian Manifolds}
 \label{section:optim-on-riem}.
 
 % \todo{introduce the need: ML algorithms and all that. @Alok: can you do this? I'm not sure what I ought to write...}
