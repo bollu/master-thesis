@@ -1892,16 +1892,18 @@ minimum structure.
 
 \subsubsection{Similarity} We compute similarity between two words by computing
 the dot product between the logarithm of the lie group elements which represent
-the words. Given two word-matrices $g, h$, we first map into their Lie Algebra
-via $\log(g), \log(h)$. This is now an inner product space $\mathfrak g$, so we then
-take the dot product $\log(g) \cdot \log(h)$.
+the words. Given two word-matrices $h, h'$, we first map into their Lie Algebra
+via $\log(h), \log(h')$. This is now the Lie Algebra, which is an inner product space so we then
+take the dot product $\log(h) \cdot \log(h')$. Linguistically, we are reducing a word
+to its infinitesimal components, before comparing the words along these infinitesimal
+senses of meaning.
 
 \todo{Pls detail xD}
 
-\subsubsection{Analogy} To compute the analogy $v:w::p:?$, we first compute the element $d \equiv (v \cdot w^{-1})$.
-See that $d \cdot w = (v \cdot w^{-1}) \cdot w = v$. That is, moving along $d$ from $w$ produces a $v$.
-Next, to perform a analogy given a displacement $d$ and a basepoint $p$, we compute $d \cdot p$. In total,
-we perform $p \cdot (v \cdot w^{-1})$.
+\subsubsection{Analogy} To compute the analogy $a:b::c:?$, we generalize the vectorial
+$b - a + c$  into $b \cdot a^{-1} \cdot c$. Linguistically, this provides the same
+notion of analogy as \texttt{word2vec} does, since we are performing a similar operation
+of cancelling the meaning of $a$ and adding the meaning of $c$ to a base word $b$.
 
 \subsection{Sense difference}
 
