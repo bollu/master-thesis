@@ -1761,9 +1761,9 @@ The astute reader will notice that a dot product structure is missing. Fear not,
 every Lie group is associated with a corresponding \emph{Lie algebra}, which possesses
 a dot-product structure, and a method to transport data back and forth from the Lie group
 to the Lie algebra. The definition of a Lie Group is first presented, followed by
-the definition of the Lie algebra and the exponential and logarithm maps. Later, to describe
-optimisation on matrix manifolds, the general definition of a Riemannian manifold, along with
-the connection to Lie Groups is presented.
+the definition of the Lie algebra and the exponential and logarithm maps. Later, the
+formal definitions of a Riemannian manifold, along with the connection to Lie
+Groups is presented.
 
 \subsection{Matrix Lie groups}
 
@@ -1919,6 +1919,46 @@ by how much the senses of $v$ and $w$ fail to commute.
 
 \section{Formalisms}
 
+
+
+\subsection{Riemannian Manifold}
+
+A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
+dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
+been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
+This can be embedded in 2D space $\mathbb R^2$ via the map $\theta \mapsto (\cos \theta, \sin \theta)$.
+Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ and the angle
+at the azimuth $\phi$, and can be mapped into 3D via the map
+$(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
+
+Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
+Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$
+is a subset $M \subseteq \R^N$ such that for each $p \in M$,
+there exists an open set $C \subseteq R^k$ (of parameters), and an
+an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
+and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
+(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
+\footnote{We provide the extrinsic definition of a Riemannian manifold as a
+subspace of $\mathbb R^n$.  A definition without reference to the embedding
+space is an intrinsic definition, which is provided in standard texts, such as
+Lee's introduction to smooth manifolds}
+
+Intuitively, a Riemannian manifold allows us to assign co-ordinates at each
+local region of the manifold which looks like $\R^N$. For example, the Earth in
+total is curved, since it is a sphere. However, around each of us, it is
+approximated by a plane, since the Earth appears flat around a small region.
+Thus, we can continue to use the differential calculus that we know and love to
+compute gradients on a Riemannian manifold, which we will use to perform gradient
+descent on curved spaces.
+
+\subsection{Tangent space}
+On every manifold, at each point, we have a \emph{tangent space}, which
+represents the space of possible directions we can move on the space at that
+point. For example, at each point on a circle, we can define a velocity that is
+tangential to the circle. See that this space that is tangential is \emph{one dimensional},
+even though the circle is itself two-dimensional. The gradient of a function at a point is a
+vector which lives in the tangent space a point.
+
 \subsection{Lie groups}
 A lie group is a Riemannian manifold $M$ which is also a group, whose group
 structure is compatible with the manifold structure. This means that we have
@@ -1977,45 +2017,6 @@ of a rotation.
 
 \todo{For each section, also add linguistic corollaries. This will make it a bit
   easier to digest the transition from dense math topic to dense math topic}
-
-
-\subsection{Riemannian Manifold}
-
-A Riemannian manifold $M$ of dimension $k$ \emph{embedded} in a space of
-dimension $n$ is, intuitively, a surface with $k$-degrees of freedom, which has
-been embedded in $\R^n$.  For example, a circle has one degree of freedom, the angle $\theta$.
-This can be embedded in 2D space $\mathbb R^2$ via the map $\theta \mapsto (\cos \theta, \sin \theta)$.
-Similarly, the sphere has two degres of freedom, the azimuthal angle $\theta$ and the angle
-at the azimuth $\phi$, and can be mapped into 3D via the map
-$(\theta, \phi) \mapsto (\cos \theta \cos \phi, \cos \theta \sin \phi, \sin \theta)$.
-
-Here, we assume that the reader is familiar with basic point-set topology \cite{munkres2014topology}.
-Formally, the Riemannian manifold of dimension $k$ embedded in a space of dimension $N$
-is a subset $M \subseteq \R^N$ such that for each $p \in M$,
-there exists an open set $C \subseteq R^k$ (of parameters), and an
-an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
-and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
-(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
-\footnote{We provide the extrinsic definition of a Riemannian manifold as a
-subspace of $\mathbb R^n$.  A definition without reference to the embedding
-space is an intrinsic definition, which is provided in standard texts, such as
-Lee's introduction to smooth manifolds}
-
-Intuitively, a Riemannian manifold allows us to assign co-ordinates at each
-local region of the manifold which looks like $\R^N$. For example, the Earth in
-total is curved, since it is a sphere. However, around each of us, it is
-approximated by a plane, since the Earth appears flat around a small region.
-Thus, we can continue to use the differential calculus that we know and love to
-compute gradients on a Riemannian manifold, which we will use to perform gradient
-descent on curved spaces.
-
-\subsection{Tangent space}
-On every manifold, at each point, we have a \emph{tangent space}, which
-represents the space of possible directions we can move on the space at that
-point. For example, at each point on a circle, we can define a velocity that is
-tangential to the circle. See that this space that is tangential is \emph{one dimensional},
-even though the circle is itself two-dimensional. The gradient of a function at a point is a
-vector which lives in the tangent space a point.
 
 
 \subsection{Optimisation on Riemannian Manifolds}
