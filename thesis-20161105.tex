@@ -344,18 +344,34 @@ to train made it an important development in the field.
 
 
 Hence, this forms as the launching point for our study. We will
-first describe the popular description of the algorithm as found online, describe
-gaps in both the online descriptions and in the original paper. Next, we dissect the
-source code of \texttt{word2vec}. Armed with detailed knowledge of the real
-training mechanism, we lay out the list of open questions in the design of
-\texttt{word2vec}. \todo{talk about evaluation, not just training, because fuzzy
-  had insight into asymmetric eval metrics as well}
-To answer these questions, we explain the mathematical
-theory of abstract interpretation and connect this to montague semantics in
-\autoref{chapter:abstract-interpretation}, and we then use this to build fuzzy
-set representations in \autoref{chapter:fuzzy-set-representation}.
+first describe the popular description of the algorith derived from
+\cite{mikolov2013efficient}. Next, we dissect the
+source code of \texttt{word2vec}. We find that there are several open questions
+about the relationship between the algorithms, pseudocodes, and descriptions
+available as opposed to the actual implementation of the \wtov algorithms.
+THerefore, armed with detailed knowledge of the training mechanism from the
+codebase, we lay out the list of open questions in the design of
+\texttt{word2vec}, the mathematical framework it may be trying to represent, and
+the linguistic significance of that framework, beyond \textit{the vector
+  representation of words}. The focus of these questions extends beyond just the
+training and touches upon interpretation, evaluation, and analysis of the output
+of the unsupervised training mechanism.
 
-\subsection{\wtov in the literature}
+To answer these questions, we take a deep-dive into some of the possible
+mathematical theories that might be help provide relevant insight into both the
+performance and the significance of the current training regime. These theories
+include:
+\begin{itemize}
+  \item The theory of abstract interpretation as model of semantic
+    representation which connects montague semantics and the hierarchy of words
+    to the distributional domin, detailed  in
+    \autoref{chapter:abstract-interpretation}
+  \item , and one possible implementation of the notion of abstract
+    interpretation to rethink word vector as fuzzy set representations, detailed
+    in \autoref{chapter:fuzzy-set-representation}.
+\end{itemize}
+
+\subsection{\wtov in the Literature}
 
 \begin{figure}[htb]
 \begin{minted}[linenos]{cpp}
@@ -382,20 +398,50 @@ while(1) {
 %
 % The list goes on. However, __every single one of these implementations is wrong__.
 
-The classic explanation of \texttt{word2vec}, in skip-gram, with negative
-sampling is the pseudocode shown in \autoref{fig:wrong-w2v-pseudocode}. The paper
-is arguably too terse to extract out any pseudocode from, so we thus defer to the
-explanations available on \href{https://en.wikipedia.org/wiki/Word2vec#Training_algorithm}{Wikipedia}
-and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{TensorFlow} re-implementation.
+\begin{figure}[htb]
+  \includegraphics[width=\textwidth]{./w2v-diagram-from-paper.png}
+  \caption{The diagram provided as an approximation of the word2vec training
+    mechanisms CBOW and Skip-gram, and the caption provided in the paper
+    \cite{mikolov2013efficient}. The diagram is clearly meant to be a
+    simplified representation of the algorithm, as the caption only shows the
+    method of prediction of the `input' and `output' words.}
+  \label{fig:w2v-diagram-from-paper}
+\end{figure}
 
-The original \wtov \texttt{C} implementation does not do what is explained above.
-serious users of word embeddings either (a) directly invoke the original C
-implementation of \texttt{word2vec}, or (b) invoke the \texttt{gensim}
-implementation \cite{vrehuuvrek2011gensim}, which is \emph{transliterated} from the C source to the extent
+The algorithms known as \wtov in literature today are a product of two papers on
+efficient distributed representations of lexical semantics, namely
+\cite{mikolov2013efficient} and \cite{mikolov2013distributed}. Both papers
+summarize aspects of the entire codebase including a summary of training,
+tuning, parameters and hyperparameters, evaluation metrics, qualitative and
+quantitative analyses, as well as some lingusitic insights. In combination, the
+literature in itself is too terse to extract the pseudocode from. However, both
+these publications provide a graphical \textit{approximation} of their training
+mechanism, which is provided in \autoref{fig:w2v-diagram-from-paper}.
+
+Also note, the classic explanation of \texttt{word2vec}, in skip-gram, with negative
+sampling is the pseudocode shown in \autoref{fig:wrong-w2v-pseudocode}, based on
+the explanations available on \href{https://en.wikipedia.org/wiki/Word2vec#Training_algorithm}{Wikipedia}
+and the \href{https://www.tensorflow.org/tutorials/representation/word2vec}{TensorFlow} re-implementation.
+Interestingly, the simplified diagrammatic process and
+the pseudocode are nearly isomorphic, they represent the same phenomenon.
+However, the original \wtov \texttt{C} implementation does not do what is explained above.
+
+One of the main offerings of the paper presented above was the actual lexical
+distributional representation, a list of words and their vector counterparts
+which were irrevocably the best performing representations developed for English
+data at the time. So most downstream implementations based on these word vectors
+used the pretrained embeddings directly. 
+
+All other analyses and implementations of the \wtov codebase either (a) directly
+invoke the original C implementation of \texttt{word2vec},
+or (b) invoke the \texttt{gensim} implementation \cite{vrehuuvrek2011gensim},
+which is \emph{transliterated} from the C source to the extent
 that the variables names are the same as that of the C implementation.
 \todo{gensim implementation links}
-Hence, we shall read the source code to
-better understand the training scheme of \texttt{word2vec}.
+
+Therefore, if we are to raise questions about what the \wtov algorithm aims to
+accomplish in the space of word representations, it is imperative to perform a
+deep-dive into the source code itself.
 
 \subsection{\wtov in the sources}
 
