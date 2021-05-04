@@ -447,12 +447,16 @@ deep-dive into the source code itself.
 
 We analyze the original C implementation of \texttt{word2vec}, to point out
 salient features, curious implementation decisions and bugs in the
-implementation \todo{why not the master branch directly?}
-\footnote{sources taken from \url{https://github.com/tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c}}.
-This necessitates interleaving high level explanations with direct snippets of  C source code;
-We do not apologize for this. We view this as a feature of this thesis, not a bug, since we deal
-with details such as the initialization and gradient calculations.  The core
-training loop of \wtov (trained using negative sampling, in skip-gram mode)
+implementation\footnote{sources taken from
+\url{https://github.com/tmikolov/word2vec/blob/master/word2vec.c}}.
+
+This necessitates interleaving high level explanations with direct snippets of
+the C code in order to understand wherein the difference between the pseudocode
+and the actual code lies, in order to improve the state of surrounding
+literature and demystify the differences between the implementation and its
+understanding.
+
+The core training loop of \wtov (trained using negative sampling, in skip-gram mode)
 ingests a corpus, and then attempts to learn \emph{two} representations for a
 given word, called as the positive and negative representation. At a high
 level, the python pseudocode at \autoref{fig:w2v-py-pseudocode} explains the
@@ -460,11 +464,16 @@ implementation of \texttt{word2vec}.
 
 
 \subsubsection{Initialization}
+
+The first main difference between the simplified representation and the actual
+code is the presence of \textit{two} vectors for each word instead of one. These
+vectors are:
+
 (a) An array called \texttt{syn0} holds the vector embedding of a word when it occurs
-as a \emph{focus word}. This is random initialized.
+as a \emph{focus word}. This is array random initialized.
 
 \begin{minted}{cpp}
-// tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L369
+// tmikolov/word2vec/blob/master/word2vec.c#L369
 for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
  next_random = next_random * (unsigned long long)25214903917 + 11;
  syn0[a * layer1_size + b] =
@@ -476,21 +485,29 @@ for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++) {
 as a \emph{context word}. This is zero initialized.
 
 \begin{minted}{cpp}
-// tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L365
+// tmikolov/word2vec/blob/master/word2vec.c#L365
 for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
 syn1neg[a * layer1_size + b] = 0;
 \end{minted}
 
+Note that the array name \texttt{syn1neg} is used only in the skip-gram negative
+sampling representation (refered to hereafter as SGNS). Other training regimes
+such as hierarchical softmax also train on two vectors, named \texttt{syn1}.
+Infact, there are similar corollaries in the training and update of these arrays
+as well. For the sake of brevity, we showcase only the SGNS algorithm as it is
+the most prominent.
 
 \subsubsection{Training}
 
-During training (skip-gram, negative sampling, though other cases are
+During training (SGNS detailed here, though other cases are
 also similar), we first pick a focus word. This is held constant throughout
 the positive and negative sample training. The gradients of the focus vector
 are accumulated in a buffer, and are applied to the focus word
 \emph{after} it has been affected by both positive and negative samples.
-Line number \circled{4} decides whether we are picking a positive sample (\texttt{d = 0})
-or a negative sample (\texttt{d > 0}). If we are picking a positive sample, then we expect
+
+In the code snippet below, line number \circled{4} decides whether we are
+picking a positive sample (\texttt{d = 0}) or a negative sample (\texttt{d > 0}).
+If we are picking a positive sample, then we expect
 at \circled{5} to find the dot-product with the \texttt{word} to be \texttt{1}.
 On the other hand, if we are picking a negative sample, then we expect at \circled{10} to pick
 a random word, and at \circled{13} for the dot-product to be zero. \circled{20} computes
@@ -501,9 +518,10 @@ the gradient of the focus word is stored into a buffer \texttt{neu1e}. This ensu
 the focus word is held constant throught the positive and negative samples. Finally, on
 \circled{36}, the buffered gradient \texttt{neu1e} is propagated into the focus word.
 
-
 \begin{minted}[linenos]{cpp}
-for (d = 0; d < negative + 1; d++) {
+  // tmikolov/word2vec/blob/master/word2vec.c#L465
+
+  for (d = 0; d < negative + 1; d++) {
  // if we are performing negative sampling, in the 1st iteration,
  // pick a word from the context and set the dot product target to 1
  if (d == 0) {
@@ -522,6 +540,8 @@ for (d = 0; d < negative + 1; d++) {
 
  // find dot product of original vector with negative sample vector
  // store in f
+ \todo{check for correctness: tmikolov/word2vec/blob/master/word2vec.c#L478, the
+ formula should involve neu1, not syn0}
  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
 
  // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
@@ -536,12 +556,10 @@ for (d = 0; d < negative + 1; d++) {
  for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
 }
 // Finally, after all samples, update syn1 from neu1e
-// tmikolov/word2vec/blob/20c129af10659f7c50e86e3be406df663beff438/word2vec.c#L541
+// tmikolov/word2vec/blob/master/word2vec.c#L541
 // Learn weights input -> hidden
 for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
 \end{minted}
-
-
 
 \subsubsection{Pseudocode Implementation}
 
