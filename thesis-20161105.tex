@@ -628,7 +628,7 @@ def train(corpus: list, DIMSIZE: int):
 
 \subsection{Bugs}
 
-In this subsection, we list bugs that were discovered by us in the \texttt{word2vec}
+In this subsection, we list some of the bugs we discovered in the \wtov
 codebase. While these do not impact training significantly, they do point out
 the dangers of using C as programming language, as well as provides justification
 for reading the original sources.
@@ -647,7 +647,7 @@ if (eof || (word_count > train_words / num_threads)) {
 }
 \end{minted}
 
-\texttt{word2vec} trains on multiple threads in parallel. The thread that reads
+\wtov trains on multiple threads in parallel. The thread that reads
 the final chunk of text does not reset its \texttt{eof} (end-of-file) state
 upon reaching the end of file. The code at line \circled{5} ought to have been present,
 but is missing. Thus, the final fragment of text is trained for only a single
@@ -667,32 +667,46 @@ choice of having a separate vector for the negative context --- they re-used
 \wtov's  scheme, re-interpreting the negative vector and positive vector as
 accounting for different aspects of co-occurence.
 
-\todo{Nothing on the threading issues? The fact that changing the number of
-  threads actually either crashed the training or didn't train a certain
-  arbitrary group of words iirc?}
+\subsection{Evaluation}
+
+\wtov can be evaluated in two manners, either by application to a downstream
+task along with a corpus, a model which trains for that task, and observe the
+difference in performance on using different embeddings. This model of
+evaluation is known as extrinsic evaluation, and it was this downstream
+performance that made the pretrained \wtov an important comonent of NLP
+research.
+
+However, \wtov literature is evaluated by performing direct operations between
+vectors such as vector addition and dot product calculation. These operations
+are then compared to lexical semantic analyses such as similarity, analogy, and
+compositionality. For example, similarity is computed using cosine similarity,
+compositionality using vector addition, and analogy using vector addition
+and subtraction of the \textit{length-normalized vectors}, specifically
+\texttt{syn0} vectors.
+
+The analyses are done of corpora also introduced in
+\cite{mikolov2013distributed}, and are heavily qualitative in nature.
 
 \subsection{Relationship to GloVe}
 
-Global Vectors (GloVe) \cite{pennington2014glove} is a \texttt{word2vec}
-inspired  unsupervised learning algorithm for obtaining vector representations
-for words. Training is performed on global word-word co-occurrence statistics
-from a corpus, and the resulting representations containlinear substructures of
-the word vector space. 
+GloVe \cite{pennington2014glove} is an unsupervised word embedding learning
+algorithm inspired by \wtov. Training is performed on global word co-occurence
+matrix created from a corpus. The resulting representations contain linear
+substructures of the vector space.
 
-
-The innovation in \texttt{GloVe} to have the
-training objective of GloVe to learn 
+The innovation in \texttt{GloVe} to have the training objective of GloVe to learn
 vectors such that their dot product equals the logarithm of the words'
 probability of co-occurrence. Since the logarithm of a ratio
 equals the difference of logarithms, this objective associates the logarithm
 of ratios of co-occurrence probabilities with vector differences in the word
 vector space. Because these ratios can encode meaning, this
-information gets encoded as vector differences as well. During training,
-the GloVe implementation uses\emph{two vectors for each word}, one where it
-appears as a focus word, and one where it appears as a context word, much as
-\texttt{word2vec} does. The source code snippet is taken from the file \texttt{src/glove.c} at 
-the Github repository \texttt{stanfordnlp/glove}.
-\footnote{\url{https://github.com/stanfordnlp/GloVe/blob/f921427257e6a1e601bff425ec10048b7eacd98d/src/glove.c\#L190-L193}}
+information gets encoded as vector differences as well.
+
+During training, the GloVe implementation uses\emph{two vectors for each word},
+one where it appears as a focus word, and one where it appears as a context
+word, much as \wtov does. The source code snippet is taken from the file
+\texttt{src/glove.c} at the Github repository
+\texttt{stanfordnlp/glove}\footnote{\url{https://github.com/stanfordnlp/GloVe/blob/master/src/glove.c\#L190-L193}}.
 
 \begin{minted}{cpp}
 /* Calculate cost, save diff for gradients */
@@ -715,26 +729,29 @@ note that:
       what mathematical object is being learnt.
 \end{itemize}
 
-
 We learn that the \texttt{word2vec} training regime creates two sets of
 vectors, henceforth referred to as \texttt{syn0} and \texttt{syn1neg}. Training proceeds
 by defining a loss function which attempts to bring similar vectors close together by trying
 to make the vectors point along the same direction (have dot-product 1),
 and attempts to push dissimilar vectors far away, by trying to make the vectors
-orthogonal (have dot product 0). At the end of the training regime, the
-negative vectors \texttt{syn1neg} are thrown away, while the positive vectors
+orthogonal (have a dot product of $0$).
+
+At the end of the training regime, the negative vectors \texttt{syn1neg} are
+thrown away, while the positive vectors
 \texttt{syn0} are the ones that are saved. The training regime uses a
 variation of gradient descent. The trained vectors are un-normalized.
 
 During evaluation, the vectors are first normalized by length. Next,
-similarity is performed by performing cosine similarity, while analogy 
-is performed by adding and subtracting vectors. 
+similarity is performed by performing cosine similarity, while analogy
+is performed by adding and subtracting vectors.
 
 Thus, this leaves the question open as to what is really being learnt by
 \texttt{word2vec}. We answer this question by hypothesizing that the
 representation that is learnt by \texttt{word2vec} in fact encodes \emph{sets
 of word senses}, which we extract from \texttt{word2vec} by using ideas of
-abstract interpretation. We explain the ideas of abstract interpretation in
+abstract interpretation.
+
+We explain the ideas of abstract interpretation in
 \autoref{chapter:abstract-interpretation}, and then proceed to use these ideas
 to build fuzzy set representations in
 \autoref{chapter:abstract-interpretation}. Finally, we propose an abstract
@@ -742,7 +759,7 @@ version of the \texttt{word2vec} training algorithm on any choice of Lie group
 in \autoref{chapter:geometrization}.
 
 \begin{slogan}
-    word2vec = dot product + gradient descent + vector operations.
+    word2vec = dot product + batch perceptron update + some vector operations.
 \end{slogan}
 
 \chapter{Abstract Interpretation}
