@@ -242,10 +242,8 @@ Natural language processing has, since its inception, required
 techniques to extract semantic information from raw corpora with little to no
 supervision. To perform such unsupervised learning, many models
 have been built, based off of the ``Distributional Hypothesis'', which states
-that words that occur in the same contexts tend to have similar meanings.
-\todo{Harris 1954 is also a citation here}
-The
-underlying idea that ``a word is characterized by the company it keeps'' was
+that words that occur in the same contexts tend to have similar meanings\cite{harris1954distributional}.
+The underlying idea that ``a word is characterized by the company it keeps'' was
 popularized by Firth \citep{firth1957synopsis}.
 However, distributional representations of words over vector spaces have an
 inherent lack of interpretablity \citep{goldberg2014word2vec}. Furthermore, due
@@ -264,41 +262,38 @@ structure among columns. Documents are then compared by taking the cosine of
 the angle between the two vectors, where angles close to $1$ represent very
 similar documents, and angles close to $0$ represent dis-similar documents.
 
-\texttt{Word2vec} is a recent technique to create unsupervised word embeddings
-for NLP from unstructured data, whose informal correctness is based on the
-distributional hypothesis. \todo{citations on both word2vec and correctness}
-The \texttt{word2vec} algorithm uses a neural network \todo{neural network?}
-model to learn word associations from a large corpus of text. Once trained,
-such a model can detect synonymous words or suggest additional words for a
-partial sentence.  As befitting the name, \texttt{word2vec} represents each
-distinct word with a vector. \todo{Nitpick: it is every surface form which is a
-  vector, because I would argue bank and bank are different words.}
-The training mechanism yields vectors such that
-the cosine of the angle between the vectors reflects the the level of semantic
-similarity between the words represented by those vectors.
+\texttt{Word2vec} \cite{mikolov2013distributed} is a recent technique to create
+unsupervised word embeddings for NLP from unstructured data, whose informal
+correctness is based on the distributional hypothesis. \todo{citations on both
+word2vec and correctness} The \texttt{word2vec} algorithm uses a shallow neural
+model to learn word associations from a large corpus of
+text. Once trained, such a model can detect synonymous words or suggest
+additional words for a partial sentence.  As befitting the name,
+\texttt{word2vec} represents each distinct surface syntactic word with a
+vector.The training mechanism yields vectors such that the cosine of the angle
+between the vectors reflects the the level of semantic similarity between the
+words represented by those vectors.
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
-is as successful as it is. \todo{citation}
-In comparison to LSA, which has theoretical guarantees
-since it is based on linear-algebraic ideas such as SVD, the correctness of
-\texttt{word2vec} is far less clear. In this thesis, we \todo{I've been told we
-  write `I' in theses, as technically you're the only one writing it.}
-attempt to provide a
-\emph{linguistically} as well as \emph{mathematically} motivated explanation
-for the correctness of \texttt{word2vec}. We begin with a deep dive into the \texttt{word2vec}
-implementation. Following this, we chase a \emph{linguistic} theory of meaning,
-by considering \emph{Montague semantics} \cite{sep-montague-semantics}. Developing on this idea, we borrow the tools of
-\emph{Abstract Interpretation} \cite{cousout1996abstract}, a general framework enabling the construction
-and the soundness proof of approximated semantics of programs. We
-recall here its core features, which is used to approximate the (formal)
-meaning/semantics of a program.  A core principle in the Abstract
+is as successful as it is. \todo{citation} In comparison to LSA, which has
+theoretical guarantees since it is based on linear-algebraic ideas such as SVD,
+the correctness of \texttt{word2vec} is far less clear. In this thesis, we
+attempt to provide a \emph{linguistically} as well as \emph{mathematically}
+motivated explanation for the correctness of \texttt{word2vec}. We begin with a
+deep dive into the \texttt{word2vec} implementation. Following this, we chase a
+\emph{linguistic} theory of meaning, by considering \emph{Montague semantics}
+\cite{sep-montague-semantics}. Developing on this idea, we borrow the tools of
+\emph{Abstract Interpretation} \cite{cousout1996abstract}, a general framework
+enabling the construction and the soundness proof of approximated semantics of
+programs. We recall here its core features, which is used to approximate the
+(formal) meaning/semantics of a program.  A core principle in the Abstract
 Interpretation theory is that all kinds of semantics can be expressed within
-the framework of fixpoints of monotonic operators in partially ordered structures.
-In this thesis, we use ideas from abstract interpretation to propose a scheme
-to extract \emph{Montagueian semantics} from \texttt{word2vec}, and evaluate
-the performance of our proposed system. Finally, we generalize
-\texttt{word2vec} far beyond its original setting. Concretely, we tackle the
-following questions:
+the framework of fixpoints of monotonic operators in partially ordered
+structures.  In this thesis, we use ideas from abstract interpretation to
+propose a scheme to extract \emph{Montagueian semantics} from
+\texttt{word2vec}, and evaluate the performance of our proposed system.
+Finally, we generalize \texttt{word2vec} far beyond its original setting.
+Concretely, we tackle the following questions:
 
 \begin{enumerate}
     \item How \texttt{word2vec} \emph{really} works, including an
