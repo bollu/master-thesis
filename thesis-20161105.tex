@@ -762,7 +762,7 @@ version of the \texttt{word2vec} training algorithm on any choice of Lie group
 in \autoref{chapter:geometrization}.
 
 \begin{slogan}
-    word2vec = dot product + batch perceptron update + some vector operations.
+    word2vec = dot product + gradient descent + some vector operations.
 \end{slogan}
 
 \chapter{Abstract Interpretation}
@@ -813,7 +813,7 @@ phenomenon, and extensionally validate its existence.
 
 As a linguistic example, the meaning of walk, or sing is defined as the set of
 individuals who share respectively the property of walking or the property of
-singining.  By appealing to the principle of compositionality, if there is a
+singing \cite{sep-montague-semantics}.  By appealing to the principle of compositionality, if there is a
 rule that combines these two expressions to the verb phrase walk and sing,
 there must be a corresponding rule that determines the meaning of that verb
 phrase. In this case, the resulting meaning will be the \emph{intersection} of
@@ -846,7 +846,7 @@ computer programs. Towards this goal, they developed a powerful framework
 called \emph{Abstract Interpretation} \cite{cousot1977abstract} to not
 only capture the notion of approximating meaning, but also capture the notion of
 creating hieararchies of approximations of meaning. This allows one to
-begin from the entire meaning of a program, which is uncomputable ue to the Halting Program,
+begin from the entire meaning of a program, which is uncomputable ue to the Halting Problem ,
 and create a lossy, approximate, but computable semantics of the program.
 It was used to unify many disparate program analysis techniques, such as
 dataflow analysis \cite{khedker2017data} and type checking \cite{file1991abstract}.
@@ -865,7 +865,7 @@ semantics of natural language that of the Montagueian semantics, which we
 extract by exploiting fuzzy set theory. We garner evidence towards this
 conjecture.
 
-\subsection{Abstracting Size}
+\section{Abstracting Size}
 
 Let us consider the concept of size in the framework of montague semantics.  A
 word is associate to all concepts that are attached to it. In particular, if a
@@ -901,7 +901,7 @@ The concretization function attempts to make the idea of \emph{long} and
 set, the set of meanings of the word \texttt{long}, the set of meanings of the word
 \texttt{short}, and to the union of the two sets of meaning.
 
-\subsection{Interval domain}
+\section{Interval domain}
 
 A more mathematical, second example is that of the interval domain, where we map
 subsets of the plane to rectangles whose axes are aligned with the x and y axes.
@@ -910,7 +910,7 @@ These can be represented as a pair of intervals, and hence this is known as the
 of abstraction, as well as allowing us to show how to perform abstract interpretations
 of union and intersection, which is important to develop a compositional theory of meaning.
 
-domain $I \equiv Z \times Z$ represents closed intervals. So an element $(1, 3)
+The domain $I \equiv Z \times Z$ represents closed intervals. So an element $(1, 3)
 \in I$ is an abstract representation of the closed interval $[1, 3] = \{ 1, 2,
 3 \}$.  Similarly, the element $(1, 0) \in I$ is an abstract representation of
 the interval $[1, 0] = \emptyset$, as there is no interval whose leftmost point
@@ -927,7 +927,7 @@ where $\gamma((l, r)) \equiv \{ x \in \mathbb Z : l \leq x \leq r \}$.
 
 
 
-\subsubsection{Monotonicity in the Interval domain}
+\subsection{Monotonicity in the Interval domain}
 
 The process of abstraction is monotonic. If we have a larger collection of points, then we necessarily
 get an equal or larger interval which bounds these points. The property where more information
@@ -936,7 +936,7 @@ given $x \leq x$, we are guaranteed that the abstraction $\alpha$ maintains that
 
 \includegraphics[width=\textwidth]{./monotone.pdf}
 
-\subsubsection{Unions in the Interval domain}
+\subsection{Unions in the Interval domain}
 
 To define \emph{union} and \emph{intersection} of our intervals, we intuitively
 want toe \emph{union} of two intervals to be the smallest interval that \emph{contains} them.
@@ -969,9 +969,9 @@ is lossy. The second equation tells us that if we start with an abstract object
 $a$, then concretize it with $\gamma(a)$, this loses no information; Bringing
 it back up to the abstract world with $alpha(\gamma(a)))$ recovers the $a$.
 
-\subsection{Formalism}
+\section{Formalism}
 
-\begin{definition}j
+\begin{definition}
 A partial order is a set $L$ equipped with a binary relation $\leq \subseteq L
 \times L$ which is (a) reflexive: ($a \leq a$), (b) anti-symmetric: $a \leq b
 \land b \leq a \implies a = b$, and (c) transitive: $a \leq b \land b \leq c
@@ -999,14 +999,14 @@ galois connection property:
 
 
 
-\subsection{Conclusion}
+\section{Conclusion}
 
 We learnt that meaning can be (and often is) represented by Galois connections.
 In particular, the notion of Montague semantics is a Galois connection, which have been
 exploited by the computer science community to analyze and optimize programs.
 
 \begin{slogan}
-    All meaning is abstract interpretation. This, linguistic meaning better be.
+    All meaning is abstract interpretation. Thus, linguistic meaning better be.
 \end{slogan}
 
 
