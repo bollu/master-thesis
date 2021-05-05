@@ -702,7 +702,7 @@ of ratios of co-occurrence probabilities with vector differences in the word
 vector space. Because these ratios can encode meaning, this
 information gets encoded as vector differences as well.
 
-During training, the GloVe implementation uses\emph{two vectors for each word},
+During training, the GloVe implementation uses \emph{two vectors for each word},
 one where it appears as a focus word, and one where it appears as a context
 word, much as \wtov does. The source code snippet is taken from the file
 \texttt{src/glove.c} at the Github repository
@@ -711,9 +711,12 @@ word, much as \wtov does. The source code snippet is taken from the file
 \begin{minted}{cpp}
 /* Calculate cost, save diff for gradients */
 diff = 0;
-for (b = 0; b < vector_size; b++) diff += W[b + l1] * W[b + l2]; // dot product of word and context word vector
-diff += W[vector_size + l1] + W[vector_size + l2]; // add separate bias for each word
-diff = diff - log(cr.val); // target: log(cr.val)
+// dot product of word and context word vector
+for (b = 0; b < vector_size; b++) diff += W[b + l1] * W[b + l2]; 
+ // add separate bias for each word
+diff += W[vector_size + l1] + W[vector_size + l2];
+// target: log(cr.val)
+diff = diff - log(cr.val); 
 \end{minted}
 
 \subsection{Conclusion}
