@@ -518,6 +518,9 @@ the gradient of the focus word is stored into a buffer \texttt{neu1e}. This ensu
 the focus word is held constant throught the positive and negative samples. Finally, on
 \circled{36}, the buffered gradient \texttt{neu1e} is propagated into the focus word.
 
+ % \todo{check for correctness: tmikolov/word2vec/blob/master/word2vec.c#L478, the
+ % formula should involve neu1, not syn0}
+
 \begin{minted}[linenos]{cpp}
   // tmikolov/word2vec/blob/master/word2vec.c#L465
 
@@ -540,8 +543,6 @@ the focus word is held constant throught the positive and negative samples. Fina
 
  // find dot product of original vector with negative sample vector
  // store in f
- \todo{check for correctness: tmikolov/word2vec/blob/master/word2vec.c#L478, the
- formula should involve neu1, not syn0}
  for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
 
  // set g = sigmoid(f) (roughly, the actual formula is slightly more complex)
