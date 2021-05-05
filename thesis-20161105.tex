@@ -430,7 +430,7 @@ One of the main offerings of the paper presented above was the actual lexical
 distributional representation, a list of words and their vector counterparts
 which were irrevocably the best performing representations developed for English
 data at the time. So most downstream implementations based on these word vectors
-used the pretrained embeddings directly. 
+used the pretrained embeddings directly.
 
 All other analyses and implementations of the \wtov codebase either (a) directly
 invoke the original C implementation of \texttt{word2vec},
@@ -570,7 +570,7 @@ of \wtov to provide high-level pseudocode of the algorithm.
 def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
   target: float):
   """
-  gradient descent on 
+  gradient descent on
   loss = (target - dot(l, r))^2 where
   l = larr[lix]; r = rarr[rix]
   """
@@ -586,7 +586,7 @@ def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
 
 def train(corpus: list, DIMSIZE: int):
   """
-  train word2vec of dimension DIMSIZE 
+  train word2vec of dimension DIMSIZE
   on the given corpus, which is a list of words
   from the source corpus.
   Example:
@@ -594,7 +594,7 @@ def train(corpus: list, DIMSIZE: int):
   """
 
   # vocabulary is set of words in corpus
-  vocab = set(corpus) 
+  vocab = set(corpus)
   VOCABSIZE = len(vocab)
   # map each unique word to an index
   # for array indexing.
@@ -607,7 +607,7 @@ def train(corpus: list, DIMSIZE: int):
 
   # for every location in the corpus
   for wix in range(len(corpus)):
-    # find word at location, 
+    # find word at location,
     w = vocab2ix[corpus[wix]]
     l = max(wix-WINDOWSIZE, 0)
     r = min(wix+WINDOWSIZE, len(corpus)-1)
@@ -768,7 +768,7 @@ in \autoref{chapter:geometrization}.
 
 
 Montague grammar is an approach to natural language semantics pioneered by
-Richard Montague \cite{sep-montague-semantics}. The Montague grammar is based
+Richard Montague \cite{sep-montague-semantics}. Montague grammar is based
 on mathematical logic.  Montague held the view that natural language was a
 formal language very much in the same sense as predicate logic was a formal
 language. As such, in Montague’s view, the study of natural language belonged
@@ -787,6 +787,27 @@ sentence $l \equiv (\forall x \in \Z, x < 2)$ is given meaning by constructing
 the set $S_l \equiv \{ x \in \Z : x < 2 \} = \{1, 0, -1, \dots \}$. A false
 proposition, such that $l' \equiv \forall x \in \Z, x > x + 1$ is given meaning
 by the \emph{empty set} $S_{l'} \equiv \{ x \in \Z: x > x + 1 \} = \emptyset$.
+
+According to Montague, statements in natural language can also be written in the
+form of such predicates and have defined truth values. However, given that
+natural language can express notions of the past, present, and future, as well
+as real and imaginary. Therefore, the study of natural language semantics is
+then understood as the construction of a model of expression, therefore labeled
+``model-theoretic semantics''. Note also, that because natural language is
+highly expressive, the turh value of a predicate is determined by its truth in
+any world where that model of semantics is applicable. Two conclusions arise
+from this, first that Montague semantics operates in the realm of predicates or
+statements, and the second, that it is uncomputable.
+
+How then, do we study the nature of individual words and/or phrases which are
+not full predicates? One possible method is by redefining the idea of truth or
+falsehood. Montague considers that the truth value of a statement is predicated
+on the meaning of individual words and the method of syntactic combination. That
+is to say, Montague semantics is inherently compositional. With this notion in
+mind, we can consider the meaning of each word as that which is shared by all
+``users'' of that word, those who share that property, can observe that
+phenomenon, and extensionally validate its existence.
+
 As a linguistic example, the meaning of walk, or sing is defined as the set of
 individuals who share respectively the property of walking or the property of
 singining.  By appealing to the principle of compositionality, if there is a
@@ -815,9 +836,9 @@ as $(x \lor y \lor y)$, the set of values which makes $(x \lor y \lor y)$ true i
 the same as the set of values which make $(x \lor y)$ true. Thus, it is indeed the case
 that this notion of meaning is semantic.
 
-A general theory of such associations between syntax and semantics 
+A general theory of such associations between syntax and semantics
 was developed by the programming languages community, who had to assign semantic
-meaning to the syntactic notion of strings in order to analyze and optimize 
+meaning to the syntactic notion of strings in order to analyze and optimize
 computer programs. Towards this goal, they developed a powerful framework
 called \emph{Abstract Interpretation} \cite{cousot1977abstract} to not
 only capture the notion of approximating meaning, but also capture the notion of
@@ -825,14 +846,14 @@ creating hieararchies of approximations of meaning. This allows one to
 begin from the entire meaning of a program, which is uncomputable ue to the Halting Program,
 and create a lossy, approximate, but computable semantics of the program.
 It was used to unify many disparate program analysis techniques, such as
-dataflow analysis \cite{khedker2017data} and type checking \cite{file1991abstract}. 
-The object that lies at the heart of Abstract Interpretation is the \emph{Galois connection} 
+dataflow analysis \cite{khedker2017data} and type checking \cite{file1991abstract}.
+The object that lies at the heart of Abstract Interpretation is the \emph{Galois connection}
 \cite{cousot1992comparing}, which is a way to relate two partial orders, such
-that one of them is an approximation of the other. 
+that one of them is an approximation of the other.
 
 
 We will show how the notion of a Galois connection provides a good notion of
-"approximation of meaning", and how this directly relates to Montague's ideas
+``approximation of meaning'', and how this directly relates to Montague's ideas
 of representing semantics as subsets.  We exploit Montague semantics as the
 bridge to connect the distributional laature of \texttt{word2vec} with the
 set-theoretic nature of fuzzy sets. We conjecture that \texttt{word2vec}
@@ -841,15 +862,13 @@ semantics of natural language that of the Montagueian semantics, which we
 extract by exploiting fuzzy set theory. We garner evidence towards this
 conjecture.
 
-
-
 \subsection{Abstracting Size}
 
 Let us consider the concept of size in the framework of montague semantics.  A
 word is associate to all concepts that are attached to it. In particular, if a
 word carries a connotation of being \texttt{large}, its semantics will contain
-all concepts of being long. For example, the word ``sun'' will contain 
-concepts such as \texttt{\{hot, fire, huge, astronomical \}} where words such as 
+all concepts of being long. For example, the word ``sun'' will contain
+concepts such as \texttt{\{hot, fire, huge, astronomical \}} where words such as
 \texttt{huge} and \texttt{astronomical} are to do with the concept of being large.
 Similarly, for a word which denotes something that
 is \texttt{small}, its semantics will contain all concepts related to being small. For example,
@@ -870,13 +889,13 @@ For example, the word \texttt{large} is denoted by the set of objects which are 
 such as \texttt{\{nile, train, rope, ... \}},
 while the word \texttt{small} is denoted by the set of objects which are small,
 such as \texttt{\{hair, hobbits, dots, ... \}}.
-\footnote{We avoid discussing concerns related 
+\footnote{We avoid discussing concerns related
 to Russell's paradox; These can be obviated by either arbitrarily limiting the sizes of all sets
 involved, or performing more sophisticated set theoretic constructions}.
 
 The concretization function attempts to make the idea of \emph{long} and
 \emph{short} concrete, by sending the concepts $\bot, L, S, \top$ to the empty
-set, the set of meanings of the word \texttt{long}, the set of meanings of the word 
+set, the set of meanings of the word \texttt{long}, the set of meanings of the word
 \texttt{short}, and to the union of the two sets of meaning.
 
 \subsection{Interval domain}
@@ -1795,10 +1814,10 @@ We first survey why we use vectors as the object that is embedded. We focus
 on the \texttt{word2vec} training and testing mechanism. We will see that this process
 uses many fundamentally different structures that is posessed by real n-dimensional space $\R^n$.
 We then disentangle these different structures for mathematical cleaniness. Once this is performed,
-we isolate the mathematical structures that are present, allow us to introduce a 
+we isolate the mathematical structures that are present, allow us to introduce a
 generalization based on embedding words into an arbitrary Lie group. We show how
 specializing this to the case of $\R^n$ yields us back fuzzy set representations, and we
-conjecture that this applied to richer spaces would yield embeddings with 
+conjecture that this applied to richer spaces would yield embeddings with
 hithertho unexplored properties.
 
 \section{The blessing and curse of $\mathbb{R}^n$}
@@ -1817,7 +1836,7 @@ Next, during evaluation, to check for \emph{similarity} between the two words,
 we once again use the dot-product of the vectors representing the two words.
 \emph{Analogy} is more complex;
 Given two words representing a sense of analogy (\texttt{king : man}), and a third
-word representing the first half on an unknown analogy (\texttt{woman:?}), we 
+word representing the first half on an unknown analogy (\texttt{woman:?}), we
 are to find the unknown word \texttt{?} which solves the analogical task
 \texttt{king:man::woman:?}. Recall that this is computed as $? \equiv \texttt{man} - \texttt{king} + \texttt{woman}$.
 The above equation relies on being able to perform (2) addition ($+$) and subtraction ($-$).
@@ -1856,7 +1875,7 @@ Groups is presented.
 Space & $\mathbb R^n$ & Lie group $(G, \cdot)$ \\
 Similarity \texttt{sim(a, b)}&  Dot product on $\mathbb R^n$ & Dot product in the Lie algebra $\mathfrak g$ \\
 Analogy \texttt{a:b::c:?} & Vector space structure on $\mathbb R^n$: $(b - a + c)$ & Group operation $b\cdot a^{1}\cdot c$ \\
-Optimisation & Gradient descent & Riemannian gradient descent 
+Optimisation & Gradient descent & Riemannian gradient descent
 \end{tabular}
 \caption{Operations in \texttt{word2vec} and their generalization}
 \end{figure}
@@ -1893,7 +1912,7 @@ $SO(n)$ is the collection of $n\times n$ real matrices with determinant $+1$
 elements are abstractly the gray circle. The identity rotation $I$ is denoted in pink. The tangent space at the identity $I$ is
 denoted by blue; It consists of all skew symmetric matrices $S$ such that $S + S^T = 0$.  $s$ is one such skew-symmetric matrix,
 which lives in the tangent space of the identity. Finally, the exponential map, which map from the lie algebra (the tangent space at the identity $I$)
-to the lie group $G$ is shown as the light blue arc. The Lie group element $J \in SO(3) $ (in purple) is the exponential of the 
+to the lie group $G$ is shown as the light blue arc. The Lie group element $J \in SO(3) $ (in purple) is the exponential of the
 Lie algebra element $s \in T_I(SO(3))$.}
 \end{figure}
 
@@ -1909,7 +1928,7 @@ for any scalar $\lambda \in \R$. However, a Lie Group does \emph{not} come with 
 For example, the number $1 \in \mathbb C^\times$, but $2 \cdot 1 = 2 \not \in \mathbb C^\times$! More precisely,
 we are saying that the Lie Group $G$ is not a vector space, and thus it does not make sense to impose a dot-product (inner product)
 structure, since being a vector space pre-supposes the existence of a vector space structure on the Lie Group.
-This is where the \emph{Lie Algebra} enters into the picture. It gives us a way to get \emph{vectors} from 
+This is where the \emph{Lie Algebra} enters into the picture. It gives us a way to get \emph{vectors} from
 Lie Group elements, such that we can take dot-products of these vectors.
 
 
@@ -1942,7 +1961,7 @@ its Lie Group counterpart, as well as discussing potential linguistic ramificati
 \subsection{Training}
 
 For the purposes of training, we need to describe how to perform the dot-product to calculate the loss,
-as well as how to perform gradient descent to improve the loss. 
+as well as how to perform gradient descent to improve the loss.
 
 \subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
 them, and then take the dot product of their logarithms, which lives in the Lie algebra.
