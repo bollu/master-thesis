@@ -247,6 +247,11 @@ that words that occur in the same contexts tend to have similar meanings.
 The
 underlying idea that ``a word is characterized by the company it keeps'' was
 popularized by Firth \citep{firth1957synopsis}.
+However, distributional representations of words over vector spaces have an
+inherent lack of interpretablity \citep{goldberg2014word2vec}. Furthermore, due
+to the symmetric nature of the vector space operations for similarity and
+analogy, which are far from human similarity judgements
+\citep{tversky1977features}.
 
 An early technique which exploited distributional semantics was Latent Semantic
 Analysis (LSA) \cite{landauer1998introduction}. LSA analyzes relationships by
@@ -1034,26 +1039,7 @@ the unique properties including function word detection, detection of
 polysemous words, and some insight into the interpretability provided by set
 theoretic operations.
 
-\section{Introduction} \label{sec: intro}
-
-Word embedding is one of the most crucial facets of Natural Language Processing
-(NLP) research. Most non-contextualized word representations aim to provide a
-distributional view of lexical semantics, known popularly by the adage
-\textit{"a word is known by the company it keeps"} \citep{firth1957synopsis}.
-Popular implementations of word embeddings such as word2vec
-\citep{mikolov2013efficient} and GloVe \citep{pennington2014glove} aim to
-represent words as embeddings in a vector space. These embeddings are trained
-to be oriented such that vectors with higher similarities have higher dot
-products when normalized. Some of the most common methods of intrinsic
-evaluation of word embeddings include similarity, analogy and compositionality.
-While similarity is computed using the notion of dot product, analogy and
-compositionality use vector addition.
-\todo{not needed, already used in introduction}
-However, distributional representations of words over vector spaces have an
-inherent lack of interpretablity \citep{goldberg2014word2vec}. Furthermore, due
-to the symmetric nature of the vector space operations for similarity and
-analogy, which are far from human similarity judgements
-\citep{tversky1977features}. Other word representations tried to provide
+ Other word representations tried to provide
 asymmetric notions of similarity in a non-contextualized setting, including
 Gaussian embeddings \citep{vilnis2014word} and word similarity by dependency
 \citep{gawron2014improving}. However, these models could not account for the
@@ -1070,7 +1056,7 @@ performing joint clustering for local word neighbourhood. However, these sense
 representations are conditioned on non-disambiguated senses in the context and
 require additional conditioning on the intended senses \citep{li2015multi}.
 
-In this paper, we aim to answer the question: \textit{Can a single word
+In this chapter, we aim to answer the question: \textit{Can a single word
 representation mechanism account for lexical similarity and analogy,
 compositionality, lexical entailment \textbf{and} be used to detect and resolve
 polysemy?} We find that by performing column-wise normalization of word vectors
@@ -1086,8 +1072,8 @@ polysemy, and resolve it qualitatively using the inherent compositionality of
 this representation.
 
 In order to make these experiments and their results observable in general, we
-have provided the code which can be used to run these operations. The code can
-be found at \url{https://github.com/AlokDebnath/fuzzy_embeddings}. The code
+have provided the code which can be used to run these operations. \footnote{The code can
+be found at \url{https://github.com/AlokDebnath/fuzzy_embeddings}}. The code
 also has a working command line interface where users can perform qualitative
 assessments on the set theoretic operations, similarity, analogy and
 compositionality which are discussed in the paper.
