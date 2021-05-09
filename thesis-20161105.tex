@@ -264,8 +264,7 @@ similar documents, and angles close to $0$ represent dis-similar documents.
 
 \texttt{Word2vec} \cite{mikolov2013distributed} is a recent technique to create
 unsupervised word embeddings for NLP from unstructured data, whose informal
-correctness is based on the distributional hypothesis. \todo{citations on both
-word2vec and correctness} The \texttt{word2vec} algorithm uses a shallow neural
+correctness is based on the distributional hypothesis. The \texttt{word2vec} algorithm uses a shallow neural
 model to learn word associations from a large corpus of
 text. Once trained, such a model can detect synonymous words or suggest
 additional words for a partial sentence.  As befitting the name,
@@ -275,7 +274,7 @@ between the vectors reflects the the level of semantic similarity between the
 words represented by those vectors.
 
 On the other hand, it is very unclear why the \texttt{word2vec} training regime
-is as successful as it is. \todo{citation} In comparison to LSA, which has
+is as successful as it is. In comparison to LSA, which has
 theoretical guarantees since it is based on linear-algebraic ideas such as SVD,
 the correctness of \texttt{word2vec} is far less clear. In this thesis, we
 attempt to provide a \emph{linguistically} as well as \emph{mathematically}
@@ -1920,11 +1919,14 @@ Lie Group elements, such that we can take dot-products of these vectors.
 A Matrix Lie Algebra is a way to convert group elements into vectors. Formally,
 we perform this by taking a \emph{logarithm} of the group elements, where the
 logarithm operation is defined by the \emph{matrix logarithm}.  It turns out to
-be the case that the logarithm of a Lie Group is always a Matrix vector space.
-For example, going back to the example of $\C^\times \equiv \{ z : |z| = 1 \}$,
-recall that we can write all such number as $e^{i \theta}$. Thus, when we take the logarithm,
-we get the set  $\{ i \theta : \theta \in \mathbb R \}$ which is indeed a vector space,
-because it is closed under addition and scalar multiplication.
+be the case that the logarithm of a Lie Group is always a matrix vector space.
+For example, going back to the example of
+$\C^\times \equiv \{ z : |z| = 1 \}$,
+recall that we can write all such number as $e^{i \theta}$. Thus, when we take
+the logarithm, we get the set  $\{ i \theta : \theta \in \mathbb R \}$ which is
+indeed a vector space, because it is closed under addition and scalar
+multiplication.
+
 
 \section{The generalized \texttt{word2vec} training}
 We will now be imagining our words as \emph{elements of a lie group}. Recall that this means that
@@ -1934,26 +1936,26 @@ function $\log : G \rightarrow \mathfrak g$, and $\exp: \mathfrak g \rightarrow 
 where $\log$ maps from the lie group (a group) to its lie algebra (a vector space),
 and vice versa for the $\exp$ map.
 
-
-
 \subsection{Overview}
-
-Following the discussion in the preceding section, we provide a compact discussion of the \texttt{word2vec}
-training algorithm, indicating how to substitute the original \texttt{word2vec} algorithm with
-its Lie Group counterpart, as well as discussing potential linguistic ramifications of this replacement.
+Following the discussion in the preceding section, we provide a compact
+discussion of the \texttt{word2vec} training algorithm, indicating how to
+substitute the original \texttt{word2vec} algorithm with its Lie Group
+counterpart, as well as discussing potential linguistic ramifications of this
+replacement.
 
 \subsection{Training}
+For the purposes of training, we need to describe how to perform the
+dot-product to calculate the loss, as well as how to perform gradient descent
+to improve the loss.
 
-For the purposes of training, we need to describe how to perform the dot-product to calculate the loss,
-as well as how to perform gradient descent to improve the loss.
+\subsubsection{Dot Product}  To compute the dot product between two elements
+$g, h \in G$, we first logarithmize them, and then take the dot product of
+their logarithms, which lives in the Lie algebra.  Hence, we define the dot
+product on the Lie group
+$\langle \cdot , \cdot \rangle$ as $\langle g, h \rangle \equiv \log(g) \cdot \log(h)$.
 
-\subsubsection{Dot Product}  To compute the dot product between two elements $g, h \in G$, we first logarithmize
-them, and then take the dot product of their logarithms, which lives in the Lie algebra.
-Hence, we define the dot product on the Lie group $\langle \cdot , \cdot \rangle$ as
-$\langle g, h \rangle \equiv \log(g) \cdot \log(h)$.
-
-
-\subsubsection{Gradients} Next, to perform gradient descent, we need
+\subsubsection{Gradients}
+Next, to perform gradient descent, we need
 a notion of a \emph{gradient} to decide in which direction to move, and a way to perform a gradient update.
 How one performs the gradient update is explained in detail in the \label{section:optim-on-riem}. Intuitively,
 since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
@@ -1966,7 +1968,6 @@ manifold, which gives us a gradient step, starting from a point in the manifold,
 \end{figure}
 
 % \todo{Differentiate sections into math basics, training, and evaluation.}
-
 \subsection{Evaluation}
 
 To perform evaluation, given the trained mapping from words to Lie Group
@@ -1992,21 +1993,22 @@ of cancelling the meaning of $a$ and adding the meaning of $c$ to a base word $b
 
 \subsection{Sense difference}
 
-Recall that for an arbitrary Lie group, the group operation \emph{need not be commutative}. This is
-in start contrast to the \texttt{word2vec} case, where $a + b = b + a$ holds for all vectors. This
-non-commutativity allows one to define the \emph{commutator} of two elements, $[a, b] \equiv aba^{-1}b^{-1}$,
-which measures how much $a$ and $b$ fail to commute. If the commutator is the identity element of the group,
-that is, if $[a, b] = 0$, then the two elements commute, since $[a, b] = aba^{-1}b^{-1} = baa^{-1}b^{-1} = bb^{-1} = e$.
-On the other hand, if $a$ and $b$ do not commute, then the commutator $[a, b]$ is a non-trivial element of
-the group. Linguistically speaking, the commutator of two words $[v, w]$ gives us a new word which measures
-by how much the senses of $v$ and $w$ fail to commute.
+Recall that for an arbitrary Lie group, the group operation \emph{need not be
+commutative}. This is in start contrast to the \texttt{word2vec} case, where $a
++ b = b + a$ holds for all vectors. This non-commutativity allows one to define
+the \emph{commutator} of two elements, $[a, b] \equiv aba^{-1}b^{-1}$, which
+measures how much $a$ and $b$ fail to commute. If the commutator is the
+identity element of the group, that is, if $[a, b] = 0$, then the two elements
+commute, since $[a, b] = aba^{-1}b^{-1} = baa^{-1}b^{-1} = bb^{-1} = e$.  On
+the other hand, if $a$ and $b$ do not commute, then the commutator $[a, b]$ is
+a non-trivial element of the group. Linguistically speaking, the commutator of
+two words $[v, w]$ gives us a new word which measures by how much the senses of
+$v$ and $w$ fail to commute.
 
 
 \todo{elaboration}
 
-\section{Formalisms}
-
-
+\section{Formalism}
 
 \subsection{Riemannian Manifold}
 
