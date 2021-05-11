@@ -1,0 +1,26 @@
+With the growing use of natural language processing tools (NLP) in wide-ranging
+applications, it becomes imperative to understand why NLP models are as
+successful as they are.  In particular, it is essential to understand what
+mathematical structures precisely underpin these models. To investigate the
+mathematical models of NLP knowledge representations, we focus on the setting
+of unsupervised word embeddings, due to the presence of robust models, and a
+seemingly simple mathematical structure. We find that even in this restricted
+setting, there are subtle, cross-cutting concerns as to how the model learns —
+beginning from the high level description of learning a “vector”, to the low
+level details of implementa- tions of these algorithms, including
+initialization and gradient calculation. We build a theory of knowledge
+representations for word embeddings, inspired by two seemingly unrelated ideas
+(a) Montague semantics [24], a linguistic theory of meaning which ascribes
+set-theoretic meaning to language, and (b) abstract interpretation, a
+mathematical theory of creating com- putable approximations to uncomputable
+semantics of programs. We find that syntheszing these ideas provide a way to
+extract fuzzy-set embeddings from existing word-embeddings, which provides the
+full range of set-theoretic operations (union, intersection, and others), along
+with probabilistic operations (KL divergence, entropy) which are used to
+perform pol- ysemy detection and word sense disambiguation, while retaining
+performance on regular word embeddings tasks such as similarity. Next, we turn
+our attention to generalizing the word embedding training regime by extracting
+the geometry which is currently held implicit.  This leads us to formulate a
+general theory of learning word representations on Lie groups.  In summary, we
+provide insight into the mathematical structure of word representations.
+
