@@ -1,10 +1,13 @@
-.PHONY: thesis-20161105.pdf clean
+.PHONY: thesis-20161105.pdf abstract.pdf clean
 
 thesis-20161105.pdf: thesis-20161105.tex
 	pdflatex -shell-escape thesis-20161105.tex
 	bibtex thesis-20161105
 	pdflatex -shell-escape thesis-20161105.tex
 	pdflatex -shell-escape thesis-20161105.tex
+
+abstract.pdf:
+	pdflatex -shell-escape abstract.tex
 
 
 clean:
