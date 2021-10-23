@@ -6,6 +6,7 @@
 \usepackage[euler-digits,small]{eulervm}
 %\documentclass[10pt]{llncs}
 %\usepackage{llncsdoc}
+\usepackage{ifsym}
 \usepackage{minted}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -31,9 +32,18 @@
 \newcommand{\Z}{\mathbb Z}
 \newcommand{\Q}{\mathbb Q}
 \newcommand{\C}{\mathbb C}
-\newcommand{\cat}[1]{\mathsf{#1}}
-\newcommand{\cSet}{\cat{Set}}
-\newcommand{\nt}{\Rightarrow}
+\newcommand{\wtov}{\texttt{word2vec}}
+\newcommand{\king}{\texttt{king}}
+\newcommand{\man}{\texttt{man}}
+\newcommand{\woman}{\texttt{woman}}
+\newcommand{\queen}{\texttt{queen}}
+\newcommand{\fuzembed}{\texttt{fuzembed}}
+\newcommand{\vecembed}{\texttt{vecembed}}
+\newcommand{\CORPUS}{\texttt{CORPUS}}
+\newcommand{\VOCAB}{\texttt{VOCAB}}
+\newcommand{\word}{\texttt{word}}
+\newcommand{\fuzzy}{\texttt{fuzzy}}
+\newcommand{\fuzz}{\texttt{fuzz}}
 \tolerance=1000
 \usetheme{Antibes}
 \author{Siddharth Bhat}
@@ -58,15 +68,35 @@
 \end{frame}
 
 \begin{frame}{Is \texttt{word2vec} sensible?}
+\begin{itemize}
+    \item $\king - \man + \woman = \queen$. [Analogy] \pause
+    \item nope! $normalize(\king - \man + \woman) = queen$
+    \item \wtov "vectors" are always normalized! \pause
+    \item Cannot add, substract, scale them. So in what sense is the embedding "vectorial"? \pause
+    \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
+    \item Can we ascribe a \emph{different} meaning to these "vectors"?
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}{Part I: What's a philosopher to do?}
-
+\begin{itemize}
+    \item Montague semantics: The \emph{meaning} of a word is the \emph{set} of possible worlds where the meaning holds true. \pause
+    \item A mathematical analogy: The \emph{meaning} of an expression $\forall x \in \Z, x \leq 2$ is the \emph{set} of possible values where the
+      meaning holds true: $(-\infty, 2] = \{  x \in \Z : x \leq 2 \}$. \pause
+    \item Meaning $\simeq$ subsets. Is  \wtov subsets?  \pause Yes, \emph{fuzzy sets}. \pause
+    \item Set: binary membership. ($1 \in_? \{1, 2\} = T$, $3 \not \in_? \{1, 2\} = F$). \pause
+    \item Fuzzy set: probabilistic membership. ($1 \in_{fuz} F = 0.1$, $2 \in_{fuz} F = 0.5$).
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Are sets hiding in \texttt{word2vec}?}
-
+\begin{frame}{The hidden sets in \texttt{word2vec}}
+\begin{itemize}
+  \item Given the set of vectors, normalize the components of the vector across \emph{all vectors}. \pause
+  \item $\fuzembed_{\word}[i] \equiv \vecembed_{\word}[i] / \sum_{w \in \CORPUS} \vecembed_w[i]$. \pause
+  \item Fuzzy set embedding from \wtov embeddings. \pause
+  \item Use \emph{fuzzy set operations} for NLP tasks.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{What does this buy us anyway?}
