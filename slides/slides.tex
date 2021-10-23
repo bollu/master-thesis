@@ -202,10 +202,12 @@ and   & the   &   in    &   one         &   which     &   to          &   howeve
 this    & of    &   of      &   in          &   the       &   \emph{zero} &   to    &   is          &   a     &   for \\
 as      & and   &   only  &   a           &   also      &   \emph{nine} &   it    &   as          &   but     &   \emph{s}
 \end{tabular}
-On the left: Top 15 words with highest entropy with frequency $\geq 100$
-(note that all of them are function words). On the right: Top 15 words with the highest frequency.
-The non-function words have been emphasized for comparison.
 
+\begin{itemize}
+\item [Function words are words which are largely syntactic rather than semantic. Thus their meaning is 'maximally fuzzy'. \pause
+\item  On the left: Top 15 words with highest entropy with frequency $\geq 100$. (note that all of them are function words).
+\item On the right: Top 15 words with the highest frequency.
+\item The non-function words have been emphasized for comparison.
 \end{frame}
 
 
@@ -278,15 +280,138 @@ very similar to ``North Korea'')
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Take-aways}
+\begin{frame}{What does this buy us anyway? (Analogy)}
+
+\begin{equation*}
+\begin{split}
+    &a : b :: x : y_? \\
+    &y_? = b - a + x \implies y_? = (b + x) - a \\
+    &y = (b \sqcup x) \setminus a \quad \text{(Set-theoretic interpretation)}
+\end{split}
+\end{equation*}
+
+
+\begin{itemize}
+\item given a pairing $(a : b)$, and a prior $x$, we are asked to compute an unknown
+word $y_?$ such that  $a:b::x:y_?$
+\item In the vector space model, analogy is computed based on vector distances. But this is semantically incoherent, as we must then re-normalize vectors.
+\item 
+\end{itemize}
+\begin{tabular}{ccc|c|c}
+    \bf Word 1  & \bf Word 2    & \bf Word 3    & \bf word2vec  & \bf Our representation    \\ \hline
+    bacteria    & tuberculosis  & virus         & polio         & hiv                       \\
+    cold        & freezing      & hot           & evaporates    & boiling                   \\
+    ds          & nintendo      & dreamcast     & playstation   & sega                      \\
+    pool        & billiards     & karate        & taekwondo     & judo                      \\
+\end{tabular}
+\begin{itemize}
+  \item Examples of analogy compared to the analogy in word2vec. We see here that the comparisons constructed by feature representations are similar to those given by the standard word vectors.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Evaluation: Similarity}
+
+   \begin{tabular}{c|c|cc}
+        \multirow{2}{*}{\bf Dims.}   & \multirow{2}{*}{\bf word2vec} & \multicolumn{2}{c}{\bf Our Representation} \\ \cline{3-4}
+                            &                               & K-L Divergence & Cross-Entropy \\\hline
+        20  &   0.2478   & 0.2690 & \bf 0.2744    \\
+        50  &   0.2916   & 0.2966 & \bf 0.2981    \\
+        100 &   0.2960   & 0.3124 & \bf 0.3206    \\
+        200 &   0.3259   & 0.3253 & \bf 0.3298
+    \end{tabular}
+
+  \begin{itemize}
+    \item Similarity scores on the SimLex-999 dataset for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.
+    \item While the similarity scores are generally higher, we see a reduction in the degree of similarity beyond 100 dimension vectors. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Evaluation: Analogy}
+    \begin{tabular}{ll|rr|rr}
+        \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
+        \multicolumn{2}{l|}{}                           & 50        & 100       & 50        & 100               \\\hline
+        \multicolumn{2}{l|}{Capital Common Countries}   & 21.94     & 37.55     & \bf 39.13 & \bf 47.23         \\
+        \multicolumn{2}{l|}{Capital World}              & 13.02     & 20.10     & \bf 27.30 & \bf 26.54         \\
+        \multicolumn{2}{l|}{Currency}                   & 12.24     & 18.60     & \bf 25.27 & \bf 24.90         \\
+        \multicolumn{2}{l|}{City-State}                 & 10.38     & 16.70     & \bf 23.24 & \bf 23.51         \\
+        \multicolumn{2}{l|}{Family}                     & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\ \hline
+        \multirow{3}{*}{Adjective-Adverb}   & Syntactic & 4.74      & 3.23      & \bf 7.26  & \bf 3.83          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.92      & 15.68     & \bf 21.73 & \bf 21.52         \\ \hline
+        \multirow{3}{*}{Opposite}           & Syntactic & 4.06      & 3.66      & \bf 7.61  & \bf 4.92          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.36      & 14.73     & \bf 20.60 & \bf 20.26         \\ \hline
+        \multirow{3}{*}{Comparative}        & Syntactic & 8.86      & 12.63     & \bf 16.88 & \bf 15.39         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 10.10     & 15.96     & \bf 21.67 & \bf 21.39         \\ \hline
+        \multirow{3}{*}{Superlative}        & Syntactic & 7.59      & 11.30     & \bf 14.32 & \bf 13.36         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.54      & 15.20     & \bf 20.35 & \bf 20.15         \\ \hline
+        \multirow{3}{*}{Present-Participle} & Syntactic & 7.51      & 10.96     & \bf 14.31 & \bf 13.14         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 9.34      & 14.73     & \bf 19.84 & \bf 19.49         \\ \hline
+        \multirow{3}{*}{Nationality}        & Syntactic & 12.51     & 19.07     & \bf 21.64 & \bf 21.96          \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.51     & 18.16     & \bf 22.71 & \bf 22.97         \\ \hline
+        \multirow{3}{*}{Past Tense}         & Syntactic & 11.65     & 17.09     & \bf 20.43 & \bf 19.76         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.16     & 17.21     & \bf 21.96 & \bf 27.72         \\ \hline
+        \multirow{3}{*}{Plural}             & Syntactic & 11.76     & 17.23     & \bf 20.53 & \bf 19.89         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.26     & 17.28     & \bf 21.90 & \bf 21.64         \\ \hline
+        \multirow{3}{*}{Plural Verbs}       & Syntactic & 11.36     & 16.60     & \bf 19.88 & \bf 19.46         \\
+                                            & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
+                                            & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
+    \end{tabular}
+
+\begin{itemize}
+\item Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.).
+\item For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure).
+\item For all the others, we present, syntactic, semantic and overall accuracy as well. 
+\item We see here that we outperform word2vec on every single metric.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Evaluation: Function word detection}
+    \begin{tabular}{c|cc}
+        top $n$ words & \bf word2vec & \bf Our Representation  \\ \hline
+        15  & 10 & \bf 15 \\
+        30  & 21 & \bf 30 \\
+        50  & 39 & \bf 47  \\
+    \end{tabular}
+
+\begin{itemize}
+\item Function word detection using entropy (in our representation) and by frequency in word2vec.
+\item We see that we consistently detect more function words than word2vec, based on the 176 function word list (Making and Using Word Lists for Language Learning and Teaching).
+\item The metric is \emph{number of words}, i.e. the number of words chosen by frequency for word2vec and entropy for our representation.
+\item We detect more function words than the baseline frequency based methods. 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Evaluation: Compositionality detection}
+    \begin{tabular}{c|c|cc}
+        \bf Dims.               & \bf Metric& \bf word2vec  & \bf Our Representation    \\ \hline
+        \multirow{2}{*}{50}     & Spearman  & 0.3946    & \bf 0.4117            \\
+                                & Pearson   & 0.4058    & \bf 0.4081            \\ \hline
+        \multirow{2}{*}{100}    & Spearman  & 0.4646    & \bf 0.4912            \\
+                                & Pearson   & 0.4457    & \bf 0.4803            \\ \hline
+        \multirow{2}{*}{200}    & Spearman  & 0.4479    & \bf 0.4549            \\
+                                & Pearson   & \bf 0.4163& 0.4091                \\
+    \end{tabular}
+\begin{itemize}
+  \item Predict whether two words combine to create a phrase or not (eg. monkey business, silver bullet)
+  \item We decide that a phrase $w_1 w_2$ is a phrase if $|KL(w_1, w_2) - KL(w_2, w_1)|$ is large, as this implies information asymmetry.
+  \item We see that almost across the board, we perform better.
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}{Conclusion}
   \begin{itemize}
     \item \texttt{word2vec} is performant but poorly understood.
-    \item We extract fuzzy set embeddings from \texttt{word2vec}, appeasing Montague!
-    \item We ponder on the geometry of \texttt{word2vec}, and indicate potential extensions.
+    \item We extract fuzzy set embeddings from \texttt{word2vec}, giving richer, understandable variants of vector-based operations!
     \item TL;DR: Mathematical modelling (fuzzy sets) is useful to extend empirical results (\texttt{word2vec})!
     \item \url{https://www.aclweb.org/anthology/2020.repl4nlp-1.4/}
   \end{itemize}
