@@ -89,6 +89,19 @@
 \end{itemize}
 \end{frame}
 
+
+\begin{frame}{What's \texttt{word2vec}?}
+\begin{itemize}
+    \item Input: A corpus (sequence of words.). Output: mapping from words to \emph{vectors}.\pause
+\end{itemize}
+\includegraphics[width=0.8\textwidth]{w2v-linear-relationship.jpeg} \pause
+\begin{itemize}
+    \item How does one compute such a mapping?  \pause
+    \item Distributional Hypothesis: words that occur in the same contexts tend to have similar meanings.\pause
+    \item Start with \emph{random vectors}. Make words that occur close by come closer, words that don't occur close by become perpendicular.\pause
+\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{What's \texttt{word2vec}?}
 \begin{minted}[fontsize=\small]{python}
 def train(corpus: list, DIMSIZE: int):
@@ -144,36 +157,40 @@ def train(corpus: list, DIMSIZE: int):
 \end{minted}
 \end{frame}
 
-\begin{frame}{Using \texttt{word2vec}}
-\begin{itemize}
-    \item Dot products capture similarity. \pause
-    \item nope! \emph{cosine similarity} captures similarity: $v \cdot w / |v| |w|$.
-    \item Vector space structure captures analogy: $\king - \man + \woman = \queen$. [Analogy] \pause
-    \item nope! $normalize(\hat \king - \hat \man + \hat \woman) = \hat \queen$
-    \item \wtov "vectors" are always normalized! \pause
-    \item Cannot add, substract, scale them. So in what sense is the embedding "vectorial"? \pause
-    \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
-    \item Can we ascribe a \emph{different} meaning to these "vectors"?
-\end{itemize}
 
-\end{frame}
+
+% \begin{frame}{How do we use \texttt{word2vec}?}
+%     \item Dot products capture similarity. \pause
+%     \item nope! \emph{cosine similarity} captures similarity: $v \cdot w / |v| |w|$. \pause
+%     \item Vector space structure captures analogy: $\king - \man + \woman = \queen$. [Analogy] \pause
+%     \item nope! $normalize(\hat \king - \hat \man + \hat \woman) = \hat \queen$ \pause
+%     \item \wtov "vectors" are always normalized! \pause
+%     \item Cannot add, subtract, scale. So in what sense is the embedding "vectorial"? \pause
+%     \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
+%     \item Can we ascribe a \emph{different} meaning to these "vectors"?
+% \end{itemize}
+% \end{frame}
 
 \begin{frame}{Part I: What's a philosopher to do?}
 \begin{itemize}
     \item Montague semantics: The \emph{meaning} of a word is the \emph{set} of possible worlds where the meaning holds true. \pause
-    \item A mathematical analogy: The \emph{meaning} of an expression $\forall x \in \Z, x \leq 2$ is the \emph{set} of possible values where the
-      meaning holds true: $(-\infty, 2] = \{  x \in \Z : x \leq 2 \}$. \pause
+    \item A mathematical analogy: The \emph{meaning} of an expression $\forall x \in \Z, x \leq 2$ is... \pause
+    \item  the \emph{set} of possible values where the meaning holds true: $(-\infty, 2] = \{  x \in \Z : x \leq 2 \}$. \pause
     \item Meaning $\simeq$ subsets. Is  \wtov~ subsets?  \pause Yes, \emph{fuzzy sets}. \pause
     \item Set: binary membership. ($1 \in_? \{1, 2\} = T$, $3 \not \in_? \{1, 2\} = F$). \pause
     \item Fuzzy set: probabilistic membership. ($1 \in_{fuz} F = 0.1$, $2 \in_{fuz} F = 0.5$).
+    \item Formally:  $A \equiv \{ (x, \mu_A(x)), x \}$. $x$ is
+      an element of set $A$ with a probability $\mu_A(x)$ such that $0 \leq \mu_A(x) \leq 1$
 \end{itemize}
 \end{frame}
 
 \begin{frame}{The hidden sets in \texttt{word2vec}}
 \begin{itemize}
   \item Given the set of vectors, normalize the $i$th component of the vector across \emph{all vectors}. \pause
-  \item $\fuzembed_{\word}[i] \equiv \vecembed_{\word}[i] / \sum_{w \in \CORPUS} \vecembed_w[i]$. \pause
-  \item Fuzzy set embedding from \wtov~embeddings. \pause
+  \item $\fuzembed_{\word}[i] \equiv e^{\vecembed_{\word}[i]} / \sum_{w \in \CORPUS} e^{\vecembed_w[i]}$. \pause
+  \item Fuzzy set embedding from \texttt{word2vec}~embeddings. \pause
+  \item The projection of $\vec v$ on a dimension $i$ normalized  is to be interpreted as
+  if this dimension $i$ were a property, what is probability that $v$ would possess that property?
 \end{itemize}
 \end{frame}
 
@@ -186,6 +203,46 @@ B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
 \text{(set difference)} \\ &(A \subseteq B) \equiv \forall x \in \Omega:
 \mu_A(x) \leq \mu_B(x) \, \text{(set inclusion)}\\ &|A| \equiv \sum_{i \in \Omega} \mu_A (i) \quad \text{(cardinality)} \\
 \end{align*}
+\end{frame}
+
+\begin{frame}{What does this buy us anyway? (Set intersection)}
+
+% \begin{equation*}
+%    H(S, T) \equiv \sum_i H(X^S_i) + KL(X^S_i, X^T_i)
+% \end{equation*}
+
+     \begin{tabular}{l l l l l}
+         $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
+         nobility    & metal     & bad       & fusible               & good                      \\
+         isotope     & fusible   & manners   & unreactive            & dharma                    \\
+         fujwara     & ductility & happiness & metalloids            & morals                    \\
+         feudal      & with      & evil      & ductility             & virtue                    \\
+         clan        & alnico    & excellent & heavy                 & righteous             \\ \midrule
+         $\vec N$    & $\vec M$  & $\vec G$  & $\vec N + \vec M$     & $\vec N + \vec G$         \\
+         noblest     & trivalent & bad       & fusible               & gracious                  \\
+         auctoritas  & carbides  & natured   & metals                & virtuous                  \\
+         abies       & metallic  & humoured  & sulfides              & believeth                 \\
+         eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
+         vojt        & alloying  & gracious  & rhodium               & hedonist
+   \end{tabular}
+
+\begin{itemize}
+\item Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}.
+\item \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$.
+\item We also provide the word2vec analogues of the same, under $\vec N$, $\vec M$, and $\vec G$.
+\item See that \texttt{word2vec} has no analogue for set-intersection. We use the closest possible analogue (addition), which performs worse semantically.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Crash course on entropy}
+\begin{itemize}
+\item Given a probability $p \in [0, 1]$, define the \emph{surprisal} to be $- \log_2 p$. \pause
+\item  If $p = 1$, and the event happens, then we are never ($- \log_2 1 = 0$) surprised. \pause
+\item  If $p = 0$, and the event happens, then we are terrifically ($- \log_2 0 = - -\infty = +\infty)$ surprised. \pause
+\item  If $p = 1/2$, and the event happens, then we are terrifically ($- \log_2 1/2 = - -1 = +1)$ surprised. \pause
+\item Given a distribution $P: X \to [0, 1]$, the entropy of $P$ is the \emph{average surprise}, given by $\sum_{x \in X} P(x) \cdot - \log P(x)$.  
+\end{itemize}
 \end{frame}
 
 \begin{frame}{What does this buy us anyway? (Entropy)}
@@ -209,7 +266,6 @@ as      & and   &   only  &   a           &   also      &   \emph{nine} &   it  
 \item On the right: Top 15 words with the highest frequency.
 \item Non-function words are emphasized for comparison.
 \end{itemize}
-
 \end{frame}
 
 
@@ -259,27 +315,13 @@ very similar to ``North Korea'')
 \end{frame}
 
 \begin{frame}{What does this buy us anyway? (Cross entropy)}
-TODO: add defn
-     \begin{tabular}{l l l l l}
-         $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
-         nobility    & metal     & bad       & fusible               & good                      \\
-         isotope     & fusible   & manners   & unreactive            & dharma                    \\
-         fujwara     & ductility & happiness & metalloids            & morals                    \\
-         feudal      & with      & evil      & ductility             & virtue                    \\
-         clan        & alnico    & excellent & heavy                 & righteous             \\ \midrule
-         $\vec N$    & $\vec M$  & $\vec G$  & $\vec N + \vec M$     & $\vec N + \vec G$         \\
-         noblest     & trivalent & bad       & fusible               & gracious                  \\
-         auctoritas  & carbides  & natured   & metals                & virtuous                  \\
-         abies       & metallic  & humoured  & sulfides              & believeth                 \\
-         eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
-         vojt        & alloying  & gracious  & rhodium               & hedonist
-   \end{tabular}
 
 \begin{itemize}
-\item Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}.
-\item \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$.
-\item We also provide the word2vec analogues of the same, under $\vec N$, $\vec M$, and $\vec G$.
-\item See that \texttt{word2vec} has no analogue for set-intersection. We use the closest possible analogue (addition), which performs worse semantically.
+\item cross-entropy of two distributions $P$ and $Q$ is the sum of the entropy of
+$P$ and the K-L divergence between $P$ and $Q$. 
+\item captures both the \emph{uncertainty in $P$}, as well as the distance from $P$ to $Q$.
+\item Gives information theoretic difference between the concepts
+of $P$ and $Q$.
 \end{itemize}
 \end{frame}
 
@@ -324,12 +366,13 @@ word $y_?$ such that  $a:b::x:y_?$
     \end{tabular}
 
   \begin{itemize}
-    \item Similarity scores on the SimLex-999 dataset for various dimension sizes (Dims.). The scores are provided according to the Spearman Correlation to incorporate higher precision.
-    \item While the similarity scores are generally higher, we see a reduction in the degree of similarity beyond 100 dimension vectors. 
+    \item Similarity scores on the SimLex-999 dataset for various dimension sizes (Dims.).
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Evaluation: Analogy}
+
+\scalebox{0.5}{
     \begin{tabular}{ll|rr|rr}
         \multicolumn{2}{l|}{\bf\multirow{2}{*}{Category}}& \multicolumn{2}{c|}{\bf word2vec} & \multicolumn{2}{c}{\bf Our representation}   \\ \cline{3-6}
         \multicolumn{2}{l|}{}                           & 50        & 100       & 50        & 100               \\\hline
@@ -366,12 +409,10 @@ word $y_?$ such that  $a:b::x:y_?$
                                             & Semantic  & 10.61     & 17.34     & \bf 23.67 & \bf 23.88         \\
                                             & Overall   & 11.05     & 16.91     & \bf 21.46 & \bf 21.30         \\ \hline
     \end{tabular}
-
+}
 \begin{itemize}
 \item Comparison of Analogies between word2vec and our representation for 50 and 100 dimensions (Dims.).
-\item For the first five, only overall accuracy is shown as overall accuracy is the same as semantic accuracy (as there is no syntactic accuracy measure).
-\item For all the others, we present, syntactic, semantic and overall accuracy as well. 
-\item We see here that we outperform word2vec on every single metric.
+\item Outperform word2vec on every single metric.
 \end{itemize}
 \end{frame}
 
@@ -416,8 +457,12 @@ word $y_?$ such that  $a:b::x:y_?$
     \item We extract fuzzy set embeddings from \texttt{word2vec}, giving richer, understandable variants of vector-based operations!
     \item TL;DR: Mathematical modelling (fuzzy sets) is useful to extend empirical results (\texttt{word2vec})!
     \item \url{https://www.aclweb.org/anthology/2020.repl4nlp-1.4/}
+    \item Collaborators: Alok Debnath, Souvik Banerjee.
   \end{itemize}
+  % \includegraphics[width=0.3\textwidth{./alok.jpeg}
 \end{frame}
+
+
 
 \end{document}
 
