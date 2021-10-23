@@ -204,10 +204,12 @@ as      & and   &   only  &   a           &   also      &   \emph{nine} &   it  
 \end{tabular}
 
 \begin{itemize}
-\item [Function words are words which are largely syntactic rather than semantic. Thus their meaning is 'maximally fuzzy'. \pause
-\item  On the left: Top 15 words with highest entropy with frequency $\geq 100$. (note that all of them are function words).
+\item Function words are words which are largely syntactic rather than semantic.
+\item On the left: Top 15 words with highest entropy with frequency $\geq 100$. (note that all of them are function words).
 \item On the right: Top 15 words with the highest frequency.
-\item The non-function words have been emphasized for comparison.
+\item Non-function words are emphasized for comparison.
+\end{itemize}
+
 \end{frame}
 
 
@@ -257,6 +259,7 @@ very similar to ``North Korea'')
 \end{frame}
 
 \begin{frame}{What does this buy us anyway? (Cross entropy)}
+TODO: add defn
      \begin{tabular}{l l l l l}
          $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
          nobility    & metal     & bad       & fusible               & good                      \\
@@ -405,7 +408,6 @@ word $y_?$ such that  $a:b::x:y_?$
   \item We decide that a phrase $w_1 w_2$ is a phrase if $|KL(w_1, w_2) - KL(w_2, w_1)|$ is large, as this implies information asymmetry.
   \item We see that almost across the board, we perform better.
 \end{itemize}
-
 \end{frame}
 
 \begin{frame}{Conclusion}
@@ -416,7 +418,6 @@ word $y_?$ such that  $a:b::x:y_?$
     \item \url{https://www.aclweb.org/anthology/2020.repl4nlp-1.4/}
   \end{itemize}
 \end{frame}
-
 
 \end{document}
 
