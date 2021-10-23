@@ -27,6 +27,26 @@
 \usepackage{amssymb}
 \usepackage{hyperref}
 \usepackage{polynom}
+\usepackage{graphicx}
+% \usepackage{multirow}
+% \usepackage{algorithm2e}
+\usepackage{multirow}
+\usepackage{latexsym}
+\usepackage{physics}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+% \usepackage{tikz}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{epigraph}
+\usepackage{todonotes}
+\usepackage{mathtools}
+
 \renewcommand{\mod}[1]{\left( \texttt{mod}~#1 \right)}
 \newcommand{\N}{\mathbb N}
 \newcommand{\Z}{\mathbb Z}
@@ -44,6 +64,8 @@
 \newcommand{\word}{\texttt{word}}
 \newcommand{\fuzzy}{\texttt{fuzzy}}
 \newcommand{\fuzz}{\texttt{fuzz}}
+\newcommand{\infdiv}{D\infdivx}
+
 \tolerance=1000
 \usetheme{Antibes}
 \author{Siddharth Bhat}
@@ -67,10 +89,67 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Is \texttt{word2vec} sensible?}
+\begin{frame}[fragile]{What's \texttt{word2vec}?}
+\begin{minted}[fontsize=\small]{python}
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE on the given corpus (list of words).
+  Eg:train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
+  vocab = set(corpus); VOCABSIZE = len(vocab)
+  # map each unique word to an index for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+  # +ve and -ve sample vectors.
+  # +ve vectors are random initialized, -ve vectors are zero initialized
+  poss = np.rand((VOCABSIZE, DIMSIZE)); negs = np.zeros((VOCABSIZE, DIMSIZE))
+
+  for wix in range(len(corpus)): # for every location in the corpus
+    w = vocab2ix[corpus[wix]]  # find word at location,
+    l = max(wix-WINDOWSIZE, 0); r = min(wix+WINDOWSIZE, len(corpus)-1) # take a window
+
+    for w2ix in range(l, r+1): # word in window
+        w2 = vocab2ix[corpus[w2ix]] # prallel.
+        learn(l=poss[w], r=negs[w2], target=1.0)
+
+    for _ in range(NNEGSAMPLES): # random words outside window. 
+        w2ix = random.randint(0, len(corpus)-1) # random word.
+        w2 = vocab2ix[corpus[w2ix]] 
+      learn(l=poss[w], r=negs[w2], target=0.0) # perpendicular
+  return { v: poss[vocab2ix[v]] for v in vocab } 
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{What's \texttt{word2vec}?}
+\begin{minted}[fontsize=\small]{python}
+def learn(l: np.array, r:np.array, target: float):
+  """
+  gradient descent on
+  loss = (target - dot(l, r))^2 where l = larr[lix]; r = rarr[rix]
+  """
+  dot = np.dot(l, r); grad_loss = 2 * (target - out)
+  #dloss/dl = 2 * (target - dot(l, r)) r
+  #dloss/dr = 2 * (target - dot(l, r)) l
+  lgrad =  EPSILON * grad_loss * r; rgrad =  EPSILON * grad_loss * l
+  # l -= eps * dloss/dl; r -= eps * dloss/dr
+  l += EPSILON * grad_loss * r;
+  r += EPSILON * grad_loss * l
+
+def train(corpus: list, DIMSIZE: int):
+    for w2ix in range(l, r+1): # positive samples, parallell
+        w2 = vocab2ix[corpus[w2ix]] # word in window
+        learn(l=poss[w], r=negs[w2], target=1.0)
+    for _ in range(NNEGSAMPLES): # negative samples: perpendicular. 
+        w2ix = random.randint(0, len(corpus)-1) # random word outside window.
+        learn(l=poss[w], r=negs[w2], target=0.0) # perpendicular
+\end{minted}
+\end{frame}
+
+\begin{frame}{Using \texttt{word2vec}}
 \begin{itemize}
-    \item $\king - \man + \woman = \queen$. [Analogy] \pause
-    \item nope! $normalize(\king - \man + \woman) = queen$
+    \item Dot products capture similarity. \pause
+    \item nope! \emph{cosine similarity} captures similarity: $v \cdot w / |v| |w|$.
+    \item Vector space structure captures analogy: $\king - \man + \woman = \queen$. [Analogy] \pause
+    \item nope! $normalize(\hat \king - \hat \man + \hat \woman) = \hat \queen$
     \item \wtov "vectors" are always normalized! \pause
     \item Cannot add, substract, scale them. So in what sense is the embedding "vectorial"? \pause
     \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
@@ -84,7 +163,7 @@
     \item Montague semantics: The \emph{meaning} of a word is the \emph{set} of possible worlds where the meaning holds true. \pause
     \item A mathematical analogy: The \emph{meaning} of an expression $\forall x \in \Z, x \leq 2$ is the \emph{set} of possible values where the
       meaning holds true: $(-\infty, 2] = \{  x \in \Z : x \leq 2 \}$. \pause
-    \item Meaning $\simeq$ subsets. Is  \wtov subsets?  \pause Yes, \emph{fuzzy sets}. \pause
+    \item Meaning $\simeq$ subsets. Is  \wtov~ subsets?  \pause Yes, \emph{fuzzy sets}. \pause
     \item Set: binary membership. ($1 \in_? \{1, 2\} = T$, $3 \not \in_? \{1, 2\} = F$). \pause
     \item Fuzzy set: probabilistic membership. ($1 \in_{fuz} F = 0.1$, $2 \in_{fuz} F = 0.5$).
 \end{itemize}
@@ -92,30 +171,115 @@
 
 \begin{frame}{The hidden sets in \texttt{word2vec}}
 \begin{itemize}
-  \item Given the set of vectors, normalize the components of the vector across \emph{all vectors}. \pause
+  \item Given the set of vectors, normalize the $i$th component of the vector across \emph{all vectors}. \pause
   \item $\fuzembed_{\word}[i] \equiv \vecembed_{\word}[i] / \sum_{w \in \CORPUS} \vecembed_w[i]$. \pause
-  \item Fuzzy set embedding from \wtov embeddings. \pause
-  \item Use \emph{fuzzy set operations} for NLP tasks.
+  \item Fuzzy set embedding from \wtov~embeddings. \pause
 \end{itemize}
 \end{frame}
 
-\begin{frame}{What does this buy us anyway?}
+\begin{frame}{What does this buy us anyway? (Set operations)}
+\begin{align*} &(A \cap B)[i] \equiv  A[i] \times B[i] \quad \text{(set intersection)} \\
+&(A \cup B)[i] \equiv  A[i] + B[i]  - A[i] \times
+B[i] \, \text{(set union)}\\ &(A \sqcup B)[i] \equiv  \max(1, \min(0, A[i] +
+B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
+\text{(complement)}\\ &(A \setminus B)[i] \equiv A[i]  - \min(A[i], B[i]) \quad
+\text{(set difference)} \\ &(A \subseteq B) \equiv \forall x \in \Omega:
+\mu_A(x) \leq \mu_B(x) \, \text{(set inclusion)}\\ &|A| \equiv \sum_{i \in \Omega} \mu_A (i) \quad \text{(cardinality)} \\
+\end{align*}
+\end{frame}
 
+\begin{frame}{What does this buy us anyway? (Entropy)}
+Fuzzy entropy is a measure of the uncertainty of the elements belonging to the set. \pause
+
+\begin{align*} H(A) &\equiv \sum_i H(X^A_i) \\ &\equiv \sum_i
+-p_i^A \ln p_i^A - (1 - p_i^A) \ln (1 - p_i^A) \\ &\equiv  \sum_i -A[i] \ln
+A[i] - (1 - A[i]) \ln (1 - A[i])
+\end{align*}
+
+
+\begin{tabular}{l r | l r | l r | l r | l r}
+and   & the   &   in    &   one         &   which     &   to          &   however &   \emph{two}  &   for     &   \emph{eight}  \\
+this    & of    &   of      &   in          &   the       &   \emph{zero} &   to    &   is          &   a     &   for \\
+as      & and   &   only  &   a           &   also      &   \emph{nine} &   it    &   as          &   but     &   \emph{s}
+\end{tabular}
+On the left: Top 15 words with highest entropy with frequency $\geq 100$
+(note that all of them are function words). On the right: Top 15 words with the highest frequency.
+The non-function words have been emphasized for comparison.
+
+\end{frame}
+
+
+\begin{frame}{What does this buy us anyway? (KL divergence)}
+\begin{itemize}
+ \item K-L (Kullback Leibler) divergence is an asymmetric measure of similarity.
+ \item Given data d which follows distribution P, the extra bits need to store
+    it under the false assumption that the data d follows distribution Q is the K-L divergence
+    between the distributions P and Q.
+\item Let $P$ be the distribution that assigns $0.25$ probability to $a, b, c, d$. Since all are equiprobable, we use $2$ bits per character.
+\item Let $Q$ be the distribution that assigns $0.5$ probability to $a, b$ and $0$ probability to $c, d$. We use $1$ bit to represent if we are storing $a$ or $b$.
+\item If the real distribution is $Q$ and we store data using $P$, then we really need only $\{a, b\}$, but we are trying to store $\{a, b, c, d\}$. $P$(false assumption) needs
+  twice as many bits as $Q$(true distribution) to store the message $c$.
+\item If the real distribution is $P$ and we store data using $Q$, then we really need $\{a, b, c, d\}$, but we \emph{can only store} $\{a, b\}$. $Q$(false assumption)
+  need \emph{infinitely} more bits to store the message $c$ than $P$ (true distribution).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What does this buy us anyway? (KL divergence)}
+
+
+\begin{equation*}
+     KL(S, T) \equiv \sum_i KL(X^S_i, X^T_i) =  \sum_i p^S_i \log \left( p^S_i / p^T_i \right)
+\end{equation*}
+
+
+\begin{tabular}{clr}
+    \multirow{2}{*}{Example 1} & $KL(ganges, delta)$ & $6.3105$  \\
+                               & $KL(delta, ganges)$ & $6.3040$  \\
+    \multirow{2}{*}{Example 2} & $KL(north \cap korea, china)$ & $1.02923$ \\
+                               & $KL(china, north \cap korea)$ & $10.60665$
+\end{tabular}
+% Examples of KL-divergence as an asymmetric measure of similarity. Lower is closer.
+% We see here that the evaluation of North Korea as a concept being closer to China than vice versa can be observed by the use of
+% K-L Divergence.
+
+\begin{itemize}
+\item  K-L divergence shows the relation
+between two words.
+\item Can also consider phrases when composed using feature intersection as in the case of
+north korea.
+\item We demonstrate human annotator judgement of the distance between China
+and North Korea, where human annotators considered ``North Korea'' to be very similar to
+``China'', while the reverse relationship was rated as significantly less strong (``China'' is not
+very similar to ``North Korea'')
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What does this buy us anyway? (Cross entropy)}
+     \begin{tabular}{l l l l l}
+         $\hat N$    & $\hat M$  & $\hat G$  & $\hat N \cap \hat M$  & $\hat N \cap \hat G$      \\
+         nobility    & metal     & bad       & fusible               & good                      \\
+         isotope     & fusible   & manners   & unreactive            & dharma                    \\
+         fujwara     & ductility & happiness & metalloids            & morals                    \\
+         feudal      & with      & evil      & ductility             & virtue                    \\
+         clan        & alnico    & excellent & heavy                 & righteous             \\ \midrule
+         $\vec N$    & $\vec M$  & $\vec G$  & $\vec N + \vec M$     & $\vec N + \vec G$         \\
+         noblest     & trivalent & bad       & fusible               & gracious                  \\
+         auctoritas  & carbides  & natured   & metals                & virtuous                  \\
+         abies       & metallic  & humoured  & sulfides              & believeth                 \\
+         eightfold   & corrodes  & selfless  & finntroll             & savages                   \\
+         vojt        & alloying  & gracious  & rhodium               & hedonist
+   \end{tabular}
+
+\begin{itemize}
+\item Polysemy of the word \texttt{noble}, in the context of the words \texttt{good} and \texttt{metal}.
+\item \texttt{noble} is represented by $N$, \texttt{metal} by $M$ and \texttt{good} by $G$.
+\item We also provide the word2vec analogues of the same, under $\vec N$, $\vec M$, and $\vec G$.
+\item See that \texttt{word2vec} has no analogue for set-intersection. We use the closest possible analogue (addition), which performs worse semantically.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Take-aways}
 
-\end{frame}
-
-\begin{frame}{Pat II: What's a geometer to do?}
-
-\end{frame}
-
-\begin{frame}{From vectors to subspaces}
-
-\end{frame}
-
-\begin{frame}{A research agenda, and carrying the baton forward}
 \end{frame}
 
 \begin{frame}{Conclusion}
@@ -123,7 +287,8 @@
     \item \texttt{word2vec} is performant but poorly understood.
     \item We extract fuzzy set embeddings from \texttt{word2vec}, appeasing Montague!
     \item We ponder on the geometry of \texttt{word2vec}, and indicate potential extensions.
-    \item TL;DR: Mathematical modelling (fuzzy sets, grassmanians) is useful to extend empirical results (\texttt{word2vec})!
+    \item TL;DR: Mathematical modelling (fuzzy sets) is useful to extend empirical results (\texttt{word2vec})!
+    \item \url{https://www.aclweb.org/anthology/2020.repl4nlp-1.4/}
   \end{itemize}
 \end{frame}
 
