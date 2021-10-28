@@ -465,6 +465,26 @@ word $y_?$ such that  $a:b::x:y_?$
 \end{frame}
 
 
+\begin{frame}{Extensions}
+  \begin{itemize}
+    \item The only thing we need to train \texttt{word2vec} is a dot-product. \pause
+    \item Can we generalize? \texttt{word2vec} consider \emph{directions}, which are 1D subspaces. \pause
+    \item We should generalize! Use nD subspaces. \pause
+    \item The collection of all nD subspaces of a vector space is known as the \emph{Grassmanian}. \pause
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Training on the grassmanian}
+  \begin{itemize}
+    \item The collection of all nD subspaces of a vector space is known as the \emph{Grassmanian}. \pause
+    \item What is the analogue of the dot-product? It is an operation known as \emph{Angle between flats}.
+  \end{itemize}
+  \includegraphics[width=0.5\textwidth]{./angles-between-flats.png}
+  \begin{itemize}
+    \item How does one take gradients on the Grassmanian?
+  \end{itemize}
+\end{frame}
 
 \end{document}
 

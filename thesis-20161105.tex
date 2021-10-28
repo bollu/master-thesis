@@ -213,7 +213,7 @@ knowledge representations for word embeddings, inspired by two seemingly
 unrelated ideas (a) Montague semantics \cite{sep-montague-semantics}, a linguistic theory of meaning which
 ascribes set-theoretic meaning to language, and (b) abstract interpretation, a
 mathematical theory of creating computable approximations to uncomputable
-semantics of programs. We find that syntheszing these ideas provide a way to
+semantics of programs. We find that synthesizing these ideas provide a way to
 extract fuzzy-set embeddings from existing word-embeddings, which provides the
 full range of set-theoretic operations (union, intersection, and others), along
 with probabilistic operations (KL divergence, entropy) which are used to
@@ -240,7 +240,7 @@ provide insight into the mathematical structure of word representations.
 
 
 % \textinit{N}atural language processing has, since its inception, required
-Natural language processing has, since its inception, required
+\textinit{N}atural language processing has, since its inception, required
 techniques to extract semantic information from raw corpora with little to no
 supervision. To perform such unsupervised learning, many models
 have been built, based off of the ``Distributional Hypothesis'', which states
@@ -261,8 +261,8 @@ per document (rows represent unique words and columns represent each document)
 is constructed from a large piece of text and  singular value decomposition
 (SVD) is used to reduce the number of rows while preserving the similarity
 structure among columns. Documents are then compared by taking the cosine of
-the angle between the two vectors, where angles close to $1$ represent very
-similar documents, and angles close to $0$ represent dis-similar documents.
+the angle between the two vectors, where angles close to $0$ represent very
+similar documents, and angles close to $\pi/2$ represent dis-similar documents.
 
 \texttt{Word2vec} \cite{mikolov2013distributed} is a recent technique to create
 unsupervised word embeddings for NLP from unstructured data, whose informal
@@ -328,7 +328,7 @@ other symbols in your mind that it changed the way you thought about
 everything.}{Greg Egan}
 
 % \textinit{T}he popular opinion in the NLP literature
-The popular opinion in the NLP literature
+\textinit{T}he popular opinion in the NLP literature
 is that that systems such as \texttt{word2vec} learn
 vector representations \cite{levy2014neural}, \cite{pennington2014glove}.  A word
 embedding learned as a vector, where words with a similar meaning can be given
@@ -365,7 +365,7 @@ include:
 \begin{itemize}
   \item The theory of abstract interpretation as model of semantic
     representation which connects montague semantics and the hierarchy of words
-    to the distributional domin, detailed  in
+    to the distributional domain, detailed  in
     \autoref{chapter:abstract-interpretation}
   \item , and one possible implementation of the notion of abstract
     interpretation to rethink word vector as fuzzy set representations, detailed
@@ -438,7 +438,7 @@ invoke the original C implementation of \texttt{word2vec},
 or (b) invoke the \texttt{gensim} implementation \cite{vrehuuvrek2011gensim},
 which is \emph{transliterated} from the C source to the extent
 that the variables names are the same as that of the C implementation.
-\todo{gensim implementation links}
+%\todo{gensim implementation links}
 
 Therefore, if we are to raise questions about what the \wtov algorithm aims to
 accomplish in the space of word representations, it is imperative to perform a
@@ -492,7 +492,7 @@ syn1neg[a * layer1_size + b] = 0;
 \end{minted}
 
 Note that the array name \texttt{syn1neg} is used only in the skip-gram negative
-sampling representation (refered to hereafter as SGNS). Other training regimes
+sampling representation (referred to hereafter as SGNS). Other training regimes
 such as hierarchical softmax also train on two vectors, named \texttt{syn1}.
 Infact, there are similar corollaries in the training and update of these arrays
 as well. For the sake of brevity, we showcase only the SGNS algorithm as it is
@@ -516,7 +516,7 @@ the dot-product between the focus word and the picked context word.
 \circled{23}-\circled{25} computes the gradient $g \equiv \sigma(\texttt{label} - \texttt{focus} \cdot \texttt{ctx})$.
 \circled{30}-\circled{31} performs the backprop of the loss of the focus and context word. Note that
 the gradient of the focus word is stored into a buffer \texttt{neu1e}. This ensures that the gradient of
-the focus word is held constant throught the positive and negative samples. Finally, on
+the focus word is held constant throughout the positive and negative samples. Finally, on
 \circled{36}, the buffered gradient \texttt{neu1e} is propagated into the focus word.
 
  % \todo{check for correctness: tmikolov/word2vec/blob/master/word2vec.c#L478, the
@@ -557,7 +557,7 @@ the focus word is held constant throught the positive and negative samples. Fina
  for (c = 0; c < layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];
  for (c = 0; c < layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];
 }
-// Finally, after all samples, update syn1 from neu1e
+// Finally, after all samples, update syn0 from neu1e
 // tmikolov/word2vec/blob/master/word2vec.c#L541
 // Learn weights input -> hidden
 for (c = 0; c < layer1_size; c++) syn0[c + l1] += neu1e[c];
@@ -771,7 +771,7 @@ in \autoref{chapter:geometrization}.
 \epigraph{Among the thousand-and-one faces whereby form chooses to reveal itself to us, the one that fascinates me more than any other, and continues to fascinate me, is the structure hidden in mathematical things.}{Alexander Grothendieck}
 
 
-Montague grammar is an approach to natural language semantics pioneered by
+\textinit{M}ontague grammar is an approach to natural language semantics pioneered by
 Richard Montague \cite{sep-montague-semantics}. Montague grammar is based
 on mathematical logic.  Montague held the view that natural language was a
 formal language very much in the same sense as predicate logic was a formal
@@ -798,7 +798,7 @@ natural language can express notions of the past, present, and future, as well
 as real and imaginary. Therefore, the study of natural language semantics is
 then understood as the construction of a model of expression, therefore labeled
 ``model-theoretic semantics''. Note also, that because natural language is
-highly expressive, the turh value of a predicate is determined by its truth in
+highly expressive, the truth value of a predicate is determined by its truth in
 any world where that model of semantics is applicable. Two conclusions arise
 from this, first that Montague semantics operates in the realm of predicates or
 statements, and the second, that it is uncomputable.
@@ -846,7 +846,7 @@ meaning to the syntactic notion of strings in order to analyze and optimize
 computer programs. Towards this goal, they developed a powerful framework
 called \emph{Abstract Interpretation} \cite{cousot1977abstract} to not
 only capture the notion of approximating meaning, but also capture the notion of
-creating hieararchies of approximations of meaning. This allows one to
+creating hierarchies of approximations of meaning. This allows one to
 begin from the entire meaning of a program, which is uncomputable ue to the Halting Problem ,
 and create a lossy, approximate, but computable semantics of the program.
 It was used to unify many disparate program analysis techniques, such as
@@ -1019,9 +1019,10 @@ exploited by the computer science community to analyze and optimize programs.
 \epigraph{And if we tamper with our inheritance, so what? What is more ours to tamper with?}{Ian M Banks}
 
 % \textinit{W}e provide an alternate perspective on word representations, by
-We provide an alternate perspective on word representations, by
+\textinit{W}e provide an alternate perspective on word representations, by
 reinterpreting the dimensions of the vector space of a word embedding as a
-collection of features. In this reinterpretation, every component of the word
+collection of features. This work was performed as joint work with Alok Debnath and 
+Souvik Banerjee. In this reinterpretation, every component of the word
 vector is normalized against all the word vectors in the vocabulary. This idea
 now allows us to view each vector as an $n$-tuple (akin to a fuzzy set), where
 $n$ is the dimensionality of the word representation and each element
@@ -1084,7 +1085,7 @@ detail.
 \citet{lee1999measures} introduced measures of distributional similarity to
 improve the probability estimation for unseen occurrences. The measure of
 similarity of distributional word clusters was based on multiple measures
-including Euclidian distance, cosine distance, Jaccard's Coefficient, and
+including Euclidean distance, cosine distance, Jaccard's Coefficient, and
 asymmetric measures like $\alpha$-skew divergence.
 
 \citet{bergmair2011monte} used a fuzzy set theoretic view of features
@@ -1187,7 +1188,7 @@ each vector along each direction, then averaging it over that feature for the
 entire vocabulary size, i.e. column-wise.
 
 \begin{align*} & v_{exp}[i] \equiv \exp \vec v[i] \\ & \hat v[i]
-\equiv \frac{v_{\text{exp}}[i]}{\sum_{w \in \text{VOCAB}} \exp
+\equiv \frac{v_{\text{exp}}[i]}{\sum_{w \in \text{VOCAB}} 
 w_{\text{exp}}[i]} \end{align*}
 
 This normalization then produces a tuple of probabilities associated with each
@@ -1719,6 +1720,7 @@ of both rank by frequency, and its correlation with similarity of words with a
 nominal compound. Despite this, we show a higher Spearman correlation
 coefficient at 200 dimensions as well, as we capture non-linear relations.
 
+
 \subsection{Dimensionality Analysis and Feature Representations}
 \label{ssec: analysis}
 
@@ -1781,7 +1783,7 @@ felt that the twilight abysses around him were those of the fourth dimension.}{H
 % https://arxiv.org/pdf/1205.5935.pdf
 
 % \textinit{E}mbedding words in vector spaces has become the norm for
-Embedding words in vector spaces has become the norm for word representation.
+\textinit{E}mbedding words in vector spaces has become the norm for word representation.
 The terms \emph{word vectors} and \emph{word embeddings} synonymous to one
 another, due to the success of vector based models such as word2vec, GloVe and
 FastText.  While esoteric literature has attempted to change the underlying
@@ -1797,8 +1799,8 @@ answer has been extracting and using contextual information.
 
 We first survey why we use vectors as the object that is embedded. We focus
 on the \texttt{word2vec} training and testing mechanism. We will see that this process
-uses many fundamentally different structures that is posessed by real n-dimensional space $\R^n$.
-We then disentangle these different structures for mathematical cleaniness. Once this is performed,
+uses many fundamentally different structures that is possessed by real n-dimensional space $\R^n$.
+We then disentangle these different structures for mathematical tidiness. Once this is performed,
 we isolate the mathematical structures that are present, allow us to introduce a
 generalization based on embedding words into an arbitrary Lie group. We show how
 specializing this to the case of $\R^n$ yields us back fuzzy set representations, and we
@@ -1812,7 +1814,7 @@ and then disentangle the various structures of $\mathbb{R}^n$ that are
 used during training and evaluation. The fundamental operations performed in
 \wtov during training is to first pick a focus word, and then performing gradient descent
 with all the words around the focus word to have dot product $+1$ (positive samples),
-and performing gtadient descent with random words in the corpus away from the focus word
+and performing gradient descent with random words in the corpus away from the focus word
 to have dot product $0$ (negative samples). We see that to perform this step,
 we need to know (1a) How to perform dot-products (a measure of similarity), and (1b)
 How to perform gradient descent (a method of function optimisation).
@@ -1869,13 +1871,13 @@ We first provide an accessible definition of Lie groups, sweeping
 technicalities into the footnotes. We direct the interested reader to \cite{hall2015lie}.
 
 \begin{slogan}
-A Matrix Lie group is a space of matrcies closed under multiplication and
+A Matrix Lie group is a space of matrices closed under multiplication and
 matrix inverse.
 \end{slogan}
 
 Intuitively, the idea is that we wish to generalize from vectors, where adding
 words is commutative (since $a + b = b + a$ for vectors), to the non-commutative
-regime of matrcies where $AB \neq BA$. Hence, we will replace the notion of analogy,
+regime of matrices where $AB \neq BA$. Hence, we will replace the notion of analogy,
 $b - a + c$ with matrix multiplication of the form $BA^{-1}C$.
 
 \begin{example}
@@ -1959,7 +1961,7 @@ $\langle \cdot , \cdot \rangle$ as $\langle g, h \rangle \equiv \log(g) \cdot \l
 \subsubsection{Gradients}
 Next, to perform gradient descent, we need
 a notion of a \emph{gradient} to decide in which direction to move, and a way to perform a gradient update.
-How one performs the gradient update is explained in detail in the \label{section:optim-on-riem}. Intuitively,
+How one performs the gradient update is explained in detail in \autoref{section:optim-on-riem}. Intuitively,
 since all our manifolds are subspaces of $\mathbb R^n$, we first compute the gradient vector, then travel
 along the gradient vector (which will take us out of the manifold), and finally ``retract back'' into the
 manifold, which gives us a gradient step, starting from a point in the manifold, ending at a point in the manifold.
@@ -1975,7 +1977,7 @@ manifold, which gives us a gradient step, starting from a point in the manifold,
 To perform evaluation, given the trained mapping from words to Lie Group
 elements as inputs, we must be able to perform similarity and analogy to reach
 the baseline of \texttt{word2vec}'s usefulness. We indicate other potential
-uses of the richer structure posessed by Lie Groups after describing the bare
+uses of the richer structure possessed by Lie Groups after describing the bare
 minimum structure.
 
 \subsubsection{Similarity} We compute similarity between two words by computing
@@ -1986,7 +1988,7 @@ take the dot product $\log(h) \cdot \log(h')$. Linguistically, we are reducing a
 to its infinitesimal components, before comparing the words along these infinitesimal
 senses of meaning.
 
-\todo{Pls detail xD}
+%\todo{Pls detail xD}
 
 \subsubsection{Analogy} To compute the analogy $a:b::c:?$, we generalize the vectorial
 $b - a + c$  into $b \cdot a^{-1} \cdot c$. Linguistically, this provides the same
@@ -2008,7 +2010,7 @@ two words $[v, w]$ gives us a new word which measures by how much the senses of
 $v$ and $w$ fail to commute.
 
 
-\todo{elaboration}
+%\todo{elaboration}
 
 \section{Formalism}
 
@@ -2028,7 +2030,7 @@ is a subset $M \subseteq \R^N$ such that for each $p \in M$,
 there exists an open set $C \subseteq R^k$ (of parameters), and an
 an open neighbourhood $O \subseteq \mathbb R^n$ of $p$ (a local parmetrization of $M$ around $p$),
 and an onto map $x: C \rightarrow O \cap M$ (of coordinates), such that (1) $x$ is differentiable,
-(2) $x$ has a differentiable inverse, and (3) the jacobian of $x$ is one-to-one.
+(2) $x$ has a differentiable inverse, and (3) the Jacobian of $x$ is one-to-one.
 \footnote{We provide the extrinsic definition of a Riemannian manifold as a
 subspace of $\mathbb R^n$.  A definition without reference to the embedding
 space is an intrinsic definition, which is provided in standard texts, such as
@@ -2068,7 +2070,7 @@ lie group operations to perform analogy.
 \subsection{Lie Algberas}
 The Lie algebra of a Lie group is the \emph{tangent space} of the Lie group
 \emph{at} the identity element. Informally, the idea is that while the Lie group is a
-``non-linear'' object, the tangent space represents tangents / ``linearlizations'' of the group.
+``non-linear'' object, the tangent space represents tangents / ``linearizations'' of the group.
 Moreover, in a group, given a tangent vector at the identity, we can \emph{exponentiate} this
 tangent vector to get a Lie group element.
 
@@ -2103,11 +2105,11 @@ matrices are closed under scaling by the real numbers. On the other hand, $SO(3)
 the element $I \in SO(3)$ as $I I^T = I$. On the other hand, consider $J \equiv 2I$. We have
 $J J^T = 4I \neq I$. Thus $SO(3)$ is not closed under scaling by reals, and is thus not a vector space. Hence,
 we see that even in this case, the Lie group is not a vector space, while the Lie algebra is a vector space.
-Philosophically, skew-symmetric matrcies correspond to angular momenta, which are indeed the ``velocities''
+Philosophically, skew-symmetric matrices correspond to angular momenta, which are indeed the ``velocities''
 of a rotation.
 
-\todo{For each section, also add linguistic corollaries. This will make it a bit
-  easier to digest the transition from dense math topic to dense math topic}
+% \todo{For each section, also add linguistic corollaries. This will make it a bit
+%   easier to digest the transition from dense math topic to dense math topic}
 
 
 \subsection{Optimisation on Riemannian Manifolds}
@@ -2122,7 +2124,7 @@ guarantees of being able to find local minima. Hence, we propose to use \emph{Ri
 of gradient descent which enables the minimization of a loss function
 for arbitrary Riemannian manifolds, and in particular, for loss functions over Lie Groups.
 
-We now consider manifold optimisation techniques on embedded riemannian manfiolds $M$,
+We now consider manifold optimisation techniques on embedded Riemannian Manfiolds $M$,
 equipped with the metric $g: (p: M) \rightarrow T_p M  \times T_p M \rightarrow \mathbb R$.
 The metric at a point $g(p)$ provides an inner product structure on the point $T_pM$
 for a $p \in M$.
@@ -2203,15 +2205,17 @@ dis-entangle these ideas to provide a framework for generating word embeddings
 over Lie groups.  We see that our generalization provides a cleaner framework
 to \emph{think} about word embeddings, where we provide separate mathematical
 objects that captures notions of similarity, analogy, meaning distance, and
-meaning interpolation.  For the future, we envision lines of research which
-exploits other geometric structures posessed by the manifold, including notions
+meaning interpolation.  Our hope is that this framework also bakes in inductive
+biases into our machine learning to better learn complex representations for larger
+language units such as phrases and sentences.
+For the future, we envision lines of research which
+exploits other geometric structures possessed by the manifold, including notions
 of \emph{parallel transport}, which provide a notion of interpolation of word
 meaning. Furthermore, we wish to adapt results from PAC learning --- in
 particular the contrastive losses \cite{arora2019theoretical} to our
 generalized setting of Lie groups.  In closing, I hope this thesis has given
 you, the reader, a glimpse into pretty mathematical abstractions, reified by
 the humble \texttt{word2vec}.
-
 
 %--------------------------------------------------------
 % Recommended 'Related Publication'
