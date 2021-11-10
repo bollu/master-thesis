@@ -486,5 +486,58 @@ word $y_?$ such that  $a:b::x:y_?$
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Results for training on the grassmanian [Sovik Banerjee's research]}
+
+\begin{itemize}
+\item We evaluate the quality of our document embed-dings with the 20newsgroups topic classification.
+\item k-NN algorithm on Grassmannian manifold is performed by replacing
+  the euclidean metric with grassmanian-compatible metric
+\end{itemize}
+
+\begin{tabular}{lll} \hline
+Embedding & F1-Macro & F1-Micro\\ \hline
+Avg. W2V & 0.630 & 0.631\\ \hline
+SIF & 0.552 & 0.549 \\ \hline
+Doc2Vec & 0.648 & 0.645 \\ \hline
+JoSE & 0.703 & 0.707 \\ \hline
+Grassmannian & \textbf{0.749} & \textbf{0.752}\\
+\hline
+\end{tabular}
+% \caption{Results of the $k$-NN ($k$=3) classification task with 20 Newsgroups dataset}
+% \label{tab:20news-classification-results}
+% \end{table}
+
+\begin{itemize}
+\item Foo
+\end{itemize}
+
+\begin{tabular}{lll} \hline
+Embedding & Accuracy\\ \hline
+Avg. W2V & 88.02\\ \hline
+SIF & 85.32 \\ \hline
+Doc2Vec & 88.52 \\ \hline
+JoSE &  87.95\\ \hline
+Grassmannian & \textbf{88.90}\\
+\hline
+\end{tabular}
+% \caption{Sentiment analysis accuracy results}
+% \label{tab:imdb-sentiment-results}
+% \end{table}
+
+\end{frame}
+
+\begin{frame}{Abstract interpretation}
+\begin{itemize}
+    \item $\alpha: (C, \leq) \to (A, \sqsubset)$: monotone Abstraction from the Concrete to the Abstract.
+    \item $\gamma: (A, \sqsubset) \to (C, \sqsubset)$: monotone Concretization from Abstract to the Concrete. ($\gamma$ for Galois)
+    \item $c \leq \gamma(\alpha(c))$: Abstraction can lose information
+    \item $a = \alpha(\gamma(c))$: Concretization is faithful: abstract objects are well represented by concrete objects.
+\end{itemize}
+
+\includegraphics[width=0.8 \textwidth]{../alpha-gamma-intervals.pdf}
+\end{frame}
+
+
+
 \end{document}
 

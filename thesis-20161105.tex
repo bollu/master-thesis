@@ -575,12 +575,12 @@ def learn(lix: int, rix:int, larr:np.array, rarr:np,array,
   loss = (target - dot(l, r))^2 where
   l = larr[lix]; r = rarr[rix]
   """
-  dot = np.dot(larr[lix], rarr[rix])
+  out = np.dot(larr[lix], rarr[rix])
   gloss = 2 * (target - out)
   #dloss/dl = 2 * (target - dot(l, r)) r
   #dloss/dr = 2 * (target - dot(l, r)) l
   lgrad =  EPSILON * gloss * rarr[rix]
-  rgrad =  EPSILON * gloss * rarr[rix]
+  rgrad =  EPSILON * gloss * larr[rix]
   # l -= eps * dloss/dl; r -= eps * dloss/dr
   larr[lix] += EPSILON * gloss * rarr[rix]
   rarr[rix] += EPSILON * gloss * larr[lix]
@@ -1092,7 +1092,13 @@ asymmetric measures like $\alpha$-skew divergence.
 associated with word representations. While these features were not adopted
 from the vector space directly, it presents a unique perspective of entailment
 chains for reasoning tasks. Their analysis of inference using fuzzy
-representations provides interpretability in reasoning tasks.
+representations provides interpretability in reasoning tasks. However, their
+work differs from ours in quite a few respects: (a) they compute their embeddings
+via monte carlo simulation, instead of deriving them from \wtov as we do,
+(b) they outline theoretical motivations via proof theory, while we motivate
+our representation via Montague semantics and abstract interpretation, 
+(c) they focus on \emph{deriving} syllogistic reasoning,
+while we focus on \emph{computing measures} of entailment.
 
 \citet{grefenstette2013towards} presents a tenosrial calculus for word
 embeddings, which is based on compositional operators \emph{which uses} vector
