@@ -102,7 +102,68 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{What's \texttt{word2vec}?}
+\begin{frame}[fragile]{What's \texttt{word2vec}? (1/7)}
+\begin{minted}[fontsize=\small]{python}
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE on the given corpus (list of words).
+  Eg:train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
+  vocab = set(corpus); VOCABSIZE = len(vocab)
+  # map each unique word to an index for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+-------------------------------
+------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+-------------------------------------------------------------------
+-------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+-----------------------------------------------
+----------------------------------------------
+------------------------------------------------
+
+----------------------------------------------------------------
+--------------------------------------------------------------
+------------------------------------
+--------------------------------------------------------------
+-------------------------------------------------
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (2/7)}
+\begin{minted}[fontsize=\small]{python}
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE on the given corpus (list of words).
+  Eg:train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
+  vocab = set(corpus); VOCABSIZE = len(vocab)
+  # map each unique word to an index for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+  # +ve and -ve sample vectors.
+  # +ve vectors are random initialized, -ve vectors are zero initialized
+  poss = np.rand((VOCABSIZE, DIMSIZE)); negs = np.zeros((VOCABSIZE, DIMSIZE))
+
+-------------------------------------------------------------------
+-------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+-----------------------------------------------
+----------------------------------------------
+------------------------------------------------
+
+----------------------------------------------------------------
+--------------------------------------------------------------
+------------------------------------
+--------------------------------------------------------------
+-------------------------------------------------
+\end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (3/7)}
 \begin{minted}[fontsize=\small]{python}
 def train(corpus: list, DIMSIZE: int):
   """
@@ -121,7 +182,38 @@ def train(corpus: list, DIMSIZE: int):
     l = max(wix-WINDOWSIZE, 0); r = min(wix+WINDOWSIZE, len(corpus)-1) # take a window
 
     for w2ix in range(l, r+1): # word in window
-        w2 = vocab2ix[corpus[w2ix]] # prallel.
+        w2 = vocab2ix[corpus[w2ix]] # parallel.
+        learn(l=poss[w], r=negs[w2], target=1.0)
+
+----------------------------------------------------------------
+--------------------------------------------------------------
+------------------------------------
+--------------------------------------------------------------
+-------------------------------------------------
+\end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (4/7)}
+\begin{minted}[fontsize=\small]{python}
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE on the given corpus (list of words).
+  Eg:train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
+  vocab = set(corpus); VOCABSIZE = len(vocab)
+  # map each unique word to an index for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+  # +ve and -ve sample vectors.
+  # +ve vectors are random initialized, -ve vectors are zero initialized
+  poss = np.rand((VOCABSIZE, DIMSIZE)); negs = np.zeros((VOCABSIZE, DIMSIZE))
+
+  for wix in range(len(corpus)): # for every location in the corpus
+    w = vocab2ix[corpus[wix]]  # find word at location,
+    l = max(wix-WINDOWSIZE, 0); r = min(wix+WINDOWSIZE, len(corpus)-1) # take a window
+
+    for w2ix in range(l, r+1): # word in window
+        w2 = vocab2ix[corpus[w2ix]] # parallel.
         learn(l=poss[w], r=negs[w2], target=1.0)
 
     for _ in range(NNEGSAMPLES): # random words outside window. 
@@ -132,7 +224,63 @@ def train(corpus: list, DIMSIZE: int):
 \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{What's \texttt{word2vec}?}
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (5/7)}
+\begin{minted}[fontsize=\small]{python}
+def train(corpus: list, DIMSIZE: int):
+  """
+  train word2vec of dimension DIMSIZE on the given corpus (list of words).
+  Eg:train(["the", "man", "was" "tall", "the", "quick", "brown", "fox"], 20)
+  """
+  vocab = set(corpus); VOCABSIZE = len(vocab)
+  # map each unique word to an index for array indexing.
+  vocab2ix = dict([(word, ix) for (ix, word) in enumerate(corpus)])
+  # +ve and -ve sample vectors.
+  # +ve vectors are random initialized, -ve vectors are zero initialized
+  poss = np.rand((VOCABSIZE, DIMSIZE)); negs = np.zeros((VOCABSIZE, DIMSIZE))
+
+  for wix in range(len(corpus)): # for every location in the corpus
+    w = vocab2ix[corpus[wix]]  # find word at location,
+    l = max(wix-WINDOWSIZE, 0); r = min(wix+WINDOWSIZE, len(corpus)-1) # take a window
+
+    for w2ix in range(l, r+1): # word in window
+        w2 = vocab2ix[corpus[w2ix]] # parallel.
+        learn(l=poss[w], r=negs[w2], target=1.0)
+
+    for _ in range(NNEGSAMPLES): # random words outside window. 
+        w2ix = random.randint(0, len(corpus)-1) # random word.
+        w2 = vocab2ix[corpus[w2ix]] 
+      learn(l=poss[w], r=negs[w2], target=0.0) # perpendicular
+  return { v: poss[vocab2ix[v]] for v in vocab } 
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (6/7)}
+\begin{minted}[fontsize=\small]{python}
+def learn(l: np.array, r:np.array, target: float):
+  """
+  gradient descent on
+  loss = (target - dot(l, r))^2 where l = larr[lix]; r = rarr[rix]
+  """
+----------------------------------------------------
+----------------------------------------
+----------------------------------------
+--------------------------------------------------------------------
+--------------------------------------------
+-------------------------------
+------------------------------
+
+def train(corpus: list, DIMSIZE: int):
+    for w2ix in range(l, r+1): # positive samples, parallell
+        w2 = vocab2ix[corpus[w2ix]] # word in window
+        learn(l=poss[w], r=negs[w2], target=1.0)
+    for _ in range(NNEGSAMPLES): # negative samples: perpendicular. 
+        w2ix = random.randint(0, len(corpus)-1) # random word outside window.
+        learn(l=poss[w], r=negs[w2], target=0.0) # perpendicular
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{What's \texttt{word2vec}? (7/7)}
 \begin{minted}[fontsize=\small]{python}
 def learn(l: np.array, r:np.array, target: float):
   """
@@ -158,18 +306,18 @@ def train(corpus: list, DIMSIZE: int):
 \end{frame}
 
 
-
-% \begin{frame}{How do we use \texttt{word2vec}?}
-%     \item Dot products capture similarity. \pause
-%     \item nope! \emph{cosine similarity} captures similarity: $v \cdot w / |v| |w|$. \pause
-%     \item Vector space structure captures analogy: $\king - \man + \woman = \queen$. [Analogy] \pause
-%     \item nope! $normalize(\hat \king - \hat \man + \hat \woman) = \hat \queen$ \pause
-%     \item \wtov "vectors" are always normalized! \pause
-%     \item Cannot add, subtract, scale. So in what sense is the embedding "vectorial"? \pause
-%     \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
-%     \item Can we ascribe a \emph{different} meaning to these "vectors"?
-% \end{itemize}
-% \end{frame}
+\begin{frame}{How do we use \texttt{word2vec}?}
+\begin{itemize}
+    \item Dot products capture similarity. \pause
+    \item nope! \emph{cosine similarity} captures similarity: $v \cdot w / |v| |w|$. \pause
+    \item Vector space structure captures analogy: $\king - \man + \woman = \queen$. [Analogy] \pause
+    \item nope! $normalize(\hat \king - \hat \man + \hat \woman) = \hat \queen$ \pause
+    \item \wtov "vectors" are always normalized! \pause
+    \item Cannot add, subtract, scale. So in what sense is the embedding "vectorial"? \pause
+    \item In the sense that we have "vectors" --- elements of the space $[-1, 1]^N$ with a normalization condition $(\sum_i x_i^2 = 1)$. \pause
+    \item Can we ascribe a \emph{different} meaning to these "vectors"?
+\end{itemize}
+\end{frame}
 
 \begin{frame}{Part I: What's a philosopher to do?}
 \begin{itemize}
@@ -240,7 +388,7 @@ B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
 \item Given a probability $p \in [0, 1]$, define the \emph{surprisal} to be $- \log_2 p$. \pause
 \item  If $p = 1$, and the event happens, then we are never ($- \log_2 1 = 0$) surprised. \pause
 \item  If $p = 0$, and the event happens, then we are terrifically ($- \log_2 0 = - (-\infty) = +\infty)$ surprised. \pause
-\item  If $p = 1/2$, and the event happens, then we are terrifically ($- \log_2 1/2 = - (-1) = +1)$ surprised. \pause
+\item  If $p = 1/2$, and the event happens, then we are mildly ($- \log_2 1/2 = - (-1) = +1)$ surprised. \pause
 \item Given a distribution $P: X \to [0, 1]$, the entropy of $P$ is the \emph{average surprise}, given by $\sum_{x \in X} P(x) \cdot - \log P(x)$.  
 \end{itemize}
 \end{frame}
@@ -467,7 +615,8 @@ word $y_?$ such that  $a:b::x:y_?$
     \item TL;DR: Mathematical modelling (fuzzy sets) is useful to extend empirical results (\texttt{word2vec})!
     \item \url{https://www.aclweb.org/anthology/2020.repl4nlp-1.4/}
     \item Collaborators: Alok Debnath, Souvik Banerjee.
-    \item Advisors: Dr. Kannan Srinathan, Dr Manish Shrivastava.
+    \item Advisor: Dr. Kannan Srinathan
+    \item Research Supervisor: Dr Manish Shrivastava.
   \end{itemize}
   \includegraphics[width=0.2\textwidth]{./alok.jpeg}
   \includegraphics[width=0.3\textwidth]{./souvik.jpg}
