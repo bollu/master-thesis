@@ -239,8 +239,8 @@ B[i])) \, \text{(disjoint union)}\\ &(\lnot A)[i] \equiv 1 - A[i] \quad
 \begin{itemize}
 \item Given a probability $p \in [0, 1]$, define the \emph{surprisal} to be $- \log_2 p$. \pause
 \item  If $p = 1$, and the event happens, then we are never ($- \log_2 1 = 0$) surprised. \pause
-\item  If $p = 0$, and the event happens, then we are terrifically ($- \log_2 0 = - -\infty = +\infty)$ surprised. \pause
-\item  If $p = 1/2$, and the event happens, then we are terrifically ($- \log_2 1/2 = - -1 = +1)$ surprised. \pause
+\item  If $p = 0$, and the event happens, then we are terrifically ($- \log_2 0 = - (-\infty) = +\infty)$ surprised. \pause
+\item  If $p = 1/2$, and the event happens, then we are terrifically ($- \log_2 1/2 = - (-1) = +1)$ surprised. \pause
 \item Given a distribution $P: X \to [0, 1]$, the entropy of $P$ is the \emph{average surprise}, given by $\sum_{x \in X} P(x) \cdot - \log P(x)$.  
 \end{itemize}
 \end{frame}
@@ -268,6 +268,15 @@ as      & and   &   only  &   a           &   also      &   \emph{nine} &   it  
 \end{itemize}
 \end{frame}
 
+\begin{frame}{What does this buy us anyway? (KL divergence)}
+  \begin{itemize}
+    \item K-L (Kullback Leibler) divergence is an asymmetric measure of similarity.
+    \item Given data d which follows distribution P, the extra bits need to store
+      it under the false assumption that the data d follows distribution Q is the K-L divergence
+      between the distributions P and Q.
+    \end{itemize}
+  \includegraphics[width=0.8\textwidth]{./kl-divergence-asymmetry.pdf}
+\end{frame}
 
 \begin{frame}{What does this buy us anyway? (KL divergence)}
 \begin{itemize}
@@ -486,6 +495,15 @@ word $y_?$ such that  $a:b::x:y_?$
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Training on the grassmanian(2)}
+  \begin{itemize}
+    \item Space $\equiv$ Grassmanian (orthonormal vectors representing subspace) $\simeq$ orthogonal matrix.
+    \item Random Initialization $\equiv$ (1) Random matrix, (2) $Q$ part of $QR$ decomposition.
+    \item Dot product $\equiv$ Angle between subspaces
+    \item Gradient Descent $\equiv$ (1) Regular gradient descent, (2) retraction: $Q$ part of $QR$ decomposition 
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Results for training on the grassmanian [Sovik Banerjee's research]}
 
 \begin{itemize}
@@ -538,6 +556,13 @@ Grassmannian & \textbf{88.90}\\
 \includegraphics[width=0.8 \textwidth]{../alpha-gamma-intervals.pdf}
 \end{frame}
 
+\begin{frame}{Montague semantics via abstract interpretation}
+\begin{itemize}
+  \item A common abstraction is given by special types of subsets (eg. intervals)
+  \item These are useful since they form a lattice.
+  \item Try to extract these out from \texttt{word2vec}
+\end{itemize}
+\end{frame}
 
 
 \end{document}

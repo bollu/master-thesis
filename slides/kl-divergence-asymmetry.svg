@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="140mm"
+   viewBox="0 0 210 140"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="kl-divergence-asymmetry.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.51325451"
+     inkscape:cx="-226.00873"
+     inkscape:cy="545.53832"
+     inkscape:window-width="1920"
+     inkscape:window-height="1151"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g26337"
+       transform="translate(6.2187664)">
+      <text
+         xml:space="preserve"
+         style="font-size:10.5833px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="129.53386"
+         y="12.243569"
+         id="text1906"><tspan
+           sodipodi:role="line"
+           id="tspan1904"
+           style="font-size:10.5833px;stroke-width:0.264583"
+           x="129.53386"
+           y="12.243569">P</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:10.5833px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="-4.4451165"
+         y="12.359985"
+         id="text1906-7"><tspan
+           sodipodi:role="line"
+           id="tspan1904-5"
+           style="font-size:10.5833px;stroke-width:0.264583"
+           x="-4.4451165"
+           y="12.359985">Q-REALITY</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="144.48761"
+         y="10.074007"
+         id="text8799"><tspan
+           sodipodi:role="line"
+           id="tspan8797"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="144.48761"
+           y="10.074007">a: 0.25  00</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="144.48761"
+           y="18.893457"
+           id="tspan8823">b: 0.25  01</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="144.48761"
+           y="27.712908"
+           id="tspan8825">c: 0.25  10</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="144.48761"
+           y="36.532356"
+           id="tspan8827">d: 0.25  11</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="46.590393"
+         y="10.074007"
+         id="text8799-3"><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="46.590393"
+           y="10.074007"
+           id="tspan8823-6">a: 0.5  0</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="46.590393"
+           y="18.893457"
+           id="tspan16835">b: 0.5  1</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="46.590393"
+           y="27.712908"
+           id="tspan8825-2">c: 0.0 </tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="46.590393"
+           y="36.532356"
+           id="tspan8827-9">d: 0.0  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="4.0039091"
+         y="44.807381"
+         id="text22145"><tspan
+           sodipodi:role="line"
+           id="tspan22143"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="4.0039091"
+           y="44.807381">abab → 0101</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="4.0039091"
+           y="53.626831"
+           id="tspan35665">length: 4</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="129.81255"
+         y="44.807381"
+         id="text22145-1"><tspan
+           sodipodi:role="line"
+           id="tspan22143-2"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="129.81255"
+           y="44.807381">abab → 00110011</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="129.81255"
+           y="53.626831"
+           id="tspan36933">length: 8</tspan></text>
+    </g>
+    <g
+       id="g26317"
+       transform="translate(0,6.8791659)">
+      <text
+         xml:space="preserve"
+         style="font-size:10.5833px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="135.75262"
+         y="78.780113"
+         id="text1906-70"><tspan
+           sodipodi:role="line"
+           id="tspan1904-9"
+           style="font-size:10.5833px;stroke-width:0.264583"
+           x="135.75262"
+           y="78.780113">Q</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:10.5833px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="1.7736528"
+         y="78.822449"
+         id="text1906-7-3"><tspan
+           sodipodi:role="line"
+           id="tspan1904-5-6"
+           style="font-size:10.5833px;stroke-width:0.264583"
+           x="1.7736528"
+           y="78.822449">P-REALITY</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="150.70638"
+         y="76.536476"
+         id="text8799-0"><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="150.70638"
+           y="76.536476"
+           id="tspan8823-2">a: 0.5  0</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="150.70638"
+           y="85.355927"
+           id="tspan33495">b: 0.5  1</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="150.70638"
+           y="94.175377"
+           id="tspan8825-6">c: 0.0 </tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="150.70638"
+           y="102.99483"
+           id="tspan8827-1">d: 0.0  </tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="52.809162"
+         y="76.536476"
+         id="text8799-3-8"><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="52.809162"
+           y="76.536476"
+           id="tspan8823-6-7">a: 0.25  00</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="52.809162"
+           y="85.355927"
+           id="tspan16835-9">b: 0.25  01</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="52.809162"
+           y="94.175377"
+           id="tspan8825-2-2">c: 0.25  10</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="52.809162"
+           y="102.99483"
+           id="tspan8827-9-0">d: 0.25  11</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="10.222675"
+         y="117.34941"
+         id="text22145-2"><tspan
+           sodipodi:role="line"
+           id="tspan22143-3"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="10.222675"
+           y="117.34941">c → 10</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="10.222675"
+           y="126.16886"
+           id="tspan37857">length: 2</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:7.05556px;line-height:1.25;font-family:Inconsolata;-inkscape-font-specification:Inconsolata;stroke-width:0.264583"
+         x="136.03131"
+         y="117.61971"
+         id="text22145-1-7"><tspan
+           sodipodi:role="line"
+           id="tspan22143-2-5"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="136.03131"
+           y="117.61971">c → ? </tspan><tspan
+           sodipodi:role="line"
+           style="font-size:7.05556px;stroke-width:0.264583"
+           x="136.03131"
+           y="126.43916"
+           id="tspan38561">length: ∞</tspan></text>
+    </g>
+  </g>
+</svg>
